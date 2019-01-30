@@ -1,0 +1,7 @@
+.fixscroll > div {
+    max-height: 20em;
+    overflow-x: hidden;
+}
+
+input:focus + div.form-group {display: block;width: calc(100% - 2em);}
+input + div.form-group {display: none}

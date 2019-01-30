@@ -1,12 +1,164 @@
-<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html>
+<html lang="en" >
+
 <head>
-<meta charset="UTF-8">
-<title>Title of the document</title>
+  <meta charset="UTF-8">
+  <title>Reincarnation</title>
+  
+  
+<link rel='stylesheet' href='https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css'>
+<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+<script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+<script src='https://unpkg.com/babel-polyfill@latest/dist/polyfill.min.js'></script>
+<script src='https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue-i18n/8.1.0/vue-i18n.min.js'></script>
+<script src='https://unpkg.com/axios/dist/axios.min.js'></script>
+<script src='https://unpkg.com/vue-router/dist/vue-router.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/gun@0.9.999998/gun.js'></script>
+  
 </head>
 
 <body>
-Content of the document......
+
+  <div id="vm">
+  <keep-alive> <router-view ref="rV"></router-view> </keep-alive>
+</div>
+
+<script type="text/x-template" id="componentRoot">
+    <div>
+      <b-navbar sticky toggleable="md" type="dark" variant="dark" >
+  		<b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+  		<b-navbar-brand v-b-toggle.collapse1 v-text="$t($route.name)"></b-navbar-brand>
+        <b-navbar-nav>
+        <b-nav-item-dropdown :text="$t($i18n.locale)">
+            <b-dropdown-item v-for="item in languages.available" :to="{ name: $route.name, params: { language: item }, query: $route.query}"
+                             :key="item" v-text="$t(item)">
+            </b-dropdown-item>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+
+  		<b-collapse is-nav id="nav_collapse">
+  			<b-navbar-nav class="ml-auto">
+
+
+  			<!-- Right aligned nav items -->
+  				<b-nav-item-dropdown :text="$t($i18n.locale)" right>
+            <b-dropdown-item v-for="item in languages.available" :to="{ name: $route.name, params: { language: item }, query: $route.query}" :key="item" v-text="$t(item)"></b-dropdown-item>
+          </b-nav-item-dropdown>
+
+  				<b-nav-item-dropdown right>
+  					<!-- Using button-content slot -->
+  					<template slot="button-content">
+  						<em v-text=""></em>
+  					</template>
+  					<b-nav-form> <b-button size="sm" class="my-2 my-sm-0" variant="outline-success" @click="" v-text="$tc('tmdb.autorization10')"></b-button> </b-nav-form>
+  				</b-nav-item-dropdown>
+  			</b-navbar-nav>
+  		</b-collapse>
+  	</b-navbar>
+      <b-collapse id="collapse1" class="w-100 h-100 position-fixed">
+        <b-row class="h-100">
+        <div class="h-100 col col-sm-5 bg-dark text-white pr-sm-0">
+    	<b-form-group label-size="lg" label-class="font-weight-bold pt-0" class="container">
+
+          <b-button-group class="w-100">
+           <b-dropdown :disabled="tmdb.selMov" class="fixscroll" >
+  					<div class="dropdown-item" v-for="item in tmdb.pong.genresTV">
+  						<input v-for="num in [0, 1, 2]" type="radio" :id="item.name + num" v-model="item.status" :value="num" />
+  						<label class="form-check-label w-100" :for="item.name + ((item.status + 1) % 3)" v-text="$t('genresTV.'+item.id)"></label>
+  					</div>
+  				 </b-dropdown>
+           <b-button variant="secondary" @click="tmdb.selMov = !tmdb.selMov" v-text="tmdb.selMov ? $t('movies') : $t('shows')"></b-button>
+  				 <b-dropdown :disabled="!tmdb.selMov" class="fixscroll" right variant="secondary">
+  					<div class="dropdown-item" v-for="item in tmdb.pong.genresMov">
+  						<input v-for="num in [0, 1, 2]" type="radio" :id="item.name + num" v-model="item.status" :value="num" />
+  						<!-- <label v-for="num in [0, 1, 2]" :for="item.name + num">&nbsp;</label> -->
+  						<label class="form-check-label w-100" :for="item.name + ((item.status + 1) % 3)" v-text="$t('genresMov.'+item.id)"></label>
+  					</div>
+  				 </b-dropdown>
+          </b-button-group>
+        
+          <b-input-group >
+            <b-form-input type="date" min='1960-01-01' v-model="tmdb.pong.yearMin" :max="tmdb.pong.yearMax"></b-form-input>
+    </b-input-group>
+
+          <b-input-group>
+  				<b-form-input type="date" v-model="tmdb.pong.yearMax" :min="tmdb.pong.yearMin" max='2022-01-01'></b-form-input>
+    </b-input-group>
+  				<b-form-input @focus.native="test" placeholder="!Включая ключевые слова"></b-form-input>
+          <div class="form-group position-absolute bg-white border border-primary rounded">
+          <button class="dropdown-item" type="button">Anime</button>
+          <button class="dropdown-item" type="button">Action2</button>
+          </div>
+  				<b-form-input placeholder="!Исключая ключевые слова"></b-form-input>
+          <div class="form-group position-absolute bg-white border border-primary rounded">
+          <button class="dropdown-item" type="button">Anime</button>
+          <button class="dropdown-item" type="button">Action2</button>
+          </div>
+  				<b-form-input placeholder="!Актёр"></b-form-input>
+  				<b-form-input placeholder="!Режиссёр"></b-form-input>
+  				<b-button v-show="tmdb.selMov" class="w-100" variant="secondary" :to='{ name: "serMov", query: { with_genres: genresMov1, without_genres: genresMov2, "release_date.gte": yearMin, "release_date.lte": yearMax}}'>!Подобрать фильм</b-button>
+        <b-button v-show="!tmdb.selMov" class="w-100" variant="secondary" :to='{ name: "serTV", query: { with_genres: genresMov1, without_genres: genresMov2 }}'>!Подобрать сериал</b-button>
+  			</b-form-group>
+
+    </div>
+          </b-row>
+        </b-collapse>
+
+
+      <keep-alive>
+        <router-view ref="routerView"></router-view>
+       </keep-alive>
+      <b-pagination-nav v-show="!$route.params.movie" :use-router="true" :link-gen="linkGen" :number-of-pages="20" v-model="tmdb.pong.page" />
+    </div>
+</script>
+
+<script type="text/x-template" id="componentSerMov">
+<div>
+  <div class="d-flex flex-wrap justify-content-around">
+    <!-- <p><span v-text="$t('tmdb.page')"></span><span v-text="this.tmdb.movies.page"></span></p>
+<p><span v-text="$t('tmdb.total_pages')"></span><span v-text="this.tmdb.movies.total_pages"></span></p>
+<p><span v-text="$t('tmdb.total_results')"></span><span v-text="this.tmdb.movies.total_results"></span></p> -->
+    <template v-for="item in this.tmdb.pong.movies.results">
+      <b-link :to='{ name: "mov", params: {movie: item.id }}' class="p-1 bd-highlight">
+        <b-img :title="item.title" :src="tmdb.pong.config.images.secure_base_url + tmdb.pong.config.images.poster_sizes[1] + item.poster_path" alt="Responsive image"></b-img>
+  </b-link>
+
+  </template>
+  </div>
+  </div>
+</script>
+
+<script type="text/x-template" id="componentMov">
+<div>
+  <div class="w-100 h-100 position-fixed" :style="'z-index: -1; background: url('+ tmdb.pong.config.images.secure_base_url + tmdb.pong.config.images.backdrop_sizes[1] + tmdb.pong.movie.backdrop_path+') fixed center top/cover '"><div class="w-100 h-100" style="background: rgba(0,0,0,0.9)"></div></div>
+<!--   <div class="container"> -->
+    <div class="row justify-content-around text-white m-0 pt-3 pl-sm-2">
+      <!--       <b-link :to='{ name: "mov", params: {movie: item.id }}' class="p-1 bd-highlight"> -->
+      <div class="row"><div class="col">
+      <b-img  :title="this.tmdb.pong.movie" :src="tmdb.pong.config.images.secure_base_url + tmdb.pong.config.images.poster_sizes[2] + tmdb.pong.movie.poster_path" alt=""></b-img>
+        </div></div>
+      <!--   </b-link>
+-->
+      <div class="col-12 col-sm">
+        <span v-text="this.tmdb.pong.movie.title"></span><br />
+        <span v-text="this.tmdb.pong.movie.overview"></span>
+  </div>
+  </div>
+<!--   </div> -->
+  </div>
+</script>
+
+
+  
+
+    <script  src="js/index.js"></script>
+
+
+
+
 </body>
 
 </html>
