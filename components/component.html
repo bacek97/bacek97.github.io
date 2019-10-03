@@ -1,0 +1,7 @@
+
+  document.body.appendChild(document.currentScript.ownerDocument.querySelector("script[type=text\\/x-template]"))
+  const componentAppBar = () =>
+   Promise.resolve({
+     // template: '#templateComponentAppBar'
+     render: Vue.compile(document.querySelector(`#${document.currentScript.ownerDocument.querySelector("script[type=text\\/x-template]").id}`).innerHTML).render,
+    

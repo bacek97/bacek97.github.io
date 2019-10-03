@@ -1,0 +1,55 @@
+<style type="text/less">
+</style>
+<script type="text/x-template">
+  <v-app-bar
+      :clipped-left="data.nonStrict.primaryDrawer.clipped"
+      app
+      color="primary"
+      dark
+    >
+      <v-toolbar-title
+        style="width: 300px"
+        class="ml-0 pl-4"
+      >
+        <v-app-bar-nav-icon @click.stop="data.nonStrict.primaryDrawer.model = !data.nonStrict.primaryDrawer.model"></v-app-bar-nav-icon>
+        <span class="hidden-sm-and-down" v-text='$t("title")'></span>
+      </v-toolbar-title>
+      <v-text-field
+        flat
+        solo-inverted
+        hide-details
+        prepend-inner-icon="search"
+        label="Search"
+        class="hidden-sm-and-down"
+      ></v-text-field>
+      <v-spacer></v-spacer>
+      <v-btn icon>
+        <v-icon>apps</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>notifications</v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        large
+      >
+        <v-avatar
+          size="32px"
+          item
+        >
+          <v-img
+            src="https://cdn.vuetifyjs.com/images/logos/logo.svg"
+            alt="Vuetify"
+          >
+          </v-img></v-avatar>
+      </v-btn>
+    </v-app-bar>
+</script>
+<script>
+  componentsDownloaded['componentAppBar'] = {
+    // template: '#templateComponentAppBar'
+      render: Vue.compile(document.currentScript.ownerDocument.querySelector(`script[type=text\\/x-template]`).innerHTML).render,
+    //components: { componentExample }, // 'component-x': componentX   // <component-x></component-x>
+    
+  };
+</script>
