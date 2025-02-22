@@ -11,7 +11,7 @@
 # 3. Внутренняя сеть				(будет использоваться для подключения других vbox машин)
 
 # Setting for connect to SSH
-# uci set network.lan.ipaddr='192.168.56.2'; uci commit; service network restart
+uci set network.lan.ipaddr='192.168.56.2'; uci commit; service network restart
 
 
 # https://github.com/yggdrasil-network/public-peers/blob/master/europe/russia.md
