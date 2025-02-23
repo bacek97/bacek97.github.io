@@ -1,3 +1,9 @@
+#/* -------------------"THE Cola-WARE LICENSE" (Revision 21):-------------------
+# * <kostin.vasiliy97@gmail.com> wrote this code.
+# * As long as you complies with Google Style guidelines, you can do whatever 
+# * you want with this stuff. If we meet someday, and you think this stuff is
+# * worth it, you can buy me a Cola in return.                    Vasilii Kostin
+# * ------------------------------------------------------------------------- */
 
 # Download OpenWRT-x64 and unpack it
 # https://downloads.openwrt.org/releases/24.10.0/targets/x86/64/openwrt-24.10.0-x86-64-generic-squashfs-combined.img.gz
@@ -13,10 +19,9 @@
 # Setting for connect to SSH
 # uci set network.lan.ipaddr='192.168.56.2'; uci commit; service network restart
 
-
 # https://github.com/yggdrasil-network/public-peers/blob/master/europe/russia.md
 # https://publicpeers.neilalexander.dev/
-# // quic://ygg-msk-1.averyan.ru:8364
+
 
 opkg update
 opkg install luci-i18n-base-ru luci-i18n-tor-ru luci-proto-yggdrasil
@@ -42,14 +47,14 @@ uci set firewall.@zone[-1].output='ACCEPT'
 uci set firewall.@zone[-1].forward='ACCEPT'
 uci add_list firewall.@zone[-1].network='adapter3'
 
-
-
 YGGCONF=$(yggdrasil -genconf -json)
 uci set network.ygg=interface
 uci set network.ygg.proto='yggdrasil'
 uci set network.ygg.private_key=$(echo "$YGGCONF" | jsonfilter -e '@.PrivateKey')
 uci set network.ygg.public_key=$(echo "$YGGCONF" | yggdrasil -useconf -publickey)
-uci add_list firewall.$(uci show firewall | grep wan6 | grep -o "@zone\[\d]").network='ygg'; uci commit; service network restart
+uci add_list firewall.$(uci show firewall | grep wan6 | grep -o "@zone\[\d]").network='ygg';
+uci commit network
+service network restart
 # https://publicpeers.neilalexander.dev/
 uci add network yggdrasil_ygg_peer
 uci set network.@yggdrasil_ygg_peer[-1].address='quic://srv.itrus.su:7993'
@@ -82,6 +87,8 @@ UseBridges 1
 Bridge [21b:321:3243:ecb6:a4cf:289c:c0f1:d6eb]:16728 835FFE642EFA3BB7936663D2365A15D319FB6226
 Bridge [21f:5234:5548:31e5:a334:854b:5752:f4fc]:9770 6C4C89ABE4D06987AB1F51C06939410282A1BF58
 Bridge [224:6723:7ae0:5655:e600:51c9:4300:a2fb]:9001 F873E91048B40656694BE94ACAB6F0D32CAF8E17
+
+# ExitNodes 185.40.4.
 EOF
 cat << EOF >> /etc/sysupgrade.conf
 /etc/tor
