@@ -14,9 +14,9 @@
 # "C:\Program Files\Oracle\VirtualBox\VBoxManage" convertfromraw --format VDI OPENWR~1.IMG openwrt.vdi
 
 # Create new VBox machine and set 3 network adapters: 
-# 1. Виртуальный адаптер хоста		(будет использоваться для SSH и Luci)
-# 2. NAT							(будет использоваться для прямого доступа в инетрнет самим роутером)
-# 3. Внутренняя сеть				(будет использоваться для подключения других vbox машин)
+# 1. Виртуальный адаптер хоста      (будет использоваться для SSH и Luci)
+# 2. NAT                            (будет использоваться для прямого доступа в инетрнет самим роутером)
+# 3. Внутренняя сеть                (будет использоваться для подключения других vbox машин)
 
 # Setting for connect to SSH
 # uci set network.lan.ipaddr='192.168.56.2'; uci commit; service network restart
