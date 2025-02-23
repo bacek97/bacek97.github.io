@@ -5,8 +5,10 @@
 # * worth it, you can buy me a Cola in return.                    Vasilii Kostin
 # * ------------------------------------------------------------------------- */
 
-# Download OpenWRT-x64 and unpack it
+# Download OpenWRT-x64
 # https://downloads.openwrt.org/releases/24.10.0/targets/x86/64/openwrt-24.10.0-x86-64-generic-squashfs-combined.img.gz
+
+# Unpack downloaded archive
 
 # Convert .img to .vdi
 # "C:\Program Files\Oracle\VirtualBox\VBoxManage" convertfromraw --format VDI OPENWR~1.IMG openwrt.vdi
@@ -19,8 +21,9 @@
 # Setting for connect to SSH
 # uci set network.lan.ipaddr='192.168.56.2'; uci commit; service network restart
 
-# https://github.com/yggdrasil-network/public-peers/blob/master/europe/russia.md
-# https://publicpeers.neilalexander.dev/
+# Download and run this script
+# wget http://bacek97.github.io/owrt_ygg_tor.sh
+# sh ./owrt_ygg_tor.sh
 
 
 opkg update
@@ -55,6 +58,7 @@ uci set network.ygg.public_key=$(echo "$YGGCONF" | yggdrasil -useconf -publickey
 uci add_list firewall.$(uci show firewall | grep wan6 | grep -o "@zone\[\d]").network='ygg';
 uci commit network
 service network restart
+# https://github.com/yggdrasil-network/public-peers/blob/master/europe/russia.md
 # https://publicpeers.neilalexander.dev/
 uci add network yggdrasil_ygg_peer
 uci set network.@yggdrasil_ygg_peer[-1].address='quic://srv.itrus.su:7993'
