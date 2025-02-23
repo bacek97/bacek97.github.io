@@ -11,14 +11,60 @@
 # 3. Внутренняя сеть				(будет использоваться для подключения других vbox машин)
 
 # Setting for connect to SSH
-uci set network.lan.ipaddr='192.168.56.2'; uci commit; service network restart
+# uci set network.lan.ipaddr='192.168.56.2'; uci commit; service network restart
 
 
 # https://github.com/yggdrasil-network/public-peers/blob/master/europe/russia.md
 # https://publicpeers.neilalexander.dev/
 # // quic://ygg-msk-1.averyan.ru:8364
 
-opkg install luci-i18n-tor-ru luci-proto-yggdrasil
+opkg update
+opkg install luci-i18n-base-ru luci-i18n-tor-ru luci-proto-yggdrasil
+
+# /etc/config/dhcp
+uci set dhcp.adapter3=dhcp
+uci set dhcp.adapter3.interface='adapter3'
+uci set dhcp.adapter3.start='100'
+uci set dhcp.adapter3.limit='150'
+uci set dhcp.adapter3.leasetime='12h'
+# /etc/config/network
+uci set network.adapter3=interface
+uci set network.adapter3.proto='static'
+uci set network.adapter3.device='eth2'
+uci set network.globals.packet_steering='1'
+uci set network.adapter3.ipaddr='192.168.3.1'
+uci set network.adapter3.netmask='255.255.255.0'
+
+uci add firewall zone # =cfg0fdc81
+uci set firewall.@zone[-1].name='adapter3Zone'
+uci set firewall.@zone[-1].input='ACCEPT'
+uci set firewall.@zone[-1].output='ACCEPT'
+uci set firewall.@zone[-1].forward='ACCEPT'
+uci add_list firewall.@zone[-1].network='adapter3'
+
+
+
+YGGCONF=$(yggdrasil -genconf -json)
+uci set network.ygg=interface
+uci set network.ygg.proto='yggdrasil'
+uci set network.ygg.private_key=$(echo "$YGGCONF" | jsonfilter -e '@.PrivateKey')
+uci set network.ygg.public_key=$(echo "$YGGCONF" | yggdrasil -useconf -publickey)
+uci add_list firewall.$(uci show firewall | grep wan6 | grep -o "@zone\[\d]").network='ygg'; uci commit; service network restart
+# https://publicpeers.neilalexander.dev/
+uci add network yggdrasil_ygg_peer
+uci set network.@yggdrasil_ygg_peer[-1].address='quic://srv.itrus.su:7993'
+uci add network yggdrasil_ygg_peer
+uci set network.@yggdrasil_ygg_peer[-1].address='quic://195.2.74.155:7994'
+uci add network yggdrasil_ygg_peer
+uci set network.@yggdrasil_ygg_peer[-1].address='quic://195.58.51.167:7994'
+uci add network yggdrasil_ygg_peer
+uci set network.@yggdrasil_ygg_peer[-1].address='quic://kzn1.neonxp.ru:7994'
+uci add network yggdrasil_ygg_peer
+uci set network.@yggdrasil_ygg_peer[-1].address='quic://kursk.cleverfox.org:15015'
+uci add network yggdrasil_ygg_peer
+uci set network.@yggdrasil_ygg_peer[-1].address='quic://ip4.01.tom.ru.dioni.su:9002'
+uci add network yggdrasil_ygg_peer
+uci set network.@yggdrasil_ygg_peer[-1].address='quic://ip4.01.ekb.ru.dioni.su:9002'
 
 # Configure Tor client
 cat << EOF > /etc/tor/custom
@@ -30,6 +76,12 @@ DNSPort 0.0.0.0:9053
 DNSPort [::]:9053
 TransPort 0.0.0.0:9040
 TransPort [::]:9040
+
+UseBridges 1
+# https://howto.yggno.de/yggdrasil:sites_and_services:other_network_services
+Bridge [21b:321:3243:ecb6:a4cf:289c:c0f1:d6eb]:16728 835FFE642EFA3BB7936663D2365A15D319FB6226
+Bridge [21f:5234:5548:31e5:a334:854b:5752:f4fc]:9770 6C4C89ABE4D06987AB1F51C06939410282A1BF58
+Bridge [224:6723:7ae0:5655:e600:51c9:4300:a2fb]:9001 F873E91048B40656694BE94ACAB6F0D32CAF8E17
 EOF
 cat << EOF >> /etc/sysupgrade.conf
 /etc/tor
@@ -101,4 +153,5 @@ uci set firewall.tcp_int.dest_port="9040"
 uci set firewall.tcp_int.proto="tcp"
 uci set firewall.tcp_int.family="any"
 uci set firewall.tcp_int.target="DNAT"
- 
+uci commit firewall
+service firewall restart
