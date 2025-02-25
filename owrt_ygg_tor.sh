@@ -125,12 +125,12 @@ service firewall restart
 # service dnsmasq start
 
 # Enable DNS over Tor
-service dnsmasq stop
-uci set dhcp.@dnsmasq[0].noresolv="0"
-uci set dhcp.@dnsmasq[0].rebind_protection="1"
-uci -q delete dhcp.@dnsmasq[0].server
-uci commit dhcp
-service dnsmasq start
+# service dnsmasq stop
+# uci set dhcp.@dnsmasq[0].noresolv="0"
+# uci set dhcp.@dnsmasq[0].rebind_protection="1"
+# uci -q delete dhcp.@dnsmasq[0].server
+# uci commit dhcp
+# service dnsmasq start
 
 # Enable DNS over Tor
 service dnsmasq stop
