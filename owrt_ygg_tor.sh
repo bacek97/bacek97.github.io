@@ -56,7 +56,7 @@ uci set network.ygg.proto='yggdrasil'
 uci set network.ygg.private_key=$(echo "$YGGCONF" | jsonfilter -e '@.PrivateKey')
 uci set network.ygg.public_key=$(echo "$YGGCONF" | yggdrasil -useconf -publickey)
 uci add_list firewall.$(uci show firewall | grep wan6 | grep -o "@zone\[\d]").network='ygg';
-uci commit network
+uci commit
 service network restart
 # https://github.com/yggdrasil-network/public-peers/blob/master/europe/russia.md
 # https://publicpeers.neilalexander.dev/
