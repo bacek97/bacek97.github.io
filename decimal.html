@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <!-- html lang="en">
 <head>
     <meta charset="UTF-8"> -->
@@ -107,55 +108,39 @@ let writeAsciiString = (str, ptr) => {
 </script>
 
     <style>
-        td:nth-child(even) { background: silver }
+        /*td:nth-child(even) { background: DimGrey }*/
         input {margin: 0;}
-        .tr-endian.big tr { flex-direction: row-reverse}
+        .tr-endian.big div { flex-direction: row-reverse}
     </style>
 <!-- </head>
 <body> -->
-	<table style="text-align: center">
-		<thead>
-			<td colspan="6">s21_decimal Converter beta</td>
-		</thead>
-		<tr>
-			<td></td>
-			<td>Mantissa0-95</td>
-			<td>96-111</td>
-			<td>Exponent112-119</td>
-			<td>+</td>
-			<td>120-126</td>
-		</tr>
-		<tr>
-			<td>Value:</td>
-			<td>Mantissa0-95</td>
-			<td>96-111</td>
-			<td>Exponent112-119</td>
-			<td>+</td>
-			<td>120-126</td>
-		</tr>
-		<tr>
-			<td>Encoded as:</td>
-			<td>79228162514264337593543950336</td>
-			<td></td>
-			<td>*10^-(<span id="exponent">28</span>)</td>
-			<td></td>
-			<td>+</td>
-		</tr>
-		<tr>
-			<td onclick="document.querySelectorAll('.tr-endian').forEach(e => e.classList.toggle('big'))">Binary: <br />Click for change endian</td>
-			<td>
-				<table class="tr-endian big">
-					<tr style="display: flex;">
-						<td style="display: flex; flex-direction: row-reverse;">
-						<input type="checkbox" title="bits[0]>>  0  &1" />
-						<input type="checkbox" title="bits[0]>>  1  &1" />
-						<input type="checkbox" title="bits[0]>>  2  &1" />
-						<input type="checkbox" title="bits[0]>>  3  &1" />
-						<input type="checkbox" title="bits[0]>>  4  &1" />
-						<input type="checkbox" title="bits[0]>>  5  &1" />
-						<input type="checkbox" title="bits[0]>>  6  &1" />
-						<input type="checkbox" title="bits[0]>>  7  &1" />
-						|</td><td style="display: flex; flex-direction: row-reverse;">
+
+<div class="flex flex-row text-center ...">
+  
+<div class="grid place-content-start ...">
+  <div class="col-start-1 row-start-1">____</div>
+  <div class="row-start-2">Value</div>
+  <div class="row-start-3">Encoded as:</div>
+  <div class="row-start-4" onclick="document.querySelectorAll('.tr-endian').forEach(e => endian.innerHTML = e.classList.toggle('flex-row-reverse') ? 'BIG' : 'little' )">Binary: <br /> <span id="endian">little</span>-endian</div>
+</div>
+
+<div class="grid mx-1 ...">
+  <div>Mantissa 95-0</div>
+  <div>Value</div>
+  <div>79228162514264337593543950336</div>
+  <div>
+  	<div>
+  		<div class="flex tr-endian">
+						<div class="flex flex-row-reverse">
+							<input type="checkbox" title="bits[0]>>  0  &1" />
+							<input type="checkbox" title="bits[0]>>  1  &1" />
+							<input type="checkbox" title="bits[0]>>  2  &1" />
+							<input type="checkbox" title="bits[0]>>  3  &1" />
+							<input type="checkbox" title="bits[0]>>  4  &1" />
+							<input type="checkbox" title="bits[0]>>  5  &1" />
+							<input type="checkbox" title="bits[0]>>  6  &1" />
+							<input type="checkbox" title="bits[0]>>  7  &1" />
+						|</div><div class="flex flex-row-reverse">
 						<input type="checkbox" title="bits[0]>>  8  &1" />
 						<input type="checkbox" title="bits[0]>>  9  &1" />
 						<input type="checkbox" title="bits[0]>>  10  &1" />
@@ -164,7 +149,7 @@ let writeAsciiString = (str, ptr) => {
 						<input type="checkbox" title="bits[0]>>  13  &1" />
 						<input type="checkbox" title="bits[0]>>  14  &1" />
 						<input type="checkbox" title="bits[0]>>  15  &1" />
-						|</td><td style="display: flex; flex-direction: row-reverse;">
+						|</div><div class="flex flex-row-reverse">
 						<input type="checkbox" title="bits[0]>>  16  &1" />
 						<input type="checkbox" title="bits[0]>>  17  &1" />
 						<input type="checkbox" title="bits[0]>>  18  &1" />
@@ -173,7 +158,7 @@ let writeAsciiString = (str, ptr) => {
 						<input type="checkbox" title="bits[0]>>  21  &1" />
 						<input type="checkbox" title="bits[0]>>  22  &1" />
 						<input type="checkbox" title="bits[0]>>  23  &1" />
-						|</td><td style="display: flex; flex-direction: row-reverse;">
+						|</div><div class="flex flex-row-reverse">
 						<input type="checkbox" title="bits[0]>>  24  &1" />
 						<input type="checkbox" title="bits[0]>>  25  &1" />
 						<input type="checkbox" title="bits[0]>>  26  &1" />
@@ -182,10 +167,10 @@ let writeAsciiString = (str, ptr) => {
 						<input type="checkbox" title="bits[0]>>  29  &1" />
 						<input type="checkbox" title="bits[0]>>  30  &1" />
 						<input type="checkbox" title="bits[0]>>  31  &1" />
-						|</td>
-					</tr>
-					<tr style="display: flex;">
-						<td style="display: flex; flex-direction: row-reverse;">
+						|</div>
+		</div>
+  		<div class="flex tr-endian">
+						<div style="display: flex; flex-direction: row-reverse;">
 						<input type="checkbox" title="bits[1]>>  0  &1" />
 						<input type="checkbox" title="bits[1]>>  1  &1" />
 						<input type="checkbox" title="bits[1]>>  2  &1" />
@@ -194,7 +179,7 @@ let writeAsciiString = (str, ptr) => {
 						<input type="checkbox" title="bits[1]>>  5  &1" />
 						<input type="checkbox" title="bits[1]>>  6  &1" />
 						<input type="checkbox" title="bits[1]>>  7  &1" />
-						|</td><td style="display: flex; flex-direction: row-reverse;">
+						|</div><div class="flex flex-row-reverse">
 						<input type="checkbox" title="bits[1]>>  8  &1" />
 						<input type="checkbox" title="bits[1]>>  9  &1" />
 						<input type="checkbox" title="bits[1]>>  10  &1" />
@@ -203,7 +188,7 @@ let writeAsciiString = (str, ptr) => {
 						<input type="checkbox" title="bits[1]>>  13  &1" />
 						<input type="checkbox" title="bits[1]>>  14  &1" />
 						<input type="checkbox" title="bits[1]>>  15  &1" />
-						|</td><td style="display: flex; flex-direction: row-reverse;">
+						|</div><div class="flex flex-row-reverse">
 						<input type="checkbox" title="bits[1]>>  16  &1" />
 						<input type="checkbox" title="bits[1]>>  17  &1" />
 						<input type="checkbox" title="bits[1]>>  18  &1" />
@@ -212,7 +197,7 @@ let writeAsciiString = (str, ptr) => {
 						<input type="checkbox" title="bits[1]>>  21  &1" />
 						<input type="checkbox" title="bits[1]>>  22  &1" />
 						<input type="checkbox" title="bits[1]>>  23  &1" />
-						|</td><td style="display: flex; flex-direction: row-reverse;">
+						|</div><div class="flex flex-row-reverse">
 						<input type="checkbox" title="bits[1]>>  24  &1" />
 						<input type="checkbox" title="bits[1]>>  25  &1" />
 						<input type="checkbox" title="bits[1]>>  26  &1" />
@@ -221,10 +206,11 @@ let writeAsciiString = (str, ptr) => {
 						<input type="checkbox" title="bits[1]>>  29  &1" />
 						<input type="checkbox" title="bits[1]>>  30  &1" />
 						<input type="checkbox" title="bits[1]>>  31  &1" />
-						|</td>
-					</tr>
-					<tr style="display: flex;">
-						<td style="display: flex; flex-direction: row-reverse;">
+						|</div>
+		</div>
+
+  		<div class="flex tr-endian">
+						<div style="display: flex; flex-direction: row-reverse;">
 						<input type="checkbox" title="bits[2]>>  0  &1" />
 						<input type="checkbox" title="bits[2]>>  1  &1" />
 						<input type="checkbox" title="bits[2]>>  2  &1" />
@@ -233,7 +219,7 @@ let writeAsciiString = (str, ptr) => {
 						<input type="checkbox" title="bits[2]>>  5  &1" />
 						<input type="checkbox" title="bits[2]>>  6  &1" />
 						<input type="checkbox" title="bits[2]>>  7  &1" />
-						|</td><td style="display: flex; flex-direction: row-reverse;">
+						|</div><div class="flex flex-row-reverse">
 						<input type="checkbox" title="bits[2]>>  8  &1" />
 						<input type="checkbox" title="bits[2]>>  9  &1" />
 						<input type="checkbox" title="bits[2]>>  10  &1" />
@@ -242,7 +228,7 @@ let writeAsciiString = (str, ptr) => {
 						<input type="checkbox" title="bits[2]>>  13  &1" />
 						<input type="checkbox" title="bits[2]>>  14  &1" />
 						<input type="checkbox" title="bits[2]>>  15  &1" />
-						|</td><td style="display: flex; flex-direction: row-reverse;">
+						|</div><div class="flex flex-row-reverse">
 						<input type="checkbox" title="bits[2]>>  16  &1" />
 						<input type="checkbox" title="bits[2]>>  17  &1" />
 						<input type="checkbox" title="bits[2]>>  18  &1" />
@@ -251,7 +237,7 @@ let writeAsciiString = (str, ptr) => {
 						<input type="checkbox" title="bits[2]>>  21  &1" />
 						<input type="checkbox" title="bits[2]>>  22  &1" />
 						<input type="checkbox" title="bits[2]>>  23  &1" />
-						|</td><td style="display: flex; flex-direction: row-reverse;">
+						|</div><div class="flex flex-row-reverse">
 						<input type="checkbox" title="bits[2]>>  24  &1" />
 						<input type="checkbox" title="bits[2]>>  25  &1" />
 						<input type="checkbox" title="bits[2]>>  26  &1" />
@@ -260,67 +246,102 @@ let writeAsciiString = (str, ptr) => {
 						<input type="checkbox" title="bits[2]>>  29  &1" />
 						<input type="checkbox" title="bits[2]>>  30  &1" />
 						<input type="checkbox" title="bits[2]>>  31  &1" />
-						|</td>
-					</tr>
-					</table>
-			</td>
-			<td style="display: flex; align-items: center;">
-				<!-- <div style="display: flex; align-items: center;"> -->
-				<div style="display: flex; flex-direction: row-reverse;">
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				</div>
-				|
-				<div style="display: flex; flex-direction: row-reverse;">
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-			    </div>
-			<!-- </div> -->
-			</td>
-			<td>
-				<div style="display: flex; flex-direction: row-reverse;">
-				<input type="checkbox" />
-				<input type="checkbox" />
-				<input type="checkbox" />
-				<input type="checkbox" />
-				<input type="checkbox" />
-				<input type="checkbox" />
-				<input type="checkbox" />
-				<input type="checkbox" />
-				|
-				</div>
-			</td>
-			<td colspan="2">
-				<div style="display: flex; flex-direction: row-reverse;">
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input disabled type="checkbox" />
-				<input type="checkbox" />
-				|
-				</div>
-			</td>
-		</tr>
-	</table>
+						|</div>
+		</div>
+ 	</div>
+
+  </div>
+</div>
+
+<div class="flex flex-col ...">
+	<div class="flex flex-row tr-endian ...">
+		<div class="grid mx-1 ...">
+		  <div>bits[3] 107-96</div>
+		  <div>Value</div>
+		  <div>_____</div>
+		  <div>
+		  	
+						<div class="flex flex-row-reverse">
+							<input disabled type="checkbox" title="bits[3]>>  0  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  1  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  2  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  3  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  4  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  5  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  6  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  7  &1" />
+						</div>
+
+		  </div>
+		</div>
+
+		<div class="grid mx-1 ...">
+		  <div>bits[3] 111-108</div>
+		  <div>Value</div>
+		  <div>_______</div>
+		  <div>
+		  	
+						<div class="flex flex-row-reverse">
+							<input disabled type="checkbox" title="bits[3]>>  8  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  9  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  10  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  11  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  12  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  13  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  14  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  15  &1" />
+						</div>
+		  </div>
+		</div>
+		
+		<div class="grid mx-1 ...">
+		  <div>Exponent 119-112</div>
+		  <div>*10^-(<span id="exponent">28</span>)</div>
+		  <div>___</div>
+		  <div>
+		  	
+						<div class="flex flex-row-reverse">
+							<input type="checkbox" title="bits[3]>>  16  &1" />
+							<input type="checkbox" title="bits[3]>>  17  &1" />
+							<input type="checkbox" title="bits[3]>>  18  &1" />
+							<input type="checkbox" title="bits[3]>>  19  &1" />
+							<input type="checkbox" title="bits[3]>>  20  &1" />
+							<input type="checkbox" title="bits[3]>>  21  &1" />
+							<input type="checkbox" title="bits[3]>>  22  &1" />
+							<input type="checkbox" title="bits[3]>>  23  &1" />
+						</div>
+		  </div>
+		</div>
+
+		<div class="grid mx-1 ...">
+		  <div>bits[3] 127-120</div>
+		  <div>Value</div>
+		  <div>+</div>
+		  <div>
+		  	
+						<div class="flex flex-row-reverse">
+							<input disabled type="checkbox" title="bits[3]>>  24  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  25  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  26  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  27  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  28  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  29  &1" />
+							<input disabled type="checkbox" title="bits[3]>>  30  &1" />
+							<input type="checkbox" title="bits[3]>>  31  &1" />
+						</div>
+		  </div>
+		</div>
+		
+
+	</div>
+</div>
+
+</div>
+
 	<table>
 		<tr>
 			<td>Decimal Representation</td>
-			<td><input id="nu" type="" onchange="init(this.value)" placeholder="-1." /></td>
+			<td><input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="nu" type="" onchange="init(this.value)" placeholder="-1." /></td>
 			<td rowspan="4">
 				<button>+1</button>
 				<button>-1</button>
