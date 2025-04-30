@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<!-- html lang="en">
+<head>
+    <meta charset="UTF-8"> -->
+    <!-- <title>Heatmap Overlay</title> -->
+<script>
+</script>
+<script>
+ 
+	function toggleEndian() {
+
+	}
+
+	 async function init(str67) {
+		// alert(str67)
+    const response = await fetch("./dec.wasm");
+    const { instance } = await WebAssembly.instantiateStreaming(response);
+
+    const { exports } = instance;
+    let memory = new Uint8Array(instance.exports.memory.buffer);
+
+let writeAsciiString = (str, ptr) => {
+  for (let i = 0; i < str.length; i++) {
+    memory[ptr + i] = str.charCodeAt(i);
+  }
+  memory[ptr + str.length] = 0; // null-терминатор
+  return ptr;
+}
+	writeAsciiString(str67, 3000);
+
+    // Функция из .wasm
+    // const from_int_to_decimal = exports.s21_from_int_to_decimal;
+
+    // Выделяем память под s21_decimal (16 байт, 4 * uint32)
+    // const memory = exports.memory;
+
+	// const str = "123.45";
+	// const encoder = new TextEncoder();
+	// const encodedStr = encoder.encode(str + "\0"); // с null-терминатором
+
+	// Допустим, начинаем с offset 2048
+	const ptr = 2048;
+
+	// Записываем в память
+	// const u8 = new Uint8Array(exports.memory.buffer, ptr, encodedStr.length);
+	// u8.set(encodedStr);
+
+	// Теперь можно вызвать функцию, которая принимает char*
+	// const result = exports.DEC(ptr); // ptr — это char *src
+
+
+    const memoryView = new DataView(exports.memory.buffer);
+    const malloc = exports.malloc || exports.__heap_base || 1024; // или другой способ, если нет malloc
+    let decimalPtr = malloc; // допустим, по этому адресу
+
+    const myInt = -1234;
+
+    // Вызов функции: int -> decimal
+    // int передаём напрямую, второй аргумент — указатель на результат
+    // const ret = exports.s21_from_int_to_decimal(myInt, decimalPtr);
+    // const ret2 = exports.s21_from_decimal_to_int(decimalPtr, decimalPtr);
+    exports.DEC(4000, 3000)
+	// const code = exports.s21_from_decimal_to_int(4000, 7000);
+
+	// Считаем результат
+	// const result3 = memoryView.getInt32(7000, true);
+	// console.log("aaa", result3)
+
+    // console.log("return code:", ret); // 0 — OK
+	decimalPtr = 4000
+
+    // Читаем 4 uint32 из памяти (mntsa[0..2], flags)
+    let dec0 = memoryView.getUint32(decimalPtr, true);      // mntsa[0]
+    let dec1 = memoryView.getUint32(decimalPtr + 4, true);  // mntsa[1]
+    let dec2 = memoryView.getUint32(decimalPtr + 8, true);  // mntsa[2]
+    let dec3 = memoryView.getInt32(decimalPtr + 12, true); // flags (sign/exp)
+    let exp = memoryView.getInt8(decimalPtr + 12+2, true); // flags (sign/exp)
+
+ //    let sign = (dec3 << 8) & 2_147_483_648
+	// let mnts = (dec3 >> 16) & 127; // извлекаем 8 бит с позиции 16
+	// let exp =  sign | mnts
+	console.log("exp:", exp);
+	exponent.innerHTML = exp
+
+    console.log("s21_decimal =");
+    console.log("mntsa[0]:", dec0);
+    console.log("mntsa[1]:", dec1);
+    console.log("mntsa[2]:", dec2);
+    console.log("flags:", dec3);
+
+	for (let i = 0; i < 32; i++) {
+		const group = Math.floor(i / 8);       // 0,1,2,3
+		const index = (8 * (group + 1)) - 1 - (i % 8); // 7,6,...0; 15,14,...8; ...
+		// document.querySelectorAll(`[title='bits[0]>>  ${i}  &1']`)[0].checked = dec0 & 1;
+		document.querySelectorAll('input')[i].checked = dec0 & 1;
+		dec0 >>= 1;
+    	document.querySelectorAll('input')[i+32].checked = dec1 & 1;
+    	dec1 >>= 1
+    	document.querySelectorAll('input')[i+64].checked = dec2 & 1;
+    	dec2 >>= 1
+    	document.querySelectorAll('input')[i+96].checked = dec3 & 1;
+    	dec3 >>= 1
+	}
+}
+
+  // init("956412.");
+</script>
+
+    <style>
+        td:nth-child(even) { background: DimGrey }
+        input {margin: 0;}
+        .tr-endian.big tr { flex-direction: row-reverse}
+    </style>
+<!-- </head>
+<body> -->
+	<table style="text-align: center">
+		<thead>
+			<td colspan="6">s21_decimal Converter beta</td>
+		</thead>
+		<tr>
+			<td></td>
+			<td>Mantissa0-95</td>
+			<td>96-111</td>
+			<td>Exponent112-119</td>
+			<td>+</td>
+			<td>120-126</td>
+		</tr>
+		<tr>
+			<td>Value:</td>
+			<td>Mantissa0-95</td>
+			<td>96-111</td>
+			<td>Exponent112-119</td>
+			<td>+</td>
+			<td>120-126</td>
+		</tr>
+		<tr>
+			<td>Encoded as:</td>
+			<td>79228162514264337593543950336</td>
+			<td></td>
+			<td>*10^-(<span id="exponent">28</span>)</td>
+			<td></td>
+			<td>+</td>
+		</tr>
+		<tr>
+			<td onclick="document.querySelectorAll('.tr-endian').forEach(e => e.classList.toggle('big'))">Binary: <br />Click for change endian</td>
+			<td>
+				<table class="tr-endian big">
+					<tr style="display: flex;">
+						<td style="display: flex; flex-direction: row-reverse;">
+						<input type="checkbox" title="bits[0]>>  0  &1" />
+						<input type="checkbox" title="bits[0]>>  1  &1" />
+						<input type="checkbox" title="bits[0]>>  2  &1" />
+						<input type="checkbox" title="bits[0]>>  3  &1" />
+						<input type="checkbox" title="bits[0]>>  4  &1" />
+						<input type="checkbox" title="bits[0]>>  5  &1" />
+						<input type="checkbox" title="bits[0]>>  6  &1" />
+						<input type="checkbox" title="bits[0]>>  7  &1" />
+						|</td><td style="display: flex; flex-direction: row-reverse;">
+						<input type="checkbox" title="bits[0]>>  8  &1" />
+						<input type="checkbox" title="bits[0]>>  9  &1" />
+						<input type="checkbox" title="bits[0]>>  10  &1" />
+						<input type="checkbox" title="bits[0]>>  11  &1" />
+						<input type="checkbox" title="bits[0]>>  12  &1" />
+						<input type="checkbox" title="bits[0]>>  13  &1" />
+						<input type="checkbox" title="bits[0]>>  14  &1" />
+						<input type="checkbox" title="bits[0]>>  15  &1" />
+						|</td><td style="display: flex; flex-direction: row-reverse;">
+						<input type="checkbox" title="bits[0]>>  16  &1" />
+						<input type="checkbox" title="bits[0]>>  17  &1" />
+						<input type="checkbox" title="bits[0]>>  18  &1" />
+						<input type="checkbox" title="bits[0]>>  19  &1" />
+						<input type="checkbox" title="bits[0]>>  20  &1" />
+						<input type="checkbox" title="bits[0]>>  21  &1" />
+						<input type="checkbox" title="bits[0]>>  22  &1" />
+						<input type="checkbox" title="bits[0]>>  23  &1" />
+						|</td><td style="display: flex; flex-direction: row-reverse;">
+						<input type="checkbox" title="bits[0]>>  24  &1" />
+						<input type="checkbox" title="bits[0]>>  25  &1" />
+						<input type="checkbox" title="bits[0]>>  26  &1" />
+						<input type="checkbox" title="bits[0]>>  27  &1" />
+						<input type="checkbox" title="bits[0]>>  28  &1" />
+						<input type="checkbox" title="bits[0]>>  29  &1" />
+						<input type="checkbox" title="bits[0]>>  30  &1" />
+						<input type="checkbox" title="bits[0]>>  31  &1" />
+						|</td>
+					</tr>
+					<tr style="display: flex;">
+						<td style="display: flex; flex-direction: row-reverse;">
+						<input type="checkbox" title="bits[1]>>  0  &1" />
+						<input type="checkbox" title="bits[1]>>  1  &1" />
+						<input type="checkbox" title="bits[1]>>  2  &1" />
+						<input type="checkbox" title="bits[1]>>  3  &1" />
+						<input type="checkbox" title="bits[1]>>  4  &1" />
+						<input type="checkbox" title="bits[1]>>  5  &1" />
+						<input type="checkbox" title="bits[1]>>  6  &1" />
+						<input type="checkbox" title="bits[1]>>  7  &1" />
+						|</td><td style="display: flex; flex-direction: row-reverse;">
+						<input type="checkbox" title="bits[1]>>  8  &1" />
+						<input type="checkbox" title="bits[1]>>  9  &1" />
+						<input type="checkbox" title="bits[1]>>  10  &1" />
+						<input type="checkbox" title="bits[1]>>  11  &1" />
+						<input type="checkbox" title="bits[1]>>  12  &1" />
+						<input type="checkbox" title="bits[1]>>  13  &1" />
+						<input type="checkbox" title="bits[1]>>  14  &1" />
+						<input type="checkbox" title="bits[1]>>  15  &1" />
+						|</td><td style="display: flex; flex-direction: row-reverse;">
+						<input type="checkbox" title="bits[1]>>  16  &1" />
+						<input type="checkbox" title="bits[1]>>  17  &1" />
+						<input type="checkbox" title="bits[1]>>  18  &1" />
+						<input type="checkbox" title="bits[1]>>  19  &1" />
+						<input type="checkbox" title="bits[1]>>  20  &1" />
+						<input type="checkbox" title="bits[1]>>  21  &1" />
+						<input type="checkbox" title="bits[1]>>  22  &1" />
+						<input type="checkbox" title="bits[1]>>  23  &1" />
+						|</td><td style="display: flex; flex-direction: row-reverse;">
+						<input type="checkbox" title="bits[1]>>  24  &1" />
+						<input type="checkbox" title="bits[1]>>  25  &1" />
+						<input type="checkbox" title="bits[1]>>  26  &1" />
+						<input type="checkbox" title="bits[1]>>  27  &1" />
+						<input type="checkbox" title="bits[1]>>  28  &1" />
+						<input type="checkbox" title="bits[1]>>  29  &1" />
+						<input type="checkbox" title="bits[1]>>  30  &1" />
+						<input type="checkbox" title="bits[1]>>  31  &1" />
+						|</td>
+					</tr>
+					<tr style="display: flex;">
+						<td style="display: flex; flex-direction: row-reverse;">
+						<input type="checkbox" title="bits[2]>>  0  &1" />
+						<input type="checkbox" title="bits[2]>>  1  &1" />
+						<input type="checkbox" title="bits[2]>>  2  &1" />
+						<input type="checkbox" title="bits[2]>>  3  &1" />
+						<input type="checkbox" title="bits[2]>>  4  &1" />
+						<input type="checkbox" title="bits[2]>>  5  &1" />
+						<input type="checkbox" title="bits[2]>>  6  &1" />
+						<input type="checkbox" title="bits[2]>>  7  &1" />
+						|</td><td style="display: flex; flex-direction: row-reverse;">
+						<input type="checkbox" title="bits[2]>>  8  &1" />
+						<input type="checkbox" title="bits[2]>>  9  &1" />
+						<input type="checkbox" title="bits[2]>>  10  &1" />
+						<input type="checkbox" title="bits[2]>>  11  &1" />
+						<input type="checkbox" title="bits[2]>>  12  &1" />
+						<input type="checkbox" title="bits[2]>>  13  &1" />
+						<input type="checkbox" title="bits[2]>>  14  &1" />
+						<input type="checkbox" title="bits[2]>>  15  &1" />
+						|</td><td style="display: flex; flex-direction: row-reverse;">
+						<input type="checkbox" title="bits[2]>>  16  &1" />
+						<input type="checkbox" title="bits[2]>>  17  &1" />
+						<input type="checkbox" title="bits[2]>>  18  &1" />
+						<input type="checkbox" title="bits[2]>>  19  &1" />
+						<input type="checkbox" title="bits[2]>>  20  &1" />
+						<input type="checkbox" title="bits[2]>>  21  &1" />
+						<input type="checkbox" title="bits[2]>>  22  &1" />
+						<input type="checkbox" title="bits[2]>>  23  &1" />
+						|</td><td style="display: flex; flex-direction: row-reverse;">
+						<input type="checkbox" title="bits[2]>>  24  &1" />
+						<input type="checkbox" title="bits[2]>>  25  &1" />
+						<input type="checkbox" title="bits[2]>>  26  &1" />
+						<input type="checkbox" title="bits[2]>>  27  &1" />
+						<input type="checkbox" title="bits[2]>>  28  &1" />
+						<input type="checkbox" title="bits[2]>>  29  &1" />
+						<input type="checkbox" title="bits[2]>>  30  &1" />
+						<input type="checkbox" title="bits[2]>>  31  &1" />
+						|</td>
+					</tr>
+					</table>
+			</td>
+			<td style="display: flex; align-items: center;">
+				<!-- <div style="display: flex; align-items: center;"> -->
+				<div style="display: flex; flex-direction: row-reverse;">
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				</div>
+				|
+				<div style="display: flex; flex-direction: row-reverse;">
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+			    </div>
+			<!-- </div> -->
+			</td>
+			<td>
+				<div style="display: flex; flex-direction: row-reverse;">
+				<input type="checkbox" />
+				<input type="checkbox" />
+				<input type="checkbox" />
+				<input type="checkbox" />
+				<input type="checkbox" />
+				<input type="checkbox" />
+				<input type="checkbox" />
+				<input type="checkbox" />
+				|
+				</div>
+			</td>
+			<td colspan="2">
+				<div style="display: flex; flex-direction: row-reverse;">
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input disabled type="checkbox" />
+				<input type="checkbox" />
+				|
+				</div>
+			</td>
+		</tr>
+	</table>
+	<table>
+		<tr>
+			<td>Decimal Representation</td>
+			<td><input id="nu" type="" onchange="init(this.value)" placeholder="-1." /></td>
+			<td rowspan="4">
+				<button>+1</button>
+				<button>-1</button>
+			</td>
+		</tr>
+		<tr>
+			<td>Value actually stored in decimal</td>
+			<td><input /></td>
+		</tr>
+		<tr>
+			<td>Error due to conversion</td>
+			<td><input /></td>
+		</tr>
+		<tr>
+			<td>Binary Representation</td>
+			<td><input /></td>
+		</tr>
+		<tr>
+			<td>Hexadecimal Representation</td>
+			<td><input /></td>
+		</tr>
+	</table>
+<!-- </body> -->
+<!-- </html> -->
