@@ -590,6 +590,20 @@
         function createLegend(muscles, nodeElements, link) {
             const legendItems = document.getElementById('legend-items');
 
+            // Функция проверки, содержит ли упражнение указанную мышцу
+            function hasMuscle(node, muscle) {
+                // Проверяем primary_muscle
+                if (node.primary_muscle === muscle) return true;
+
+                // Проверяем secondary_muscle (может содержать несколько через запятую)
+                if (node.secondary_muscle && node.secondary_muscle !== 'None') {
+                    const secondaryMuscles = node.secondary_muscle.split(',').map(m => m.trim());
+                    if (secondaryMuscles.includes(muscle)) return true;
+                }
+
+                return false;
+            }
+
             muscles.sort().forEach(muscle => {
                 const item = document.createElement('div');
                 item.className = 'legend-item';
@@ -600,17 +614,22 @@
 
                 item.addEventListener('click', () => {
                     nodeElements.selectAll('circle')
-                        .attr('opacity', d => d.primary_muscle === muscle ? 1 : 0.15)
-                        .attr('r', d => d.primary_muscle === muscle ? 40 : 25);
+                        .attr('opacity', d => hasMuscle(d, muscle) ? 1 : 0.15)
+                        .attr('r', d => hasMuscle(d, muscle) ? 40 : 25);
 
-                    link.attr('opacity', 0.1);
+                    // Подсвечиваем связи для выбранной группы мышц
+                    link
+                        .attr('opacity', d => d.muscle === muscle ? 0.8 : 0.05)
+                        .attr('stroke-width', d => d.muscle === muscle ? 2 : 1);
 
                     setTimeout(() => {
                         nodeElements.selectAll('circle')
                             .attr('opacity', 1)
                             .attr('r', 30);
-                        link.attr('opacity', 0.4);
-                    }, 2000);
+                        link
+                            .attr('opacity', 0.4)
+                            .attr('stroke-width', 1);
+                    }, 3000);
                 });
 
                 legendItems.appendChild(item);
