@@ -1,0 +1,3467 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iSparta — Политика конфиденциальности и удаление аккаунта</title>
+    <meta name="description"
+        content="Политика конфиденциальности приложения iSparta. Запрос на удаление аккаунта и всех персональных данных.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b0f1a;
+            --bg2: #111827;
+            --bg3: #1c2333;
+            --glass: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #6366f1;
+            --accent2: #818cf8;
+            --gold: #f59e0b;
+            --red: #ef4444;
+            --red-bg: rgba(239, 68, 68, 0.1);
+            --red-border: rgba(239, 68, 68, 0.3);
+            --green: #22c55e;
+            --green-bg: rgba(34, 197, 94, 0.1);
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* ============================
+           BACKGROUND EFFECTS
+        ============================ */
+        .bg-noise {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image:
+                radial-gradient(ellipse 80% 60% at 20% 10%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 80%, rgba(245, 158, 11, 0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* ============================
+           HEADER / NAV
+        ============================ */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(11, 15, 26, 0.85);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+        }
+
+        nav {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .lang-switch {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .lang-btn {
+            padding: 2px 8px;
+            font-size: 0.8rem;
+            border-radius: 16px;
+            color: var(--muted);
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent2), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        /* ============================
+           HERO
+        ============================ */
+        .hero {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--accent2) 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-sub {
+            color: var(--muted);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.75rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            transition: all 0.25s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: white;
+            box-shadow: 0 4px 24px rgba(99, 102, 241, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-ghost {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white;
+            box-shadow: 0 4px 24px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(239, 68, 68, 0.5);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ============================
+           SECTIONS
+        ============================ */
+        .section {
+            position: relative;
+            z-index: 1;
+            padding: 4rem 2rem;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .icon-blue {
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .icon-red {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        /* ============================
+           CARDS
+        ============================ */
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+            margin-bottom: 1.5rem;
+            transition: border-color 0.25s;
+        }
+
+        .card:hover {
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--accent2);
+        }
+
+        .card p {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .card ul {
+            color: var(--muted);
+            font-size: 0.95rem;
+            padding-left: 1.25rem;
+        }
+
+        .card li {
+            margin-bottom: 0.35rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .data-table th {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent2);
+            text-align: left;
+            padding: 0.6rem 0.75rem;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 0.6rem 0.75rem;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+        }
+
+        .data-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+
+        .badge-yes {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+        }
+
+        .badge-no {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--accent2);
+        }
+
+        /* ============================
+           DIVIDER
+        ============================ */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 1rem 0;
+        }
+
+        /* ============================
+           DANGER ZONE
+        ============================ */
+        .danger-section {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(11, 15, 26, 0));
+            border: 1px solid var(--red-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+        }
+
+        .warning-box {
+            background: var(--red-bg);
+            border: 1px solid var(--red-border);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            color: #fca5a5;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .warning-box strong {
+            color: var(--red);
+        }
+
+        /* ============================
+           MNEMONIC INPUT
+        ============================ */
+        .mnemonic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 0.5rem;
+            margin: 1.25rem 0;
+        }
+
+        .word-input-wrap {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .word-input-wrap:focus-within {
+            border-color: var(--accent);
+        }
+
+        .word-num {
+            padding: 0 0.5rem;
+            font-size: 0.72rem;
+            color: var(--muted);
+            background: rgba(99, 102, 241, 0.08);
+            min-width: 28px;
+            text-align: center;
+            align-self: stretch;
+            display: flex;
+            align-items: center;
+        }
+
+        .word-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text);
+            padding: 0.5rem 0.4rem;
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+
+        .word-input::placeholder {
+            color: var(--border);
+        }
+
+        .mnemonic-paste-btn {
+            background: none;
+            border: 1px dashed var(--border);
+            color: var(--muted);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+
+        .mnemonic-paste-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent2);
+        }
+
+        .derived-info {
+            background: rgba(99, 102, 241, 0.06);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 10px;
+            padding: 0.9rem 1.2rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+            word-break: break-all;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .derived-info strong {
+            color: var(--accent2);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        /* ============================
+           STATUS MESSAGE
+        ============================ */
+        #status-msg {
+            display: none;
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        #status-msg.success {
+            background: var(--green-bg);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #4ade80;
+        }
+
+        #status-msg.error {
+            background: var(--red-bg);
+            border: 1px solid var(--red-border);
+            color: #fca5a5;
+        }
+
+        #status-msg.loading {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            color: var(--accent2);
+        }
+
+        /* ============================
+           CONFIRM MODAL
+        ============================ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg3);
+            border: 1px solid var(--red-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            max-width: 440px;
+            width: 100%;
+            animation: pop-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes pop-in {
+            from {
+                transform: scale(0.85);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal h2 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: var(--red);
+        }
+
+        .modal p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        /* ============================
+           FOOTER
+        ============================ */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 3rem 2rem 2rem;
+            color: var(--muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer a {
+            color: var(--accent2);
+            text-decoration: none;
+        }
+
+        /* ============================
+           RESPONSIVE
+        ============================ */
+        @media (max-width: 600px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mnemonic-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-noise"></div>
+
+    <!-- HEADER -->
+    <header>
+        <nav>
+            <a class="logo" href="#">⚡ iSparta</a>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="#privacy" data-i18n="navPrivacy">Конфиденциальность</a></li>
+                    <li><a href="#delete" data-i18n="navDelete">Удаление аккаунта</a></li>
+                </ul>
+                <div class="lang-switch" id="langToggle">
+                    <span class="lang-btn active" data-lang="ru">RU</span>
+                    <span class="lang-btn" data-lang="en">EN</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-badge"><span class="dot"></span> <span data-i18n="heroBadge">Политика конфиденциальности</span>
+        </div>
+        <h1 data-i18n="heroTitle">Ваши данные — <span>под вашим контролем</span></h1>
+        <p class="hero-sub" data-i18n="heroSub">Мы собираем только то, что нужно для работы приложения. Вы можете
+            удалить всё в любой момент.</p>
+        <div class="hero-buttons">
+            <a href="#privacy" class="btn btn-primary" data-i18n="btnPolicy">📄 Политика</a>
+            <a href="#delete" class="btn btn-ghost" data-i18n="btnDeleteAcc">🗑️ Удалить аккаунт</a>
+        </div>
+    </section>
+
+    <!-- PRIVACY POLICY -->
+    <section class="section" id="privacy">
+        <div class="container">
+            <div class="lang-content lang-ru">
+                <div class="section-title">
+                    <div class="icon icon-blue">📋</div>
+                    <span>Политика конфиденциальности</span>
+                </div>
+                <p style="color:var(--muted);margin-bottom:2rem">Последнее обновление: Март 2026 г.</p>
+
+                <div class="card">
+                    <h3>1. Введение и контакты</h3>
+                    <p>iSparta уважает вашу конфиденциальность. Настоящая Политика описывает, как мы собираем,
+                        используем и защищаем ваши данные в соответствии с требованиями Google Play и общими стандартами
+                        защиты данных. Если у вас есть вопросы, свяжитесь с нами: <a
+                            href="mailto:kostin.vasiliy97@gmail.com"
+                            style="color:var(--accent2)">kostin.vasiliy97@gmail.com</a>.</p>
+                </div>
+
+                <div class="card">
+                    <h3>2. Какие данные мы собираем</h3>
+                    <p>Мы собираем информацию только в том случае, если вы включаете облачную синхронизацию или
+                        публикуете результаты:</p>
+                    <ul>
+                        <li><strong>Идентификатор аккаунта:</strong> Публичный ключ Ed25519, который математически
+                            вычисляется из вашей секретной фразы. Сама секретная фраза <em>никогда</em> не покидает ваше
+                            устройство.</li>
+                        <li><strong>Публичный профиль:</strong> Ваш выбранный никнейм и квалификация (FMS категория).
+                        </li>
+                        <li><strong>Данные тренировок:</strong> Типы упражнений, количество повторений, время
+                            выполнения, сожженные калории.</li>
+                        <li><strong>Данные о местоположении (GPS):</strong> Маршруты пробежек собираются <em>только</em>
+                            во время беговых тренировок и отправляются на сервер <em>только</em> если вы вручную
+                            публикуете тренировку в социальной ленте.</li>
+                        <li><strong>Использование приложений:</strong> Данные о времени использования других приложений
+                            для функций App Lock и Time Bank обрабатываются строго локально на вашем устройстве.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>3. Как мы используем данные</h3>
+                    <p>Собранные данные используются исключительно для предоставления базовых функций приложения:
+                        синхронизации между устройствами, отображения на лидербордах, начисления бонусов и социальной
+                        ленты (группы и публикации). Мы не используем ваши данные для профилирования или таргетированной
+                        рекламы.</p>
+                </div>
+
+                <div class="card">
+                    <h3>4. Передача данных третьим лицам</h3>
+                    <p>Ваши данные передаются только поставщикам инфраструктуры (облачные базы данных Hasura и Deno
+                        Deploy) по защищенным каналам (HTTPS/WSS) исключительно с целью хранения. Мы <strong>не продаем
+                            и не передаем</strong> ваши данные сторонним рекламным или аналитическим сервисам.</p>
+                </div>
+
+                <div class="card">
+                    <h3>5. Безопасность данных</h3>
+                    <p>iSparta не использует пароли. Авторизация происходит локально через криптографическую подпись
+                        сообщений (Ed25519). Ваш секретный ключ (мнемоника) не хранится на наших серверах, что исключает
+                        риск массовой утечки паролей.</p>
+                </div>
+
+                <div class="card">
+                    <h3>6. Хранение и удаление данных</h3>
+                    <p>Мы храним данные до тех пор, пока вы пользуетесь приложением. Вы имеете право на полное и
+                        безвозвратное удаление всех своих персональных данных в любой момент. Воспользуйтесь формой
+                        <strong>«Удаление аккаунта»</strong> ниже на этой странице, чтобы моментально стереть все
+                        записи, связанные с вашим публичным ключом.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>7. Конфиденциальность детей</h3>
+                    <p>Наше приложение не предназначено для детей младше 13 лет (или минимального возраста,
+                        установленного в вашей юрисдикции). Мы не собираем осознанно персональные данные детей. Если нам
+                        станет известно о таком сборе, мы немедленно удалим эту информацию.</p>
+                </div>
+            </div>
+
+            <div class="lang-content lang-en" style="display:none;">
+                <div class="section-title">
+                    <div class="icon icon-blue">📋</div>
+                    <span>Privacy Policy</span>
+                </div>
+                <p style="color:var(--muted);margin-bottom:2rem">Last updated: March 2026</p>
+
+                <div class="card">
+                    <h3>1. Introduction and Contacts</h3>
+                    <p>iSparta respects your privacy. This Policy details how we collect, use, and protect your data in
+                        compliance with Google Play requirements and general data protection standards. If you have any
+                        questions, please contact us at: <a href="mailto:kostin.vasiliy97@gmail.com"
+                            style="color:var(--accent2)">kostin.vasiliy97@gmail.com</a>.</p>
+                </div>
+
+                <div class="card">
+                    <h3>2. What Data We Collect</h3>
+                    <p>We only collect personal information if you explicitly enable cloud synchronization or publish
+                        your workout results:</p>
+                    <ul>
+                        <li><strong>Account Identifier:</strong> An Ed25519 Public Key mathematically derived from your
+                            recovery phrase. The recovery phrase itself <em>never</em> leaves your device.</li>
+                        <li><strong>Public Profile:</strong> Your chosen nickname and skill bracket (FMS category).</li>
+                        <li><strong>Fitness Data:</strong> Exercise types, reps, durations, and estimated calories
+                            burned.</li>
+                        <li><strong>Location Data (GPS):</strong> Running routes are tracked <em>only</em> during active
+                            running workouts and are sent to the server <em>only</em> if you manually choose to publish
+                            the workout to the social feed.</li>
+                        <li><strong>App Usage Data:</strong> Background app usage tracking for the App Lock / Time Bank
+                            feature is processed strictly locally on your device.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>3. How We Use Data</h3>
+                    <p>Collected data is used exclusively to provide the core functionalities of the app: cross-device
+                        synchronization, leaderboards, bonus calculation, and social feed (groups and publications). We
+                        do not use your data for profiling or targeted advertising.</p>
+                </div>
+
+                <div class="card">
+                    <h3>4. Third-Party Data Sharing</h3>
+                    <p>Your data is only transmitted to our secure backend infrastructure providers (Hasura databases
+                        and Deno Deploy) via encrypted channels (HTTPS/WSS) strictly for storage purposes. We <strong>do
+                            not sell or share</strong> your data with third-party advertising or analytics networks at
+                        any time.</p>
+                </div>
+
+                <div class="card">
+                    <h3>5. Data Security</h3>
+                    <p>iSparta is passwordless. Authorization occurs locally via cryptographic message signatures
+                        (Ed25519). Your secret key (mnemonic phrase) is never stored on our servers, eliminating the
+                        risk of mass credential leaks.</p>
+                </div>
+
+                <div class="card">
+                    <h3>6. Data Retention and Deletion</h3>
+                    <p>We retain your data as long as your account is active. You have the total right to permanently
+                        request the deletion of all your personal data at any time. Please use the <strong>"Delete
+                            Account"</strong> form below on this page to instantly wipe all records mapped to your
+                        public key from our servers.</p>
+                </div>
+
+                <div class="card">
+                    <h3>7. Children's Privacy</h3>
+                    <p>Our app is not intended for children under the age of 13 (or the applicable minimum age in your
+                        jurisdiction). We do not knowingly collect personal data from children. If we become aware that
+                        we have inadvertently collected such data, we will securely delete it immediately.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DELETE ACCOUNT -->
+    <section class="section" id="delete">
+        <div class="container">
+            <div class="section-title">
+                <div class="icon icon-red">🗑️</div>
+                <span data-i18n="deleteTitle">Удаление аккаунта</span>
+            </div>
+
+            <div class="danger-section">
+                <div class="warning-box">
+                    <strong data-i18n="warningWord">⚠ Внимание.</strong> <span data-i18n="warningText">Удаление аккаунта
+                        необратимо. Будут удалены: профиль, история тренировок, публикации, участие в группах и все
+                        связанные данные.</span>
+                </div>
+
+                <p style="color:var(--muted);margin-bottom:1.25rem;font-size:0.95rem" data-i18n="mnemonicInstruct">
+                    Введите вашу мнемоническую фразу (3 слова). Подпись проверяется криптографически — ваша фраза
+                    <strong>никогда не отправляется на сервер.</strong>
+                </p>
+
+                <button class="mnemonic-paste-btn" id="paste-btn" data-i18n="btnPaste">📋 Вставить фразу из
+                    буфера</button>
+
+                <div class="mnemonic-grid" id="mnemonic-grid"></div>
+
+                <div class="derived-info" id="derived-info">
+                    <strong data-i18n="derivedKey">Вычисленный публичный ключ:</strong>
+                    <span id="derived-key-text">—</span>
+                </div>
+
+                <div id="status-msg"></div>
+
+                <div style="margin-top:1.5rem">
+                    <button class="btn btn-danger" id="delete-btn" disabled data-i18n="btnDeleteSubmit">🗑️ Удалить мой
+                        аккаунт</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="confirm-modal">
+        <div class="modal">
+            <h2 data-i18n="modalTitle">🔴 Подтверждение удаления</h2>
+            <p data-i18n="modalDesc">Все ваши данные в iSparta будут безвозвратно удалены. Это действие нельзя отменить.
+                Вы уверены?</p>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" id="modal-cancel" data-i18n="btnCancel">Отмена</button>
+                <button class="btn btn-danger" id="modal-confirm" data-i18n="btnConfirmDel">Да, удалить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p><span data-i18n="footerCopy">© 2025 iSparta. Все права защищены. | </span><a href="#privacy"
+                data-i18n="footerPolicy">Политика конфиденциальности</a></p>
+    </footer>
+
+    <!-- ========================================
+     CLIENT-SIDE CRYPTO (ESM via CDN & Local)
+======================================== -->
+    <script type="importmap">
+    {
+        "imports": {
+            "@noble/hashes/": "https://esm.sh/@noble/hashes@2.0.1/",
+            "@scure/base": "https://esm.sh/@scure/base@2.0.0"
+        }
+    }
+    </script>
+    <script type="module">
+        // --- INLINE BIP39 WORDLIST ---
+        const wordlist = `abandon
+ability
+able
+about
+above
+absent
+absorb
+abstract
+absurd
+abuse
+access
+accident
+account
+accuse
+achieve
+acid
+acoustic
+acquire
+across
+act
+action
+actor
+actress
+actual
+adapt
+add
+addict
+address
+adjust
+admit
+adult
+advance
+advice
+aerobic
+affair
+afford
+afraid
+again
+age
+agent
+agree
+ahead
+aim
+air
+airport
+aisle
+alarm
+album
+alcohol
+alert
+alien
+all
+alley
+allow
+almost
+alone
+alpha
+already
+also
+alter
+always
+amateur
+amazing
+among
+amount
+amused
+analyst
+anchor
+ancient
+anger
+angle
+angry
+animal
+ankle
+announce
+annual
+another
+answer
+antenna
+antique
+anxiety
+any
+apart
+apology
+appear
+apple
+approve
+april
+arch
+arctic
+area
+arena
+argue
+arm
+armed
+armor
+army
+around
+arrange
+arrest
+arrive
+arrow
+art
+artefact
+artist
+artwork
+ask
+aspect
+assault
+asset
+assist
+assume
+asthma
+athlete
+atom
+attack
+attend
+attitude
+attract
+auction
+audit
+august
+aunt
+author
+auto
+autumn
+average
+avocado
+avoid
+awake
+aware
+away
+awesome
+awful
+awkward
+axis
+baby
+bachelor
+bacon
+badge
+bag
+balance
+balcony
+ball
+bamboo
+banana
+banner
+bar
+barely
+bargain
+barrel
+base
+basic
+basket
+battle
+beach
+bean
+beauty
+because
+become
+beef
+before
+begin
+behave
+behind
+believe
+below
+belt
+bench
+benefit
+best
+betray
+better
+between
+beyond
+bicycle
+bid
+bike
+bind
+biology
+bird
+birth
+bitter
+black
+blade
+blame
+blanket
+blast
+bleak
+bless
+blind
+blood
+blossom
+blouse
+blue
+blur
+blush
+board
+boat
+body
+boil
+bomb
+bone
+bonus
+book
+boost
+border
+boring
+borrow
+boss
+bottom
+bounce
+box
+boy
+bracket
+brain
+brand
+brass
+brave
+bread
+breeze
+brick
+bridge
+brief
+bright
+bring
+brisk
+broccoli
+broken
+bronze
+broom
+brother
+brown
+brush
+bubble
+buddy
+budget
+buffalo
+build
+bulb
+bulk
+bullet
+bundle
+bunker
+burden
+burger
+burst
+bus
+business
+busy
+butter
+buyer
+buzz
+cabbage
+cabin
+cable
+cactus
+cage
+cake
+call
+calm
+camera
+camp
+can
+canal
+cancel
+candy
+cannon
+canoe
+canvas
+canyon
+capable
+capital
+captain
+car
+carbon
+card
+cargo
+carpet
+carry
+cart
+case
+cash
+casino
+castle
+casual
+cat
+catalog
+catch
+category
+cattle
+caught
+cause
+caution
+cave
+ceiling
+celery
+cement
+census
+century
+cereal
+certain
+chair
+chalk
+champion
+change
+chaos
+chapter
+charge
+chase
+chat
+cheap
+check
+cheese
+chef
+cherry
+chest
+chicken
+chief
+child
+chimney
+choice
+choose
+chronic
+chuckle
+chunk
+churn
+cigar
+cinnamon
+circle
+citizen
+city
+civil
+claim
+clap
+clarify
+claw
+clay
+clean
+clerk
+clever
+click
+client
+cliff
+climb
+clinic
+clip
+clock
+clog
+close
+cloth
+cloud
+clown
+club
+clump
+cluster
+clutch
+coach
+coast
+coconut
+code
+coffee
+coil
+coin
+collect
+color
+column
+combine
+come
+comfort
+comic
+common
+company
+concert
+conduct
+confirm
+congress
+connect
+consider
+control
+convince
+cook
+cool
+copper
+copy
+coral
+core
+corn
+correct
+cost
+cotton
+couch
+country
+couple
+course
+cousin
+cover
+coyote
+crack
+cradle
+craft
+cram
+crane
+crash
+crater
+crawl
+crazy
+cream
+credit
+creek
+crew
+cricket
+crime
+crisp
+critic
+crop
+cross
+crouch
+crowd
+crucial
+cruel
+cruise
+crumble
+crunch
+crush
+cry
+crystal
+cube
+culture
+cup
+cupboard
+curious
+current
+curtain
+curve
+cushion
+custom
+cute
+cycle
+dad
+damage
+damp
+dance
+danger
+daring
+dash
+daughter
+dawn
+day
+deal
+debate
+debris
+decade
+december
+decide
+decline
+decorate
+decrease
+deer
+defense
+define
+defy
+degree
+delay
+deliver
+demand
+demise
+denial
+dentist
+deny
+depart
+depend
+deposit
+depth
+deputy
+derive
+describe
+desert
+design
+desk
+despair
+destroy
+detail
+detect
+develop
+device
+devote
+diagram
+dial
+diamond
+diary
+dice
+diesel
+diet
+differ
+digital
+dignity
+dilemma
+dinner
+dinosaur
+direct
+dirt
+disagree
+discover
+disease
+dish
+dismiss
+disorder
+display
+distance
+divert
+divide
+divorce
+dizzy
+doctor
+document
+dog
+doll
+dolphin
+domain
+donate
+donkey
+donor
+door
+dose
+double
+dove
+draft
+dragon
+drama
+drastic
+draw
+dream
+dress
+drift
+drill
+drink
+drip
+drive
+drop
+drum
+dry
+duck
+dumb
+dune
+during
+dust
+dutch
+duty
+dwarf
+dynamic
+eager
+eagle
+early
+earn
+earth
+easily
+east
+easy
+echo
+ecology
+economy
+edge
+edit
+educate
+effort
+egg
+eight
+either
+elbow
+elder
+electric
+elegant
+element
+elephant
+elevator
+elite
+else
+embark
+embody
+embrace
+emerge
+emotion
+employ
+empower
+empty
+enable
+enact
+end
+endless
+endorse
+enemy
+energy
+enforce
+engage
+engine
+enhance
+enjoy
+enlist
+enough
+enrich
+enroll
+ensure
+enter
+entire
+entry
+envelope
+episode
+equal
+equip
+era
+erase
+erode
+erosion
+error
+erupt
+escape
+essay
+essence
+estate
+eternal
+ethics
+evidence
+evil
+evoke
+evolve
+exact
+example
+excess
+exchange
+excite
+exclude
+excuse
+execute
+exercise
+exhaust
+exhibit
+exile
+exist
+exit
+exotic
+expand
+expect
+expire
+explain
+expose
+express
+extend
+extra
+eye
+eyebrow
+fabric
+face
+faculty
+fade
+faint
+faith
+fall
+false
+fame
+family
+famous
+fan
+fancy
+fantasy
+farm
+fashion
+fat
+fatal
+father
+fatigue
+fault
+favorite
+feature
+february
+federal
+fee
+feed
+feel
+female
+fence
+festival
+fetch
+fever
+few
+fiber
+fiction
+field
+figure
+file
+film
+filter
+final
+find
+fine
+finger
+finish
+fire
+firm
+first
+fiscal
+fish
+fit
+fitness
+fix
+flag
+flame
+flash
+flat
+flavor
+flee
+flight
+flip
+float
+flock
+floor
+flower
+fluid
+flush
+fly
+foam
+focus
+fog
+foil
+fold
+follow
+food
+foot
+force
+forest
+forget
+fork
+fortune
+forum
+forward
+fossil
+foster
+found
+fox
+fragile
+frame
+frequent
+fresh
+friend
+fringe
+frog
+front
+frost
+frown
+frozen
+fruit
+fuel
+fun
+funny
+furnace
+fury
+future
+gadget
+gain
+galaxy
+gallery
+game
+gap
+garage
+garbage
+garden
+garlic
+garment
+gas
+gasp
+gate
+gather
+gauge
+gaze
+general
+genius
+genre
+gentle
+genuine
+gesture
+ghost
+giant
+gift
+giggle
+ginger
+giraffe
+girl
+give
+glad
+glance
+glare
+glass
+glide
+glimpse
+globe
+gloom
+glory
+glove
+glow
+glue
+goat
+goddess
+gold
+good
+goose
+gorilla
+gospel
+gossip
+govern
+gown
+grab
+grace
+grain
+grant
+grape
+grass
+gravity
+great
+green
+grid
+grief
+grit
+grocery
+group
+grow
+grunt
+guard
+guess
+guide
+guilt
+guitar
+gun
+gym
+habit
+hair
+half
+hammer
+hamster
+hand
+happy
+harbor
+hard
+harsh
+harvest
+hat
+have
+hawk
+hazard
+head
+health
+heart
+heavy
+hedgehog
+height
+hello
+helmet
+help
+hen
+hero
+hidden
+high
+hill
+hint
+hip
+hire
+history
+hobby
+hockey
+hold
+hole
+holiday
+hollow
+home
+honey
+hood
+hope
+horn
+horror
+horse
+hospital
+host
+hotel
+hour
+hover
+hub
+huge
+human
+humble
+humor
+hundred
+hungry
+hunt
+hurdle
+hurry
+hurt
+husband
+hybrid
+ice
+icon
+idea
+identify
+idle
+ignore
+ill
+illegal
+illness
+image
+imitate
+immense
+immune
+impact
+impose
+improve
+impulse
+inch
+include
+income
+increase
+index
+indicate
+indoor
+industry
+infant
+inflict
+inform
+inhale
+inherit
+initial
+inject
+injury
+inmate
+inner
+innocent
+input
+inquiry
+insane
+insect
+inside
+inspire
+install
+intact
+interest
+into
+invest
+invite
+involve
+iron
+island
+isolate
+issue
+item
+ivory
+jacket
+jaguar
+jar
+jazz
+jealous
+jeans
+jelly
+jewel
+job
+join
+joke
+journey
+joy
+judge
+juice
+jump
+jungle
+junior
+junk
+just
+kangaroo
+keen
+keep
+ketchup
+key
+kick
+kid
+kidney
+kind
+kingdom
+kiss
+kit
+kitchen
+kite
+kitten
+kiwi
+knee
+knife
+knock
+know
+lab
+label
+labor
+ladder
+lady
+lake
+lamp
+language
+laptop
+large
+later
+latin
+laugh
+laundry
+lava
+law
+lawn
+lawsuit
+layer
+lazy
+leader
+leaf
+learn
+leave
+lecture
+left
+leg
+legal
+legend
+leisure
+lemon
+lend
+length
+lens
+leopard
+lesson
+letter
+level
+liar
+liberty
+library
+license
+life
+lift
+light
+like
+limb
+limit
+link
+lion
+liquid
+list
+little
+live
+lizard
+load
+loan
+lobster
+local
+lock
+logic
+lonely
+long
+loop
+lottery
+loud
+lounge
+love
+loyal
+lucky
+luggage
+lumber
+lunar
+lunch
+luxury
+lyrics
+machine
+mad
+magic
+magnet
+maid
+mail
+main
+major
+make
+mammal
+man
+manage
+mandate
+mango
+mansion
+manual
+maple
+marble
+march
+margin
+marine
+market
+marriage
+mask
+mass
+master
+match
+material
+math
+matrix
+matter
+maximum
+maze
+meadow
+mean
+measure
+meat
+mechanic
+medal
+media
+melody
+melt
+member
+memory
+mention
+menu
+mercy
+merge
+merit
+merry
+mesh
+message
+metal
+method
+middle
+midnight
+milk
+million
+mimic
+mind
+minimum
+minor
+minute
+miracle
+mirror
+misery
+miss
+mistake
+mix
+mixed
+mixture
+mobile
+model
+modify
+mom
+moment
+monitor
+monkey
+monster
+month
+moon
+moral
+more
+morning
+mosquito
+mother
+motion
+motor
+mountain
+mouse
+move
+movie
+much
+muffin
+mule
+multiply
+muscle
+museum
+mushroom
+music
+must
+mutual
+myself
+mystery
+myth
+naive
+name
+napkin
+narrow
+nasty
+nation
+nature
+near
+neck
+need
+negative
+neglect
+neither
+nephew
+nerve
+nest
+net
+network
+neutral
+never
+news
+next
+nice
+night
+noble
+noise
+nominee
+noodle
+normal
+north
+nose
+notable
+note
+nothing
+notice
+novel
+now
+nuclear
+number
+nurse
+nut
+oak
+obey
+object
+oblige
+obscure
+observe
+obtain
+obvious
+occur
+ocean
+october
+odor
+off
+offer
+office
+often
+oil
+okay
+old
+olive
+olympic
+omit
+once
+one
+onion
+online
+only
+open
+opera
+opinion
+oppose
+option
+orange
+orbit
+orchard
+order
+ordinary
+organ
+orient
+original
+orphan
+ostrich
+other
+outdoor
+outer
+output
+outside
+oval
+oven
+over
+own
+owner
+oxygen
+oyster
+ozone
+pact
+paddle
+page
+pair
+palace
+palm
+panda
+panel
+panic
+panther
+paper
+parade
+parent
+park
+parrot
+party
+pass
+patch
+path
+patient
+patrol
+pattern
+pause
+pave
+payment
+peace
+peanut
+pear
+peasant
+pelican
+pen
+penalty
+pencil
+people
+pepper
+perfect
+permit
+person
+pet
+phone
+photo
+phrase
+physical
+piano
+picnic
+picture
+piece
+pig
+pigeon
+pill
+pilot
+pink
+pioneer
+pipe
+pistol
+pitch
+pizza
+place
+planet
+plastic
+plate
+play
+please
+pledge
+pluck
+plug
+plunge
+poem
+poet
+point
+polar
+pole
+police
+pond
+pony
+pool
+popular
+portion
+position
+possible
+post
+potato
+pottery
+poverty
+powder
+power
+practice
+praise
+predict
+prefer
+prepare
+present
+pretty
+prevent
+price
+pride
+primary
+print
+priority
+prison
+private
+prize
+problem
+process
+produce
+profit
+program
+project
+promote
+proof
+property
+prosper
+protect
+proud
+provide
+public
+pudding
+pull
+pulp
+pulse
+pumpkin
+punch
+pupil
+puppy
+purchase
+purity
+purpose
+purse
+push
+put
+puzzle
+pyramid
+quality
+quantum
+quarter
+question
+quick
+quit
+quiz
+quote
+rabbit
+raccoon
+race
+rack
+radar
+radio
+rail
+rain
+raise
+rally
+ramp
+ranch
+random
+range
+rapid
+rare
+rate
+rather
+raven
+raw
+razor
+ready
+real
+reason
+rebel
+rebuild
+recall
+receive
+recipe
+record
+recycle
+reduce
+reflect
+reform
+refuse
+region
+regret
+regular
+reject
+relax
+release
+relief
+rely
+remain
+remember
+remind
+remove
+render
+renew
+rent
+reopen
+repair
+repeat
+replace
+report
+require
+rescue
+resemble
+resist
+resource
+response
+result
+retire
+retreat
+return
+reunion
+reveal
+review
+reward
+rhythm
+rib
+ribbon
+rice
+rich
+ride
+ridge
+rifle
+right
+rigid
+ring
+riot
+ripple
+risk
+ritual
+rival
+river
+road
+roast
+robot
+robust
+rocket
+romance
+roof
+rookie
+room
+rose
+rotate
+rough
+round
+route
+royal
+rubber
+rude
+rug
+rule
+run
+runway
+rural
+sad
+saddle
+sadness
+safe
+sail
+salad
+salmon
+salon
+salt
+salute
+same
+sample
+sand
+satisfy
+satoshi
+sauce
+sausage
+save
+say
+scale
+scan
+scare
+scatter
+scene
+scheme
+school
+science
+scissors
+scorpion
+scout
+scrap
+screen
+script
+scrub
+sea
+search
+season
+seat
+second
+secret
+section
+security
+seed
+seek
+segment
+select
+sell
+seminar
+senior
+sense
+sentence
+series
+service
+session
+settle
+setup
+seven
+shadow
+shaft
+shallow
+share
+shed
+shell
+sheriff
+shield
+shift
+shine
+ship
+shiver
+shock
+shoe
+shoot
+shop
+short
+shoulder
+shove
+shrimp
+shrug
+shuffle
+shy
+sibling
+sick
+side
+siege
+sight
+sign
+silent
+silk
+silly
+silver
+similar
+simple
+since
+sing
+siren
+sister
+situate
+six
+size
+skate
+sketch
+ski
+skill
+skin
+skirt
+skull
+slab
+slam
+sleep
+slender
+slice
+slide
+slight
+slim
+slogan
+slot
+slow
+slush
+small
+smart
+smile
+smoke
+smooth
+snack
+snake
+snap
+sniff
+snow
+soap
+soccer
+social
+sock
+soda
+soft
+solar
+soldier
+solid
+solution
+solve
+someone
+song
+soon
+sorry
+sort
+soul
+sound
+soup
+source
+south
+space
+spare
+spatial
+spawn
+speak
+special
+speed
+spell
+spend
+sphere
+spice
+spider
+spike
+spin
+spirit
+split
+spoil
+sponsor
+spoon
+sport
+spot
+spray
+spread
+spring
+spy
+square
+squeeze
+squirrel
+stable
+stadium
+staff
+stage
+stairs
+stamp
+stand
+start
+state
+stay
+steak
+steel
+stem
+step
+stereo
+stick
+still
+sting
+stock
+stomach
+stone
+stool
+story
+stove
+strategy
+street
+strike
+strong
+struggle
+student
+stuff
+stumble
+style
+subject
+submit
+subway
+success
+such
+sudden
+suffer
+sugar
+suggest
+suit
+summer
+sun
+sunny
+sunset
+super
+supply
+supreme
+sure
+surface
+surge
+surprise
+surround
+survey
+suspect
+sustain
+swallow
+swamp
+swap
+swarm
+swear
+sweet
+swift
+swim
+swing
+switch
+sword
+symbol
+symptom
+syrup
+system
+table
+tackle
+tag
+tail
+talent
+talk
+tank
+tape
+target
+task
+taste
+tattoo
+taxi
+teach
+team
+tell
+ten
+tenant
+tennis
+tent
+term
+test
+text
+thank
+that
+theme
+then
+theory
+there
+they
+thing
+this
+thought
+three
+thrive
+throw
+thumb
+thunder
+ticket
+tide
+tiger
+tilt
+timber
+time
+tiny
+tip
+tired
+tissue
+title
+toast
+tobacco
+today
+toddler
+toe
+together
+toilet
+token
+tomato
+tomorrow
+tone
+tongue
+tonight
+tool
+tooth
+top
+topic
+topple
+torch
+tornado
+tortoise
+toss
+total
+tourist
+toward
+tower
+town
+toy
+track
+trade
+traffic
+tragic
+train
+transfer
+trap
+trash
+travel
+tray
+treat
+tree
+trend
+trial
+tribe
+trick
+trigger
+trim
+trip
+trophy
+trouble
+truck
+true
+truly
+trumpet
+trust
+truth
+try
+tube
+tuition
+tumble
+tuna
+tunnel
+turkey
+turn
+turtle
+twelve
+twenty
+twice
+twin
+twist
+two
+type
+typical
+ugly
+umbrella
+unable
+unaware
+uncle
+uncover
+under
+undo
+unfair
+unfold
+unhappy
+uniform
+unique
+unit
+universe
+unknown
+unlock
+until
+unusual
+unveil
+update
+upgrade
+uphold
+upon
+upper
+upset
+urban
+urge
+usage
+use
+used
+useful
+useless
+usual
+utility
+vacant
+vacuum
+vague
+valid
+valley
+valve
+van
+vanish
+vapor
+various
+vast
+vault
+vehicle
+velvet
+vendor
+venture
+venue
+verb
+verify
+version
+very
+vessel
+veteran
+viable
+vibrant
+vicious
+victory
+video
+view
+village
+vintage
+violin
+virtual
+virus
+visa
+visit
+visual
+vital
+vivid
+vocal
+voice
+void
+volcano
+volume
+vote
+voyage
+wage
+wagon
+wait
+walk
+wall
+walnut
+want
+warfare
+warm
+warrior
+wash
+wasp
+waste
+water
+wave
+way
+wealth
+weapon
+wear
+weasel
+weather
+web
+wedding
+weekend
+weird
+welcome
+west
+wet
+whale
+what
+wheat
+wheel
+when
+where
+whip
+whisper
+wide
+width
+wife
+wild
+will
+win
+window
+wine
+wing
+wink
+winner
+winter
+wire
+wisdom
+wise
+wish
+witness
+wolf
+woman
+wonder
+wood
+wool
+word
+work
+world
+worry
+worth
+wrap
+wreck
+wrestle
+wrist
+write
+wrong
+yard
+year
+yellow
+you
+young
+youth
+zebra
+zero
+zone
+zoo`.split('\n');
+
+
+        // --- INLINE BIP39 CORE ---
+        /*! scure-bip39 - MIT License (c) 2022 Patricio Palladino, Paul Miller (paulmillr.com) */
+        import { pbkdf2, pbkdf2Async } from '@noble/hashes/pbkdf2.js';
+        import { sha256, sha512 } from '@noble/hashes/sha2.js';
+        import { abytes, anumber, randomBytes } from '@noble/hashes/utils.js';
+        import { pbkdf2 as pbkdf2web, sha512 as sha512web } from '@noble/hashes/webcrypto.js';
+        import { utils as baseUtils } from '@scure/base';
+        // Japanese wordlist
+        const isJapanese = (wordlist) => wordlist[0] === '\u3042\u3044\u3053\u304f\u3057\u3093';
+        // Normalization replaces equivalent sequences of characters
+        // so that any two texts that are equivalent will be reduced
+        // to the same sequence of code points, called the normal form of the original text.
+        // https://tonsky.me/blog/unicode/#why-is-a----
+        function nfkd(str) {
+            if (typeof str !== 'string')
+                throw new TypeError('invalid mnemonic type: ' + typeof str);
+            return str.normalize('NFKD');
+        }
+        function normalize(str) {
+            const norm = nfkd(str);
+            const words = norm.split(' ');
+            if (![3, 6, 9, 12, 15, 18, 21, 24].includes(words.length))
+                throw new Error('Invalid mnemonic');
+            return { nfkd: norm, words };
+        }
+        function aentropy(ent) {
+            abytes(ent);
+            if (![4, 8, 12, 16, 20, 24, 28, 32].includes(ent.length))
+                throw new Error('invalid entropy length');
+        }
+        /**
+         * Generate x random words. Uses Cryptographically-Secure Random Number Generator.
+         * @param wordlist imported wordlist for specific language
+         * @param strength mnemonic strength 128-256 bits
+         * @example
+         * generateMnemonic(wordlist, 128)
+         * // 'legal winner thank year wave sausage worth useful legal winner thank yellow'
+         */
+        function generateMnemonic(wordlist, strength = 128) {
+            anumber(strength);
+            if (strength % 32 !== 0 || strength < 32 || strength > 256)
+                throw new TypeError('Invalid entropy');
+            return entropyToMnemonic(randomBytes(strength / 8), wordlist);
+        }
+        const calcChecksum = (entropy) => {
+            // Checksum is ent.length/4 bits long
+            const bitsLeft = 8 - entropy.length / 4;
+            // Zero rightmost "bitsLeft" bits in byte
+            // For example: bitsLeft=4 val=10111101 -> 10110000
+            return new Uint8Array([(sha256(entropy)[0] >> bitsLeft) << bitsLeft]);
+        };
+        function getCoder(wordlist) {
+            if (!Array.isArray(wordlist) || wordlist.length !== 2048 || typeof wordlist[0] !== 'string')
+                throw new Error('Wordlist: expected array of 2048 strings');
+            wordlist.forEach((i) => {
+                if (typeof i !== 'string')
+                    throw new Error('wordlist: non-string element: ' + i);
+            });
+            return baseUtils.chain(baseUtils.checksum(1, calcChecksum), baseUtils.radix2(11, true), baseUtils.alphabet(wordlist));
+        }
+        /**
+         * Reversible: Converts mnemonic string to raw entropy in form of byte array.
+         * @param mnemonic 12-24 words
+         * @param wordlist imported wordlist for specific language
+         * @example
+         * const mnem = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
+         * mnemonicToEntropy(mnem, wordlist)
+         * // Produces
+         * new Uint8Array([
+         *   0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f,
+         *   0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f
+         * ])
+         */
+        function mnemonicToEntropy(mnemonic, wordlist) {
+            const { words } = normalize(mnemonic);
+            const entropy = getCoder(wordlist).decode(words);
+            aentropy(entropy);
+            return entropy;
+        }
+        /**
+         * Reversible: Converts raw entropy in form of byte array to mnemonic string.
+         * @param entropy byte array
+         * @param wordlist imported wordlist for specific language
+         * @returns 12-24 words
+         * @example
+         * const ent = new Uint8Array([
+         *   0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f,
+         *   0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f
+         * ]);
+         * entropyToMnemonic(ent, wordlist);
+         * // 'legal winner thank year wave sausage worth useful legal winner thank yellow'
+         */
+        function entropyToMnemonic(entropy, wordlist) {
+            aentropy(entropy);
+            const words = getCoder(wordlist).encode(entropy);
+            return words.join(isJapanese(wordlist) ? '\u3000' : ' ');
+        }
+        /**
+         * Validates mnemonic for being 12-24 words contained in `wordlist`.
+         */
+        function validateMnemonic(mnemonic, wordlist) {
+            try {
+                mnemonicToEntropy(mnemonic, wordlist);
+            }
+            catch (e) {
+                return false;
+            }
+            return true;
+        }
+        const psalt = (passphrase) => nfkd('mnemonic' + passphrase);
+        /**
+         * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
+         * @param mnemonic 12-24 words
+         * @param passphrase string that will additionally protect the key
+         * @returns 64 bytes of key data
+         * @example
+         * const mnem = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
+         * await mnemonicToSeed(mnem, 'password');
+         * // new Uint8Array([...64 bytes])
+         */
+        function mnemonicToSeed(mnemonic, passphrase = '') {
+            return pbkdf2Async(sha512, normalize(mnemonic).nfkd, psalt(passphrase), { c: 2048, dkLen: 64 });
+        }
+        /**
+         * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
+         * @param mnemonic 12-24 words
+         * @param passphrase string that will additionally protect the key
+         * @returns 64 bytes of key data
+         * @example
+         * const mnem = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
+         * mnemonicToSeedSync(mnem, 'password');
+         * // new Uint8Array([...64 bytes])
+         */
+        function mnemonicToSeedSync(mnemonic, passphrase = '') {
+            return pbkdf2(sha512, normalize(mnemonic).nfkd, psalt(passphrase), { c: 2048, dkLen: 64 });
+        }
+        /**
+         * Uses native, built-in functionality, provided by globalThis.crypto.
+         * Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
+         * @param mnemonic 12-24 words
+         * @param passphrase string that will additionally protect the key
+         * @returns 64 bytes of key data
+         * @example
+         * const mnem = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
+         * mnemonicToSeedWebcrypto(mnem, 'password');
+         * // new Uint8Array([...64 bytes])
+         */
+        function mnemonicToSeedWebcrypto(mnemonic, passphrase = '') {
+            return pbkdf2web(sha512web, normalize(mnemonic).nfkd, psalt(passphrase), { c: 2048, dkLen: 64 });
+        }
+
+
+        const bip39 = {
+            generateMnemonic,
+            mnemonicToEntropy,
+            entropyToMnemonic,
+            validateMnemonic,
+            mnemonicToSeed,
+            mnemonicToSeedSync,
+            mnemonicToSeedWebcrypto
+        };
+        import { HDKey } from 'https://esm.sh/@scure/bip32@1.5.0';
+        import { ed25519 } from 'https://esm.sh/@noble/curves@1.6.0/ed25519';
+        import { base58 } from 'https://esm.sh/@scure/base@1.2.1';
+
+        // ── CONFIG ──────────────────────────────────────────────────
+        const DENO_API = 'https://isparta.bacek97.deno.net'; // ← Update after deploying
+        const NEAR_DERIVATION_PATH = "m/44'/397'/0'";
+        const WORD_COUNT = 3;
+
+        // ── DOM ─────────────────────────────────────────────────────
+        const grid = document.getElementById('mnemonic-grid');
+        const deleteBtn = document.getElementById('delete-btn');
+        const derivedDiv = document.getElementById('derived-info');
+        const derivedText = document.getElementById('derived-key-text');
+        const statusMsg = document.getElementById('status-msg');
+        const pasteBtn = document.getElementById('paste-btn');
+        const modal = document.getElementById('confirm-modal');
+        const modalCancel = document.getElementById('modal-cancel');
+        const modalConfirm = document.getElementById('modal-confirm');
+
+        // ── BUILD GRID ───────────────────────────────────────────────
+        const inputs = [];
+        for (let i = 0; i < WORD_COUNT; i++) {
+            const wrap = document.createElement('div');
+            wrap.className = 'word-input-wrap';
+            const num = document.createElement('span');
+            num.className = 'word-num';
+            num.textContent = i + 1;
+            const input = document.createElement('input');
+            input.className = 'word-input';
+            input.type = 'text';
+            input.autocomplete = 'off';
+            input.spellcheck = false;
+            input.placeholder = `word ${i + 1}`;
+            input.setAttribute('data-i18n-placeholder', 'wordPlaceholder');
+            input.dataset.idx = i + 1;
+            input.addEventListener('input', () => { cleanWord(input); onWordChange(); });
+            input.addEventListener('paste', (e) => {
+                // Handle pasting a full phrase into any field
+                const text = e.clipboardData.getData('text').trim();
+                const words = text.split(/\s+/);
+                if (words.length > 1) {
+                    e.preventDefault();
+                    fillWords(words);
+                }
+            });
+            wrap.appendChild(num);
+            wrap.appendChild(input);
+            grid.appendChild(wrap);
+            inputs.push(input);
+        }
+
+        function cleanWord(input) {
+            input.value = input.value.toLowerCase().replace(/[^a-z]/g, '');
+        }
+
+        function fillWords(words) {
+            words.slice(0, WORD_COUNT).forEach((w, i) => {
+                inputs[i].value = w.toLowerCase().trim();
+            });
+            onWordChange();
+        }
+
+        // ── WORD CHANGE HANDLER ──────────────────────────────────────
+        let debounceTimer;
+        function onWordChange() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(tryDerive, 300);
+        }
+
+        function getMnemonic() {
+            return inputs.map(i => i.value.trim()).join(' ');
+        }
+
+        function tryDerive() {
+            const mnemonic = getMnemonic();
+            const words = mnemonic.split(/\s+/).filter(Boolean);
+
+            if (words.length < WORD_COUNT) {
+                derivedDiv.style.display = 'none';
+                deleteBtn.disabled = true;
+                return;
+            }
+
+            const isValid = words.every(w => wordlist.includes(w));
+            if (!isValid) {
+                derivedDiv.style.display = 'none';
+                deleteBtn.disabled = true;
+                showStatus('error', getMessage('msgPhraseInvalid'));
+                return;
+            }
+
+            try {
+                const { publicKey } = deriveKeys(mnemonic);
+                derivedText.textContent = publicKey;
+                derivedDiv.style.display = 'block';
+                deleteBtn.disabled = false;
+                clearStatus();
+            } catch (e) {
+                derivedDiv.style.display = 'none';
+                deleteBtn.disabled = true;
+                showStatus('error', getMessage('msgKeyError') + e.message);
+            }
+        }
+
+        function deriveKeys(mnemonic) {
+            const seed = bip39.mnemonicToSeedSync(mnemonic);
+            const hdKey = HDKey.fromMasterSeed(seed);
+            const derived = hdKey.derive(NEAR_DERIVATION_PATH);
+            if (!derived.privateKey) throw new Error('Failed to derive private key');
+            const pubBytes = ed25519.getPublicKey(derived.privateKey);
+            const publicKey = `ed25519:${base58.encode(pubBytes)}`;
+            return { publicKey, privateKey: derived.privateKey };
+        }
+
+        // ── PASTE BUTTON ─────────────────────────────────────────────
+        pasteBtn.addEventListener('click', async () => {
+            try {
+                const text = await navigator.clipboard.readText();
+                fillWords(text.trim().split(/\s+/));
+            } catch {
+                showStatus('error', getMessage('msgPasteError'));
+            }
+        });
+
+        // ── DELETE FLOW ───────────────────────────────────────────────
+        deleteBtn.addEventListener('click', () => {
+            modal.classList.add('open');
+        });
+        modalCancel.addEventListener('click', () => {
+            modal.classList.remove('open');
+        });
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('open');
+        });
+
+        modalConfirm.addEventListener('click', async () => {
+            modal.classList.remove('open');
+            await performDeletion();
+        });
+
+        async function performDeletion() {
+            const mnemonic = getMnemonic();
+            let publicKey, privateKey;
+            try {
+                ({ publicKey, privateKey } = deriveKeys(mnemonic));
+            } catch (e) {
+                showStatus('error', '❌ Ошибка деривации ключей: ' + e.message);
+                return;
+            }
+
+            // Disable UI
+            deleteBtn.disabled = true;
+            inputs.forEach(i => i.disabled = true);
+            showStatus('loading', getMessage('msgSigning'));
+
+            try {
+                const timestamp = Date.now();
+                const message = `delete:${publicKey}:${timestamp}`;
+                const msgBytes = new TextEncoder().encode(message);
+                const sigBytes = ed25519.sign(msgBytes, privateKey);
+
+                // Convert sig bytes to hex
+                const sigHex = Array.from(sigBytes).map(b => b.toString(16).padStart(2, '0')).join('');
+
+                const resp = await fetch(`${DENO_API}/delete-account`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ publicKey, signature: sigHex, timestamp }),
+                });
+
+                const data = await resp.json();
+
+                if (!resp.ok || data.error) {
+                    throw new Error(data.error || `HTTP ${resp.status}`);
+                }
+
+                // Success — clear the form
+                inputs.forEach(i => { i.value = ''; i.disabled = false; });
+                derivedDiv.style.display = 'none';
+                showStatus('success', getMessage('msgSuccess') + (data.details || ''));
+            } catch (e) {
+                inputs.forEach(i => i.disabled = false);
+                deleteBtn.disabled = false;
+                showStatus('error', getMessage('msgError') + e.message);
+            }
+        }
+
+        // ── STATUS HELPERS ────────────────────────────────────────────
+        function showStatus(type, msg) {
+            statusMsg.className = type;
+            statusMsg.textContent = msg;
+            statusMsg.style.display = 'block';
+        }
+        function clearStatus() {
+            statusMsg.style.display = 'none';
+            statusMsg.textContent = '';
+        }
+
+        // ── TRANSLATIONS ──────────────────────────────────────────────
+        const translations = {
+            ru: {
+                navPrivacy: 'Конфиденциальность',
+                navDelete: 'Удаление аккаунта',
+                heroBadge: 'Политика конфиденциальности',
+                heroTitle: 'Ваши данные — <span>под вашим контролем</span>',
+                heroSub: 'Мы собираем только то, что нужно для работы приложения. Вы можете удалить всё в любой момент.',
+                btnPolicy: '📄 Политика',
+                btnDeleteAcc: '🗑️ Удалить аккаунт',
+                policyTitle: 'Политика конфиденциальности',
+                policyDate: 'Последнее обновление: март 2025 г.',
+                card1Title: '1. Что мы собираем',
+                tableType: 'Тип данных',
+                tableDesc: 'Описание',
+                tableSync: 'Передаётся на сервер',
+                rowNick: 'Никнейм',
+                rowNickDesc: 'Имя, которое вы выбрали',
+                rowKey: 'Публичный ключ (ed25519)',
+                rowKeyDesc: 'Идентификатор аккаунта, вычисляется из мнемоники',
+                rowData: 'Данные тренировок',
+                rowDataDesc: 'Упражнения, повторения, длительность, набранные очки, дистанция',
+                rowGps: 'Данные о беге',
+                rowGpsDesc: 'Маршрут GPS (только при беговых тренировках)',
+                rowApp: 'Использование приложений',
+                rowAppDesc: 'Время в фоне для функции App Lock / Time Bank',
+                rowPhrase: 'Мнемоническая фраза',
+                rowPhraseDesc: 'Ваш секретный ключ. <strong>Никогда не покидает устройство.</strong>',
+                badgeYesSync: 'Да (при вкл. синхронизации)',
+                badgeYesManual: 'Только при ручной публикации',
+                badgeLocal: 'Локально',
+                badgeNo: 'Нет',
+                card2Title: '2. Как создаётся аккаунт',
+                card2Desc: 'iSparta использует <strong>BIP39-мнемонику</strong> — набор слов, из которых криптографически вычисляется пара ключей ed25519. Пароль, email и сторонние сервисы входа не используются. Мнемоника хранится только на вашем устройстве.',
+                card3Title: '3. Передача данных третьим лицам',
+                card3Desc: 'Данные хранятся в защищённой базе данных <strong>Hasura / PostgreSQL</strong> (Hasura Cloud). Мы не продаём и не передаём ваши данные третьим лицам в маркетинговых целях.',
+                card4Title: '4. Безопасность',
+                card4Li1: 'Все запросы к API выполняются по <strong>HTTPS / WSS</strong>',
+                card4Li2: 'Мнемоническая фраза обрабатывается только локально',
+                card4Li3: 'Публичный ключ является единственным идентификатором в базе',
+                card5Title: '5. Контакты',
+                card5Desc: 'По вопросам конфиденциальности: ',
+                deleteTitle: 'Удаление аккаунта',
+                warningWord: '⚠ Внимание.',
+                warningText: 'Удаление аккаунта необратимо. Будут удалены: профиль, история тренировок, публикации, участие в группах и все связанные данные.',
+                mnemonicInstruct: 'Введите вашу мнемоническую фразу (3 слова). Подпись проверяется криптографически — ваша фраза <strong>никогда не отправляется на сервер.</strong>',
+                btnPaste: '📋 Вставить фразу из буфера',
+                derivedKey: 'Вычисленный публичный ключ:',
+                btnDeleteSubmit: '🗑️ Удалить мой аккаунт',
+                modalTitle: '🔴 Подтверждение удаления',
+                modalDesc: 'Все ваши данные в iSparta будут безвозвратно удалены. Это действие нельзя отменить. Вы уверены?',
+                btnCancel: 'Отмена',
+                btnConfirmDel: 'Да, удалить',
+                footerCopy: '© 2025 iSparta. Все права защищены. | ',
+                footerPolicy: 'Политика конфиденциальности',
+                wordPlaceholder: 'слово {i}',
+                // Status messages
+                msgPhraseInvalid: '⚠️ Введённая фраза некорректна. Проверьте слова.',
+                msgKeyError: '❌ Ошибка при вычислении ключа: ',
+                msgPasteError: 'Не удалось прочитать буфер обмена. Вставьте вручную.',
+                msgSigning: '⏳ Подписываем и отправляем запрос…',
+                msgSuccess: '✅ Аккаунт и все данные успешно удалены. Подробности: ',
+                msgError: '❌ Ошибка: '
+            },
+            en: {
+                navPrivacy: 'Privacy',
+                navDelete: 'Delete Account',
+                heroBadge: 'Privacy Policy',
+                heroTitle: 'Your data — <span>under your control</span>',
+                heroSub: 'We collect only what is necessary for the app to function. You can delete everything at any time.',
+                btnPolicy: '📄 Policy',
+                btnDeleteAcc: '🗑️ Delete Account',
+                policyTitle: 'Privacy Policy',
+                policyDate: 'Last updated: March 2025',
+                card1Title: '1. What we collect',
+                tableType: 'Data Type',
+                tableDesc: 'Description',
+                tableSync: 'Transmitted to Server',
+                rowNick: 'Nickname',
+                rowNickDesc: 'The name you chose',
+                rowKey: 'Public Key (ed25519)',
+                rowKeyDesc: 'Account identifier, derived from mnemonic',
+                rowData: 'Workout Data',
+                rowDataDesc: 'Exercises, reps, duration, points earned, distance',
+                rowGps: 'Running Data',
+                rowGpsDesc: 'GPS Route (only during running workouts)',
+                rowApp: 'App Usage',
+                rowAppDesc: 'Background time for App Lock / Time Bank features',
+                rowPhrase: 'Mnemonic Phrase',
+                rowPhraseDesc: 'Your secret key. <strong>It never leaves your device.</strong>',
+                badgeYesSync: 'Yes (if auto-sync is enabled)',
+                badgeYesManual: 'Only upon explicit manual publication',
+                badgeLocal: 'Locally',
+                badgeNo: 'No',
+                card2Title: '2. How accounts are created',
+                card2Desc: 'iSparta uses a <strong>BIP39 mnemonic</strong> — a set of words that crpytographically derives an ed25519 key pair. Passwords, emails, and third-party logins are not used. The mnemonic is stored only on your device.',
+                card3Title: '3. Data transmission to third parties',
+                card3Desc: 'Data is stored in a secure database <strong>Hasura / PostgreSQL</strong> (Hasura Cloud). We do not sell or share your data with third parties for marketing purposes.',
+                card4Title: '4. Security',
+                card4Li1: 'All API requests are made via <strong>HTTPS / WSS</strong>',
+                card4Li2: 'The mnemonic phrase is processed locally only',
+                card4Li3: 'The public key is the only identifier in the database',
+                card5Title: '5. Contacts',
+                card5Desc: 'For privacy inquiries: ',
+                deleteTitle: 'Delete Account',
+                warningWord: '⚠ Warning.',
+                warningText: 'Account deletion is irreversible. Your profile, workout history, publications, group memberships, and all related data will be deleted.',
+                mnemonicInstruct: 'Enter your mnemonic phrase (3 words). The signature is verified cryptographically — your phrase is <strong>never sent to the server.</strong>',
+                btnPaste: '📋 Paste phrase from clipboard',
+                derivedKey: 'Derived Public Key:',
+                btnDeleteSubmit: '🗑️ Delete my account',
+                modalTitle: '🔴 Confirm Deletion',
+                modalDesc: 'All your data in iSparta will be permanently deleted. This action cannot be undone. Are you sure?',
+                btnCancel: 'Cancel',
+                btnConfirmDel: 'Yes, delete',
+                footerCopy: '© 2025 iSparta. All rights reserved. | ',
+                footerPolicy: 'Privacy Policy',
+                wordPlaceholder: 'word {i}',
+                // Status messages
+                msgPhraseInvalid: '⚠️ Valid mnemonic phrase required. Check your words.',
+                msgKeyError: '❌ Error deriving key: ',
+                msgPasteError: 'Failed to read clipboard. Please paste manually.',
+                msgSigning: '⏳ Signing and sending request...',
+                msgSuccess: '✅ Account and all data successfully deleted. Details: ',
+                msgError: '❌ Error: '
+            }
+        };
+
+        let currentLang = 'ru';
+
+        function setLanguage(lang) {
+            if (!translations[lang]) return;
+            currentLang = lang;
+
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            // Update text elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Toggle static language blocks
+            document.querySelectorAll('.lang-content').forEach(el => {
+                el.style.display = el.classList.contains('lang-' + lang) ? 'block' : 'none';
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) {
+                    let text = translations[lang][key];
+                    if (el.dataset.idx) {
+                        text = text.replace('{i}', el.dataset.idx);
+                    }
+                    el.placeholder = text;
+                }
+            });
+        }
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setLanguage(btn.dataset.lang);
+            });
+        });
+
+        // Update error messages to use current lang
+        function getMessage(key) {
+            return translations[currentLang][key] || key;
+        }
+    </script>
+</body>
+
+</html>
