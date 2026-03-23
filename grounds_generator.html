@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<!-- License: WTFPL (gemini-3-flash) -->
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Grounds JSON Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-hover: #4338CA;
+            --bg: #0F172A;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --success: #10B981;
+            --error: #EF4444;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: radial-gradient(circle at top right, rgba(79, 70, 229, 0.1), transparent),
+                radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.05), transparent);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-align: center;
+            background: linear-gradient(135deg, #fff 0%, #94A3B8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        select {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+            appearance: none;
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        }
+
+        .btn {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #status {
+            margin-top: 32px;
+            background: rgba(15, 23, 42, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            font-size: 13px;
+            line-height: 1.6;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            display: none;
+        }
+
+        .progress-container {
+            margin-top: 24px;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        #progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        #download-btn {
+            margin-top: 20px;
+            background-color: var(--success);
+            display: none;
+        }
+
+        .cors-notice {
+            margin-top: 24px;
+            padding: 12px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 12px;
+            font-size: 12px;
+            color: #FDA4AF;
+            display: flex;
+            gap: 10px;
+        }
+
+        .cors-notice svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Grounds Generator</h1>
+        <p class="subtitle">Максимально сжатый JSON (только ID и координаты)</p>
+
+        <div class="form-group">
+            <label for="service-select">Выберите сервис</label>
+            <select id="service-select">
+                <option value="calisthenics">Calisthenics Parks ( pagination, lat, lon, href="/spots/id" ) </option>
+                <option value="workoutsu">Workout.su ( latitude, longitude, id )</option>
+            </select>
+        </div>
+
+        <button id="start-btn" class="btn">Запустить сбор данных</button>
+
+        <div class="progress-container" id="progress-container">
+            <div class="progress-bar">
+                <div id="progress-fill"></div>
+            </div>
+            <div class="progress-stats">
+                <span id="progress-text">Готов к запуску</span>
+                <span id="count-text">0 объектов</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+        <button id="download-btn" class="btn">Скачать JSON файл</button>
+
+        <div class="cors-notice">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <div>
+                <strong>Внимание:</strong> Запросы могут блокироваться CORS.
+                Используйте расширение для отключения CORS или запускайте страницу в окружении, где разрешены внешние
+                запросы.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('start-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const serviceSelect = document.getElementById('service-select');
+        const statusDiv = document.getElementById('status');
+        const progressContainer = document.getElementById('progress-container');
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+        const countText = document.getElementById('count-text');
+
+        let allData = [];
+
+        function log(msg, type = 'info') {
+            statusDiv.style.display = 'block';
+            const div = document.createElement('div');
+            div.innerHTML = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            statusDiv.appendChild(div);
+            statusDiv.scrollTop = statusDiv.scrollHeight;
+        }
+
+        async function fetchCalisthenics() {
+            const limit = 100;
+            let page = 1;
+            let totalPages = 1;
+            while (page <= totalPages) {
+                const url = `https://calisthenics-parks.com/spots?filter=&limit=${limit}&init=43,51,10&language=ru&page=${page}`;
+                log(`<a href="${url}" target="_blank" style="color: var(--primary); text-decoration: none;">${url}</a>`);
+
+                let success = false;
+                let retries = 0;
+                const maxRetries = 5;
+
+                while (!success && retries < maxRetries) {
+                    try {
+                        const response = await fetch(url, { headers: { 'x-requested-with': 'XMLHttpRequest' } });
+                        if (!response.ok) {
+                            if (response.status === 500 || response.status === 429) {
+                                retries++;
+                                log(`<span style="color: var(--error)">Ошибка ${response.status}. Попытка ${retries}/${maxRetries}. Ждем 3 сек...</span>`);
+                                await new Promise(r => setTimeout(r, 3000));
+                                continue;
+                            }
+                            throw new Error(`HTTP ${response.status}`);
+                        }
+                        const json = await response.json();
+                        if (!json.data || !Array.isArray(json.data)) {
+                            success = true; // No data, but request was OK
+                            break;
+                        }
+                        totalPages = json.paginator?.total_pages || page;
+
+                        const mapped = json.data.map(spot => {
+                            const s = {};
+                            if (spot.lat !== undefined) s.lat = Number(parseFloat(spot.lat).toFixed(5));
+                            if (spot.lon !== undefined) s.lon = Number(parseFloat(spot.lon).toFixed(5));
+
+                            let id = spot.id;
+                            if (id === undefined && spot.html) {
+                                const idMatch = spot.html.match(/href="\/spots\/(\d+)"/);
+                                if (idMatch) id = idMatch[1];
+                            }
+
+                            if (id !== undefined) {
+                                s.html = `<a href="/spots/${id}"></a>`;
+                            } else if (spot.html) {
+                                s.html = spot.html.substring(0, 100);
+                            }
+                            return s;
+                        });
+                        allData.push(...mapped);
+                        progressFill.style.width = `${Math.round((page / totalPages) * 100)}%`;
+                        progressText.textContent = `Страница ${page} из ${totalPages}`;
+                        countText.textContent = `${allData.length} объектов`;
+
+                        if (json.data.length < limit) {
+                            page = totalPages + 1; // Stop loop
+                        } else {
+                            page++;
+                        }
+                        success = true;
+                        await new Promise(r => setTimeout(r, 100));
+                    } catch (e) {
+                        retries++;
+                        if (retries >= maxRetries) {
+                            log(`<span style="color: var(--error)">Критическая ошибка: ${e.message}</span>`);
+                            throw e;
+                        }
+                        log(`<span style="color: var(--error)">Ошибка: ${e.message}. Попытка ${retries}/${maxRetries}. Ждем 3 сек...</span>`);
+                        await new Promise(r => setTimeout(r, 3000));
+                    }
+                }
+                if (!success) break;
+            }
+        }
+
+        async function fetchWorkoutSu() {
+            const pageSize = 5000;
+            let page = 1;
+            while (true) {
+                const url = `https://workout.su/api/v3/areas?fields=short&page_size=${pageSize}&page=${page}`;
+                log(`<a href="${url}" target="_blank" style="color: var(--primary); text-decoration: none;">${url}</a>`);
+
+                let success = false;
+                let retries = 0;
+                const maxRetries = 5;
+
+                while (!success && retries < maxRetries) {
+                    try {
+                        const response = await fetch(url);
+                        if (!response.ok) {
+                            if (response.status === 500 || response.status === 429) {
+                                retries++;
+                                log(`<span style="color: var(--error)">Ошибка ${response.status}. Попытка ${retries}/${maxRetries}. Ждем 3 сек...</span>`);
+                                await new Promise(r => setTimeout(r, 3000));
+                                continue;
+                            }
+                            throw new Error(`HTTP ${response.status}`);
+                        }
+                        const json = await response.json();
+                        if (!Array.isArray(json) || json.length === 0) {
+                            success = true;
+                            page = -1; // Stop loop
+                            break;
+                        }
+
+                        const mapped = json.map(spot => {
+                            const s = {};
+                            if (spot.id !== undefined) s.id = spot.id;
+                            if (spot.latitude !== undefined) s.latitude = Number(parseFloat(spot.latitude).toFixed(5));
+                            if (spot.longitude !== undefined) s.longitude = Number(parseFloat(spot.longitude).toFixed(5));
+                            return s;
+                        });
+                        allData.push(...mapped);
+                        progressFill.style.width = `100%`;
+                        countText.textContent = `${allData.length} объектов`;
+
+                        if (json.length < pageSize) {
+                            page = -1;
+                        } else {
+                            page++;
+                        }
+                        success = true;
+                    } catch (e) {
+                        retries++;
+                        if (retries >= maxRetries) {
+                            log(`<span style="color: var(--error)">Критическая ошибка: ${e.message}</span>`);
+                            throw e;
+                        }
+                        log(`<span style="color: var(--error)">Ошибка: ${e.message}. Попытка ${retries}/${maxRetries}. Ждем 3 сек...</span>`);
+                        await new Promise(r => setTimeout(r, 3000));
+                    }
+                }
+                if (page === -1 || !success) break;
+            }
+        }
+
+        startBtn.addEventListener('click', async () => {
+            allData = [];
+            startBtn.disabled = true;
+            downloadBtn.style.display = 'none';
+            progressContainer.style.display = 'block';
+            statusDiv.innerHTML = '';
+            log('Начало сбора...');
+            const service = serviceSelect.value;
+            try {
+                if (service === 'calisthenics') await fetchCalisthenics();
+                else await fetchWorkoutSu();
+                log(`<span style="color: var(--success)">Сбор завершен: ${allData.length} объектов.</span>`);
+            } catch (e) {
+                log(`<span style="color: var(--error)">Сбор прерван из-за ошибки.</span>`);
+            } finally {
+                startBtn.disabled = false;
+                if (allData.length > 0) downloadBtn.style.display = 'flex';
+            }
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            let finalData = allData;
+            const service = serviceSelect.value;
+            if (service === 'calisthenics') {
+                finalData = {
+                    data: allData,
+                    paginator: {
+                        total_count: allData.length,
+                        total_pages: 1,
+                        current_page: 1,
+                        limit: allData.length
+                    }
+                };
+            }
+            const blob = new Blob([JSON.stringify(finalData)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `grounds_${service}_min.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+
+</html>
