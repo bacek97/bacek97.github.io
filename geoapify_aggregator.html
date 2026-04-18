@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!-- License: WTFPL (gemini-3-flash) -->
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Geoapify Aggregator Ultra</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <style>
+        :root { --primary: #007bff; --success: #28a745; --bg: #121212; --panel: #1e1e1e; --text: #e0e0e0; --error: #ff4444; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 20px; line-height: 1.5; margin: 0; }
+        .container { max-width: 1200px; margin: 20px auto; position: relative; }
+        
+        .readme-box { background: #252525; border: 1px solid #444; border-radius: 12px; padding: 20px; margin-bottom: 20px; font-size: 14px; }
+        .readme-box h3 { margin-top: 0; color: var(--primary); border-bottom: 1px solid #444; padding-bottom: 10px; }
+        .cors-note { background: #331a1a; border: 1px dashed #ff4444; padding: 10px; margin-top: 10px; border-radius: 6px; color: #ff9999; }
+        code { background: #000; padding: 2px 5px; color: #00ff41; border-radius: 3px; font-family: monospace; }
+
+        .lang-switch { position: absolute; top: 20px; right: 20px; background: #333; padding: 5px; border-radius: 8px; z-index: 100; }
+        .lang-switch button { background: none; border: none; color: #888; cursor: pointer; padding: 5px 10px; font-weight: bold; }
+        .lang-switch button.active { color: white; background: var(--primary); border-radius: 5px; }
+
+        .panel { background: var(--panel); padding: 25px; border-radius: 12px; box-shadow: 0 0 40px rgba(0,0,0,0.5); margin-bottom: 20px; }
+        input[type="text"] { background: #121212; border: 1px solid #444; color: #00ff41; padding: 12px; border-radius: 6px; font-family: 'Consolas', monospace; font-size: 14px; width: 100%; box-sizing: border-box; }
+
+        #log { background: #000; color: #00ff41; padding: 15px; border-radius: 8px; height: 300px; overflow-y: auto; font-family: 'Consolas', monospace; font-size: 11px; border: 1px solid #444; margin: 15px 0; }
+        .log-progress { color: #00aaff; }
+        .log-success { color: #00ff41; }
+        .log-error { color: var(--error); }
+
+        .stats-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-box { background: #252525; padding: 15px; border-radius: 8px; border: 1px solid #333; text-align: center; }
+        .stat-box b { font-size: 18px; color: var(--primary); display: block; }
+        
+        button { border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        button#runBtn { background: var(--primary); color: white; padding: 12px 30px; font-size: 16px; }
+        button#saveBtn { background: var(--success); width: 100%; padding: 15px; margin-top: 10px; color: white; font-size: 18px; }
+        button:disabled { background: #444 !important; opacity: 0.6; cursor: not-allowed; }
+
+        .filter-panel { background: #1a2a3a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid var(--success); }
+        .val-badge { color: var(--success); font-weight: bold; background: #000; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
+        
+        #langList { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px; max-height: 250px; overflow-y: auto; background: #121212; padding: 15px; border-radius: 8px; border: 1px solid #333; }
+        .lang-item { font-size: 11px; display: flex; align-items: center; gap: 8px; padding: 5px; background: #2a2a2a; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button onclick="setLang('ru')" id="btn-ru">RU</button>
+        <button onclick="setLang('en')" id="btn-en">EN</button>
+    </div>
+
+    <div class="readme-box">
+        <h3 data-t="readme_title">Geoapify Aggregator Ultra</h3>
+        <p data-t="readme_p1">Параллельный сбор данных. Если данные не загружаются, используйте запуск без CORS:</p>
+        <div class="cors-note">
+            <b>Windows:</b> <code>chrome.exe --disable-web-security --user-data-dir="C:/temp/chrome"</code><br>
+            <b>macOS:</b> <code>open -n -a "Google Chrome" --args --disable-web-security --user-data-dir="/tmp/chrome"</code>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="controls">
+            <strong data-t="step1">1. Категории и Regex:</strong><br><br>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px;">
+                <label><input type="checkbox" class="type-ch" value="city" checked> City</label>
+                <label><input type="checkbox" class="type-ch" value="town" checked> Town</label>
+                <label><input type="checkbox" class="type-ch" value="village" checked> Village</label>
+                <label><input type="checkbox" class="type-ch" value="hamlet"> Hamlet</label>
+            </div>
+            <input type="text" id="regexInput" placeholder='^(?!.*r.+\.zip)'>
+            <button id="runBtn" style="margin-top:15px" data-t="btn_start">Запустить сбор</button>
+        </div>
+
+        <div id="log"></div>
+
+        <div id="postProcessPanel" style="display:none;">
+            <div class="filter-panel">
+                <div style="margin-bottom:15px">
+                    <strong data-t="step2">2. Порог населения:</strong> <span id="currentPopLabel" class="val-badge">0</span>
+                    <input type="range" id="popRange" min="0" max="1000" value="0" style="width:100%">
+                </div>
+                <div>
+                    <strong data-t="precision_label">3. Точность координат:</strong> <span id="precisionLabel" class="val-badge">2</span>
+                    <input type="range" id="precisionRange" min="-1" max="7" value="2" style="width:100%">
+                </div>
+            </div>
+            <strong data-t="step3">4. Языковые поля:</strong>
+            <div style="margin: 10px 0;"><button onclick="toggleAllLangs(true)" data-t="btn_all">Все</button> <button onclick="toggleAllLangs(false)" data-t="btn_none">Ни одного</button></div>
+            <div id="langList"></div>
+        </div>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat-box"><small data-t="st_traffic">Трафик ZIP</small><b id="totalMB">0 MB</b></div>
+        <div class="stat-box"><small data-t="st_objects">Объектов</small><b id="totalObjects">0</b></div>
+        <div class="stat-box"><small data-t="st_json">JSON</small><b id="resultSize">0 MB</b></div>
+        <div class="stat-box" style="border-color: var(--success);"><small data-t="st_gzip">GZIP (est)</small><b id="gzipSize">0 MB</b></div>
+    </div>
+
+    <button id="saveBtn" disabled data-t="btn_save">Скачать JSON</button>
+</div>
+
+<script>
+    const i18n = {
+        ru: {
+            readme_title: "Geoapify Aggregator Ultra",
+            readme_p1: "Инструмент для скачивания и объединения мировых локаций.",
+            step1: "1. Категории и Фильтры:",
+            step2: "2. Порог населения:",
+            precision_label: "3. Точность (округление):",
+            step3: "4. Выбор языков:",
+            btn_start: "Начать параллельный сбор",
+            btn_all: "Все", btn_none: "Ни одного",
+            btn_save: "Скачать JSON",
+            st_traffic: "Трафик ZIP",
+            st_objects: "Объектов",
+            st_json: "Вес JSON",
+            st_gzip: "GZIP (est)"
+        },
+        en: {
+            readme_title: "Geoapify Aggregator Ultra",
+            readme_p1: "Tool for downloading and merging global location data.",
+            step1: "1. Categories & Filters:",
+            step2: "2. Population threshold:",
+            precision_label: "3. Coordinate precision:",
+            step3: "4. Select languages:",
+            btn_start: "Start Parallel Fetch",
+            btn_all: "All", btn_none: "None",
+            btn_save: "Download JSON",
+            st_traffic: "ZIP Traffic",
+            st_objects: "Objects",
+            st_json: "JSON Size",
+            st_gzip: "GZIP (est)"
+        }
+    };
+
+    const precMap = { "-1": "1110 км", "0": "111 км", "1": "11 км", "2": "1.1 км", "3": "110 м", "4": "11 м", "5": "1.1 м", "6": "11 см", "7": "1.1 см" };
+    let currentLang = 'ru';
+    function setLang(lang) {
+        currentLang = lang;
+        document.querySelectorAll('[data-t]').forEach(el => el.textContent = i18n[lang][el.getAttribute('data-t')]);
+        document.getElementById('btn-ru').className = lang === 'ru' ? 'active' : '';
+        document.getElementById('btn-en').className = lang === 'en' ? 'active' : '';
+    }
+    setLang('ru');
+
+    let rawData = [];
+    let totalTraffic = 0;
+    const baseUrl = 'https://www.geoapify.com/data-share/localities/';
+
+    const formatSize = (b) => b < 1048576 ? (b/1024).toFixed(1)+" KB" : (b/1048576).toFixed(2)+" MB";
+    const positionToPop = (pos) => pos <= 500 ? Math.round((pos/500)*100000) : Math.round(100000 + ((pos-500)/500)*4900000);
+    const roundCoord = (val, precision) => { const p = Math.pow(10, precision); return Math.round(val * p) / p; };
+
+    function writeLog(msg, type = '', num = null) {
+        const line = document.createElement('div');
+        line.className = type ? `log-${type}` : '';
+        line.innerHTML = `${num ? `<span style="color:#555">#${num} </span>` : ''}[${new Date().toLocaleTimeString()}] ${msg}`;
+        document.getElementById('log').appendChild(line);
+        document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
+    }
+
+    async function processFile(link, num, types) {
+        const name = link.split('/').pop();
+        writeLog(`FETCH: ${name}...`, 'progress', num);
+        try {
+            const res = await fetch(link);
+            const blob = await res.blob();
+            totalTraffic += blob.size;
+            document.getElementById('totalMB').textContent = formatSize(totalTraffic);
+
+            const zip = await JSZip.loadAsync(blob);
+            const files = Object.keys(zip.files);
+            let added = 0;
+            for (const type of types) {
+                const targets = files.filter(f => f.toLowerCase().includes(type.toLowerCase()) && f.endsWith('.ndjson'));
+                for (const fname of targets) {
+                    const text = await zip.files[fname].async("string");
+                    text.split('\n').forEach(line => {
+                        if (!line.trim()) return;
+                        try {
+                            const d = JSON.parse(line);
+                            if(d.location) rawData.push({ other_names: d.other_names || {}, location: d.location, population: parseInt(d.population) || 0 });
+                            added++;
+                        } catch(e){}
+                    });
+                }
+            }
+            writeLog(`DONE: ${name} (${formatSize(blob.size)}) +${added} obj`, 'success', num);
+        } catch(e) { writeLog(`ERR: ${name} (CORS issue?)`, 'error', num); }
+    }
+
+    async function start() {
+        document.getElementById('runBtn').disabled = true;
+        rawData = []; totalTraffic = 0;
+        document.getElementById('log').innerHTML = '';
+        document.getElementById('postProcessPanel').style.display = 'none';
+        
+        try {
+            const html = await (await fetch(baseUrl)).text();
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            let links = Array.from(doc.querySelectorAll('a'))
+                .map(a => a.getAttribute('href')).filter(h => h && h.endsWith('.zip'))
+                .map(h => new URL(h, baseUrl).href);
+
+            const rx = document.getElementById('regexInput').value.trim();
+            if (rx) links = links.filter(l => !new RegExp(rx, 'i').test(l.split('/').pop()));
+
+            const types = Array.from(document.querySelectorAll('.type-ch:checked')).map(i => i.value);
+            writeLog(`Найдено архивов: ${links.length}. Запуск...`, 'info');
+            
+            await Promise.all(links.map((l, i) => processFile(l, i+1, types)));
+            document.getElementById('postProcessPanel').style.display = 'block';
+            renderLangs();
+            document.getElementById('saveBtn').disabled = false;
+        } catch(e) { writeLog("Ошибка: " + e.message + ". Проверьте CORS!", 'error'); }
+        finally { document.getElementById('runBtn').disabled = false; }
+    }
+
+    function updateStats() {
+        const minPop = positionToPop(parseInt(document.getElementById('popRange').value));
+        const prec = parseInt(document.getElementById('precisionRange').value);
+        const active = new Set(Array.from(document.querySelectorAll('.lang-ch:checked')).map(cb => cb.value));
+
+        document.getElementById('precisionLabel').textContent = `${prec} (~${precMap[prec]})`;
+        document.getElementById('currentPopLabel').textContent = minPop.toLocaleString();
+
+        const filtered = rawData.filter(d => d.population >= minPop && Object.keys(d.other_names).some(k => active.has(k)));
+        
+        // Математическая оценка веса
+        let totalBytes = 2;
+        filtered.forEach(d => {
+            let nSize = 2;
+            for(let k in d.other_names) if(active.has(k)) nSize += (k.length + JSON.stringify(d.other_names[k]).length + 4);
+            const cSize = roundCoord(d.location[0], prec).toString().length + roundCoord(d.location[1], prec).toString().length + 3;
+            totalBytes += (nSize + cSize + 32);
+        });
+
+        document.getElementById('resultSize').textContent = formatSize(totalBytes);
+        document.getElementById('totalObjects').textContent = filtered.length.toLocaleString();
+        document.getElementById('gzipSize').textContent = "~ " + formatSize(totalBytes / 6);
+    }
+
+    function renderLangs() {
+        const counts = {};
+        rawData.forEach(d => { for(let k in d.other_names) counts[k] = (counts[k] || 0) + 1; });
+        const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+        const list = document.getElementById('langList');
+        list.innerHTML = '';
+        sorted.forEach(([k, c]) => {
+            const div = document.createElement('div');
+            div.className = 'lang-item';
+            div.innerHTML = `<input type="checkbox" class="lang-ch" value="${k}" checked id="l_${k}"><label for="l_${k}">${k} (${c})</label>`;
+            list.appendChild(div);
+            div.querySelector('input').onchange = updateStats;
+        });
+        updateStats();
+    }
+
+    function toggleAllLangs(s) { document.querySelectorAll('.lang-ch').forEach(c => c.checked = s); updateStats(); }
+    document.getElementById('popRange').oninput = updateStats;
+    document.getElementById('precisionRange').oninput = updateStats;
+    document.getElementById('runBtn').onclick = start;
+    
+    document.getElementById('saveBtn').onclick = () => {
+        const minPop = positionToPop(parseInt(document.getElementById('popRange').value));
+        const prec = parseInt(document.getElementById('precisionRange').value);
+        const active = new Set(Array.from(document.querySelectorAll('.lang-ch:checked')).map(cb => cb.value));
+
+        const finalData = rawData.reduce((acc, d) => {
+            if (d.population < minPop) return acc;
+            const n = {}; let has = false;
+            for(let k in d.other_names) if(active.has(k)) { n[k] = d.other_names[k]; has = true; }
+            if(has) acc.push({ other_names: n, location: [roundCoord(d.location[0], prec), roundCoord(d.location[1], prec)] });
+            return acc;
+        }, []);
+
+        const blob = new Blob([JSON.stringify(finalData)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `geo_data_p${prec}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+</script>
+</body>
+</html>
