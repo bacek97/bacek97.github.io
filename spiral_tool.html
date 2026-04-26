@@ -26,6 +26,11 @@
             background: radial-gradient(ellipse at center, #1a1640 0%, #0f0c29 100%);
             user-select: none;
             cursor: grab;
+            touch-action: none;
+        }
+
+        body {
+            overscroll-behavior: none;
         }
 
         #canvas.panning {
@@ -529,7 +534,8 @@
             <b>✋ Тащи</b> узлы вдоль спирали и между заходами<br>
             <b>⚪ Тащи</b> белые точки — концы заходов<br>
             <b>🖱 Тащи фон</b> — пан, <b>Wheel</b> — скролл<br>
-            <b>Alt+Wheel</b> — масштаб, <b>0</b> — сброс вида
+            <b>Alt+Wheel</b> — масштаб, <b>0</b> — сброс вида<br>
+            <b>📱 1 палец</b> — пан, <b>2 пальца</b> — pinch-zoom
         </div>
     </div>
 
@@ -1097,6 +1103,48 @@
 
         // ============== INTERACTIONS ==============
         let dragging = null; // { type, ... }
+        const activePointers = new Map(); // pointerId -> { clientX, clientY }
+        let pinch = null; // { initDist, initScale, anchorWx, anchorWy }
+
+        function startPinch() {
+            const pts = Array.from(activePointers.values());
+            if (pts.length < 2) return;
+            const dx = pts[1].clientX - pts[0].clientX;
+            const dy = pts[1].clientY - pts[0].clientY;
+            const dist = Math.hypot(dx, dy);
+            const rect = document.getElementById('canvas').getBoundingClientRect();
+            const midSx = (pts[0].clientX + pts[1].clientX) / 2 - rect.left;
+            const midSy = (pts[0].clientY + pts[1].clientY) / 2 - rect.top;
+            const anchorWx = (midSx - view.tx) / view.scale;
+            const anchorWy = (midSy - view.ty) / view.scale;
+            pinch = { initDist: Math.max(dist, 1), initScale: view.scale, anchorWx, anchorWy };
+        }
+
+        function applyPinch() {
+            const pts = Array.from(activePointers.values());
+            if (pts.length < 2 || !pinch) return;
+            const dx = pts[1].clientX - pts[0].clientX;
+            const dy = pts[1].clientY - pts[0].clientY;
+            const dist = Math.hypot(dx, dy);
+            const factor = dist / pinch.initDist;
+            const newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, pinch.initScale * factor));
+            const rect = document.getElementById('canvas').getBoundingClientRect();
+            const curMidSx = (pts[0].clientX + pts[1].clientX) / 2 - rect.left;
+            const curMidSy = (pts[0].clientY + pts[1].clientY) / 2 - rect.top;
+            view.scale = newScale;
+            view.tx = curMidSx - pinch.anchorWx * newScale;
+            view.ty = curMidSy - pinch.anchorWy * newScale;
+            applyViewTransform();
+        }
+
+        function onPointerCancel(e) {
+            activePointers.delete(e.pointerId);
+            if (pinch && activePointers.size < 2) pinch = null;
+            if (dragging && dragging.type === 'pan' && activePointers.size === 0) {
+                document.getElementById('canvas').classList.remove('panning');
+                dragging = null;
+            }
+        }
 
         function showDragInfo(sector) {
             document.getElementById('drag-info').style.display = 'flex';
@@ -1169,6 +1217,21 @@
         }
 
         function onPointerDown(e) {
+            activePointers.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
+
+            // 2nd+ finger → enter pinch mode (only if not actively dragging an element).
+            if (activePointers.size >= 2) {
+                const canStartPinch = !dragging || dragging.type === 'pan';
+                if (canStartPinch) {
+                    if (dragging && dragging.type === 'pan') {
+                        document.getElementById('canvas').classList.remove('panning');
+                        dragging = null;
+                    }
+                    startPinch();
+                }
+                return;
+            }
+
             const target = e.target;
             const [mx, my] = svgPoint(e);
 
@@ -1237,6 +1300,15 @@
         }
 
         function onPointerMove(e) {
+            if (activePointers.has(e.pointerId)) {
+                activePointers.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
+            }
+
+            if (pinch && activePointers.size >= 2) {
+                applyPinch();
+                return;
+            }
+
             if (!dragging) return;
 
             if (dragging.type === 'pan') {
@@ -1325,6 +1397,13 @@
         }
 
         function onPointerUp(e) {
+            activePointers.delete(e.pointerId);
+
+            if (pinch) {
+                if (activePointers.size < 2) pinch = null;
+                return;
+            }
+
             if (!dragging) return;
 
             if (dragging.type === 'pan') {
@@ -1650,6 +1729,7 @@
             svg.addEventListener('wheel', onWheel, { passive: false });
             window.addEventListener('pointermove', onPointerMove);
             window.addEventListener('pointerup', onPointerUp);
+            window.addEventListener('pointercancel', onPointerCancel);
             window.addEventListener('resize', onResize);
             window.addEventListener('keydown', (e) => {
                 if (e.key === '0' && !e.ctrlKey && !e.metaKey && !e.altKey) {
