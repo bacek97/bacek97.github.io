@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiral Tool — Размещение упражнений</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0c29;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        #canvas {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at center, #1a1640 0%, #0f0c29 100%);
+            user-select: none;
+            cursor: grab;
+        }
+
+        #canvas.panning {
+            cursor: grabbing;
+        }
+
+        .panel {
+            position: fixed;
+            top: 16px;
+            background: rgba(20, 20, 40, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px;
+            z-index: 100;
+            max-height: calc(100vh - 32px);
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        #left-panel {
+            left: 16px;
+            width: 280px;
+        }
+
+        #right-panel {
+            right: 16px;
+            width: 280px;
+            display: none;
+        }
+
+        .panel h3 {
+            font-size: 14px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .panel h4 {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 14px 0 8px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            font-weight: 600;
+        }
+
+        .panel h4:first-of-type {
+            margin-top: 0;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .row label {
+            flex: 1;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .row .val {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 11px;
+            min-width: 30px;
+            text-align: right;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            background: rgba(255, 255, 255, 0.06);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 6px;
+            padding: 6px 8px;
+            font-size: 13px;
+            outline: none;
+            width: 100%;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: rgba(108, 92, 231, 0.6);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        input[type="number"] {
+            max-width: 70px;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            accent-color: #6C5CE7;
+            height: 4px;
+        }
+
+        input[type="color"] {
+            width: 36px;
+            height: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 6px;
+            background: transparent;
+            cursor: pointer;
+            padding: 2px;
+        }
+
+        button {
+            background: rgba(108, 92, 231, 0.85);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: background 0.15s;
+            font-family: inherit;
+        }
+
+        button:hover {
+            background: rgba(108, 92, 231, 1);
+        }
+
+        button.danger {
+            background: rgba(255, 107, 107, 0.7);
+        }
+
+        button.danger:hover {
+            background: rgba(255, 107, 107, 1);
+        }
+
+        button.ghost {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        button.ghost:hover {
+            background: rgba(255, 255, 255, 0.16);
+        }
+
+        .sector-form .row {
+            margin-bottom: 6px;
+        }
+
+        .sector-form button {
+            width: 100%;
+            margin-top: 4px;
+        }
+
+        #sectors-list {
+            margin-top: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .sector-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 8px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+
+        .sector-item .si-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sector-item .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            background-clip: content-box;
+        }
+
+        .sector-item input[type="color"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            background: transparent;
+            flex-shrink: 0;
+        }
+
+        .sector-item input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+            border-radius: 50%;
+        }
+
+        .sector-item input[type="color"]::-webkit-color-swatch {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .sector-item input[type="text"] {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: white;
+            border-radius: 4px;
+            padding: 4px 6px;
+            font-size: 12px;
+            outline: none;
+            font-family: inherit;
+            min-width: 0;
+        }
+
+        .sector-item input[type="text"]:focus {
+            border-color: rgba(108, 92, 231, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .sector-item input[type="number"] {
+            width: 52px;
+            max-width: 52px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: white;
+            border-radius: 4px;
+            padding: 3px 4px;
+            font-size: 11px;
+            outline: none;
+            font-family: inherit;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        .sector-item input[type="number"]:focus {
+            border-color: rgba(108, 92, 231, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .sector-item .deg-sep {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 11px;
+        }
+
+        .sector-item .span-info {
+            margin-left: auto;
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 11px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .sector-item button {
+            padding: 2px 8px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 16px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .sector-item button:hover {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 0;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-row .label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+        }
+
+        .info-row .value {
+            font-weight: 500;
+        }
+
+        .info-row .value .swatch {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .button-group button {
+            flex: 1;
+        }
+
+        .hint {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 14px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            line-height: 1.6;
+        }
+
+        .file-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .file-row button {
+            flex: 1;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .handle {
+            transition: r 0.1s;
+        }
+
+        .handle:hover {
+            r: 9;
+        }
+
+        .node-group {
+            cursor: grab;
+        }
+
+        .node-group:active {
+            cursor: grabbing;
+        }
+
+        .sector-handle {
+            cursor: grab;
+        }
+
+        .sector-handle:hover {
+            r: 9;
+        }
+
+        .drag-info {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(20, 20, 40, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 10px 16px;
+            z-index: 200;
+            color: #fff;
+            font-size: 13px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .drag-info .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .drag-info .name {
+            font-weight: 600;
+        }
+
+        .drag-info .lbl {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .drag-info .sep {
+            color: rgba(255, 255, 255, 0.25);
+        }
+    </style>
+</head>
+
+<body>
+    <svg id="canvas" xmlns="http://www.w3.org/2000/svg">
+        <g id="g-viewport">
+            <g id="g-center"></g>
+            <g id="g-sectors"></g>
+            <g id="g-spirals"></g>
+            <g id="g-nodes"></g>
+            <g id="g-endpoints"></g>
+            <g id="g-sector-handles"></g>
+        </g>
+    </svg>
+
+    <div id="drag-info" class="drag-info">
+        <span class="dot" id="drag-color"></span>
+        <span class="name" id="drag-name"></span>
+        <span class="sep">|</span>
+        <span class="lbl">Начало:</span> <span id="drag-start">0°</span>
+        <span class="sep">•</span>
+        <span class="lbl">Конец:</span> <span id="drag-end">0°</span>
+        <span class="sep">•</span>
+        <span class="lbl">Размер:</span> <span id="drag-span">0°</span>
+    </div>
+
+    <div id="left-panel" class="panel">
+        <h3>🌀 Спираль</h3>
+
+        <h4>Параметры</h4>
+        <div class="row">
+            <label>Заходов</label>
+            <input type="number" id="passCount" min="1" max="16" value="4">
+        </div>
+        <div class="row">
+            <label>Шаг (b)</label>
+            <input type="range" id="rangeB" min="2" max="300" value="40" step="1">
+            <span class="val" id="valB">40</span>
+        </div>
+        <div class="row">
+            <label>Радиус (a)</label>
+            <input type="range" id="rangeA" min="0" max="400" value="400" step="1">
+            <span class="val" id="valA">400</span>
+        </div>
+        <div class="row">
+            <label>Витков</label>
+            <input type="range" id="rangeTurns" min="0.5" max="15" value="8" step="0.5">
+            <span class="val" id="valTurns">8</span>
+        </div>
+
+        <h4>Сектора</h4>
+        <form class="sector-form" id="sector-form">
+            <div class="row">
+                <input type="text" id="sector-name" placeholder="Название сектора" required>
+            </div>
+            <div class="row">
+                <input type="number" id="sector-from" min="0" max="360" value="0" required>
+                <span style="color: rgba(255,255,255,0.5);font-size:12px;">°→</span>
+                <input type="number" id="sector-to" min="0" max="360" value="90" required>
+                <span style="color: rgba(255,255,255,0.5);font-size:12px;">°</span>
+                <input type="color" id="sector-color" value="#FF6B6B">
+            </div>
+            <button type="submit">+ Добавить сектор</button>
+        </form>
+        <div id="sectors-list"></div>
+
+        <h4>Файл</h4>
+        <div class="file-row">
+            <button class="ghost" id="export-btn">⬇ Export</button>
+            <button class="ghost" id="import-btn">⬆ Import</button>
+        </div>
+        <input type="file" id="import-file" accept=".json,application/json" style="display:none">
+        <button class="danger" id="clear-nodes" style="width:100%;">Очистить узлы</button>
+        <button class="ghost" id="reset-view" style="width:100%;margin-top:6px;">⌖ Сбросить вид</button>
+
+        <div class="hint">
+            <b>👆 Клик</b> рядом со спиралью — новый узел<br>
+            <b>✋ Тащи</b> узлы вдоль спирали и между заходами<br>
+            <b>⚪ Тащи</b> белые точки — концы заходов<br>
+            <b>🖱 Тащи фон</b> — пан, <b>Wheel</b> — скролл<br>
+            <b>Alt+Wheel</b> — масштаб, <b>0</b> — сброс вида
+        </div>
+    </div>
+
+    <div id="right-panel" class="panel">
+        <h3>📍 Узел</h3>
+
+        <div class="info-row">
+            <span class="label">Заход</span>
+            <span class="value"><span class="swatch" id="info-pass-color"></span><span id="info-pass">—</span></span>
+        </div>
+        <div class="info-row">
+            <span class="label">Угол</span>
+            <span class="value" id="info-angle">—</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Виток</span>
+            <span class="value" id="info-turn">—</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Сектор</span>
+            <span class="value" id="info-sector">—</span>
+        </div>
+
+        <h4>Название упражнения</h4>
+        <input type="text" id="info-name" placeholder="Введите название…">
+
+        <div class="button-group">
+            <button class="ghost" id="info-prev">← Заход</button>
+            <button class="ghost" id="info-next">Заход →</button>
+        </div>
+        <div class="button-group">
+            <button class="danger" id="info-delete" style="width:100%;">🗑 Удалить узел</button>
+        </div>
+    </div>
+
+    <script>
+        const SVG_NS = 'http://www.w3.org/2000/svg';
+        const PI = Math.PI;
+        const TAU = 2 * PI;
+
+        // ============== STATE ==============
+        const state = {
+            cx: 0,
+            cy: 0,
+            spiral: { a: 400, b: 40, passCount: 4, turns: 8 },
+            passes: [],
+            sectors: [],
+            nodes: [],
+            selectedNodeId: null,
+            nextNodeId: 1,
+            nextSectorId: 1,
+        };
+
+        // Viewport (zoom + pan). Visual transform applied to <g id="g-viewport">.
+        const view = { scale: 1, tx: 0, ty: 0 };
+        const MIN_SCALE = 0.02;
+        const MAX_SCALE = 10;
+
+        function applyViewTransform() {
+            const g = document.getElementById('g-viewport');
+            if (!g) return;
+            g.setAttribute('transform', `translate(${view.tx.toFixed(2)} ${view.ty.toFixed(2)}) scale(${view.scale.toFixed(4)})`);
+        }
+
+        function resetView() {
+            view.scale = 1;
+            view.tx = 0;
+            view.ty = 0;
+            applyViewTransform();
+        }
+
+        function defaultThetaEnd() {
+            return state.spiral.turns * TAU;
+        }
+
+        function initPasses(count) {
+            state.passes = [];
+            const tEnd = defaultThetaEnd();
+            for (let i = 0; i < count; i++) {
+                state.passes.push({ thetaStart: 0, thetaEnd: tEnd });
+            }
+        }
+
+        // ============== GEOMETRY ==============
+        function passOffset(k) {
+            return k * TAU / state.spiral.passCount;
+        }
+
+        function pointOnPass(k, t) {
+            const { a, b } = state.spiral;
+            const r = a + b * t;
+            const ang = t + passOffset(k);
+            return [state.cx + r * Math.cos(ang), state.cy + r * Math.sin(ang)];
+        }
+
+        // Returns world-angle (radians) of node, in [0, 2π)
+        function nodeWorldAngle(node) {
+            const a = node.theta + passOffset(node.passIndex);
+            return ((a % TAU) + TAU) % TAU;
+        }
+
+        function nodeWorldDeg(node) {
+            return nodeWorldAngle(node) * 180 / PI;
+        }
+
+        function passColor(k) {
+            return `hsl(${(360 * k / state.spiral.passCount).toFixed(0)}, 70%, 62%)`;
+        }
+
+        function maxRadius() {
+            let max = 0;
+            for (const p of state.passes) {
+                max = Math.max(max, state.spiral.a + state.spiral.b * p.thetaEnd);
+            }
+            return Math.max(max + 30, 100);
+        }
+
+        // Find nearest point on any spiral pass to (mx, my)
+        function nearestPointOnSpirals(mx, my) {
+            let best = { passIndex: 0, theta: 0, dist: Infinity };
+            const N = state.spiral.passCount;
+            for (let k = 0; k < N; k++) {
+                const pass = state.passes[k];
+                const tStart = pass.thetaStart;
+                const tEnd = pass.thetaEnd;
+                const range = tEnd - tStart;
+                if (range <= 0) continue;
+                const steps = Math.max(60, Math.min(800, Math.ceil(range * 30)));
+                let bestT = tStart;
+                let bestDist = Infinity;
+                for (let i = 0; i <= steps; i++) {
+                    const t = tStart + range * (i / steps);
+                    const [x, y] = pointOnPass(k, t);
+                    const d = Math.hypot(x - mx, y - my);
+                    if (d < bestDist) { bestDist = d; bestT = t; }
+                }
+                // Refine via local bisection
+                let dt = range / steps;
+                for (let i = 0; i < 12; i++) {
+                    const tA = Math.max(tStart, bestT - dt);
+                    const tB = Math.min(tEnd, bestT + dt);
+                    const [xA, yA] = pointOnPass(k, tA);
+                    const [xB, yB] = pointOnPass(k, tB);
+                    const dA = Math.hypot(xA - mx, yA - my);
+                    const dB = Math.hypot(xB - mx, yB - my);
+                    if (dA < bestDist) { bestDist = dA; bestT = tA; }
+                    if (dB < bestDist) { bestDist = dB; bestT = tB; }
+                    dt /= 2;
+                }
+                if (bestDist < best.dist) {
+                    best = { passIndex: k, theta: bestT, dist: bestDist };
+                }
+            }
+            return best;
+        }
+
+        // ============== SECTOR HELPERS ==============
+        function normDeg(d) {
+            return ((d % 360) + 360) % 360;
+        }
+
+        function sectorAngularSpan(sector) {
+            let span = sector.endDeg - sector.startDeg;
+            if (span <= 0) span += 360;
+            return span;
+        }
+
+        function isAngleInSector(deg, sector) {
+            if (sectorAngularSpan(sector) >= 359.999) return true;
+            const d = normDeg(deg);
+            const s = normDeg(sector.startDeg);
+            const e = normDeg(sector.endDeg);
+            if (s === e) return false;
+            if (s < e) return d >= s && d < e;
+            return d >= s || d < e;
+        }
+
+        function findNodeSector(node) {
+            const deg = nodeWorldDeg(node);
+            for (const s of state.sectors) {
+                if (isAngleInSector(deg, s)) return s;
+            }
+            return null;
+        }
+
+        function sectorPath(sector, R) {
+            const spanDeg = sectorAngularSpan(sector);
+            if (spanDeg >= 359.999) {
+                // Full circle
+                const cx = state.cx, cy = state.cy;
+                return `M ${(cx + R).toFixed(2)} ${cy.toFixed(2)} A ${R.toFixed(2)} ${R.toFixed(2)} 0 1 1 ${(cx - R).toFixed(2)} ${cy.toFixed(2)} A ${R.toFixed(2)} ${R.toFixed(2)} 0 1 1 ${(cx + R).toFixed(2)} ${cy.toFixed(2)} Z`;
+            }
+            const startRad = sector.startDeg * PI / 180;
+            const span = spanDeg * PI / 180;
+            const endRad = startRad + span;
+            const x1 = state.cx + R * Math.cos(startRad);
+            const y1 = state.cy + R * Math.sin(startRad);
+            const x2 = state.cx + R * Math.cos(endRad);
+            const y2 = state.cy + R * Math.sin(endRad);
+            const largeArc = span > PI ? 1 : 0;
+            return `M ${state.cx.toFixed(2)} ${state.cy.toFixed(2)} L ${x1.toFixed(2)} ${y1.toFixed(2)} A ${R.toFixed(2)} ${R.toFixed(2)} 0 ${largeArc} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z`;
+        }
+
+        // ============== RENDER ==============
+        function clearGroup(id) {
+            const g = document.getElementById(id);
+            while (g.firstChild) g.removeChild(g.firstChild);
+            return g;
+        }
+
+        function renderCenter() {
+            const g = clearGroup('g-center');
+            const c = document.createElementNS(SVG_NS, 'circle');
+            c.setAttribute('cx', state.cx);
+            c.setAttribute('cy', state.cy);
+            c.setAttribute('r', 3);
+            c.setAttribute('fill', 'rgba(255,255,255,0.35)');
+            c.style.pointerEvents = 'none';
+            g.appendChild(c);
+        }
+
+        function renderSectors() {
+            const g = clearGroup('g-sectors');
+            const R = maxRadius() + 40;
+            for (const sector of state.sectors) {
+                const p = document.createElementNS(SVG_NS, 'path');
+                p.setAttribute('d', sectorPath(sector, R));
+                p.setAttribute('fill', sector.color);
+                p.setAttribute('fill-opacity', 0.15);
+                p.setAttribute('stroke', sector.color);
+                p.setAttribute('stroke-opacity', 0.55);
+                p.setAttribute('stroke-width', 1);
+                p.style.pointerEvents = 'none';
+                g.appendChild(p);
+
+                // Label
+                const span = sectorAngularSpan(sector);
+                const midDeg = normDeg(sector.startDeg + span / 2);
+                const midRad = midDeg * PI / 180;
+                const lr = R * 0.78;
+                const lx = state.cx + lr * Math.cos(midRad);
+                const ly = state.cy + lr * Math.sin(midRad);
+                const text = document.createElementNS(SVG_NS, 'text');
+                text.setAttribute('x', lx);
+                text.setAttribute('y', ly);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('dominant-baseline', 'middle');
+                text.setAttribute('fill', '#fff');
+                text.setAttribute('font-size', 14);
+                text.setAttribute('font-weight', 'bold');
+                text.setAttribute('paint-order', 'stroke');
+                text.setAttribute('stroke', 'rgba(0,0,0,0.7)');
+                text.setAttribute('stroke-width', 3);
+                text.style.pointerEvents = 'none';
+                text.textContent = sector.name;
+                g.appendChild(text);
+            }
+            renderSectorHandles(R);
+        }
+
+        function renderSectorHandles(R) {
+            const g = clearGroup('g-sector-handles');
+            for (const sector of state.sectors) {
+                const startRad = sector.startDeg * PI / 180;
+                const endRad = sector.endDeg * PI / 180;
+                const sx = state.cx + R * Math.cos(startRad);
+                const sy = state.cy + R * Math.sin(startRad);
+                const ex = state.cx + R * Math.cos(endRad);
+                const ey = state.cy + R * Math.sin(endRad);
+                g.appendChild(makeSectorHandle(sx, sy, sector.id, 'start', sector.color));
+                g.appendChild(makeSectorHandle(ex, ey, sector.id, 'end', sector.color));
+            }
+        }
+
+        function makeSectorHandle(x, y, sectorId, kind, color) {
+            const c = document.createElementNS(SVG_NS, 'circle');
+            c.setAttribute('cx', x);
+            c.setAttribute('cy', y);
+            c.setAttribute('r', 7);
+            c.setAttribute('fill', color);
+            c.setAttribute('stroke', '#fff');
+            c.setAttribute('stroke-width', 2);
+            c.classList.add('sector-handle');
+            c.dataset.sectorId = sectorId;
+            c.dataset.kind = kind;
+            return c;
+        }
+
+        function buildSpiralPath(k) {
+            const pass = state.passes[k];
+            const tStart = pass.thetaStart;
+            const tEnd = pass.thetaEnd;
+            const range = tEnd - tStart;
+            if (range <= 0) return '';
+            const steps = Math.max(40, Math.ceil(range / 0.05));
+            let d = '';
+            for (let i = 0; i <= steps; i++) {
+                const t = tStart + range * (i / steps);
+                const [x, y] = pointOnPass(k, t);
+                d += (i === 0 ? 'M' : 'L') + ' ' + x.toFixed(2) + ' ' + y.toFixed(2) + ' ';
+            }
+            return d.trim();
+        }
+
+        function renderSpirals() {
+            const g = clearGroup('g-spirals');
+            for (let k = 0; k < state.spiral.passCount; k++) {
+                const path = document.createElementNS(SVG_NS, 'path');
+                path.setAttribute('d', buildSpiralPath(k));
+                path.setAttribute('stroke', passColor(k));
+                path.setAttribute('stroke-width', 2.5);
+                path.setAttribute('fill', 'none');
+                path.setAttribute('opacity', 0.85);
+                path.setAttribute('stroke-linecap', 'round');
+                path.dataset.passIndex = k;
+                g.appendChild(path);
+            }
+        }
+
+        function renderEndpoints() {
+            const g = clearGroup('g-endpoints');
+            for (let k = 0; k < state.spiral.passCount; k++) {
+                const pass = state.passes[k];
+                const [xs, ys] = pointOnPass(k, pass.thetaStart);
+                const [xe, ye] = pointOnPass(k, pass.thetaEnd);
+                g.appendChild(makeHandle(xs, ys, k, 'start'));
+                g.appendChild(makeHandle(xe, ye, k, 'end'));
+            }
+        }
+
+        function makeHandle(x, y, passIndex, kind) {
+            const c = document.createElementNS(SVG_NS, 'circle');
+            c.setAttribute('cx', x);
+            c.setAttribute('cy', y);
+            c.setAttribute('r', 7);
+            c.setAttribute('fill', '#fff');
+            c.setAttribute('stroke', passColor(passIndex));
+            c.setAttribute('stroke-width', 3);
+            c.classList.add('handle');
+            c.dataset.passIndex = passIndex;
+            c.dataset.kind = kind;
+            c.style.cursor = 'grab';
+            return c;
+        }
+
+        function renderNodes() {
+            const g = clearGroup('g-nodes');
+            for (const node of state.nodes) {
+                const [x, y] = pointOnPass(node.passIndex, node.theta);
+                const grp = document.createElementNS(SVG_NS, 'g');
+                grp.setAttribute('transform', `translate(${x.toFixed(2)}, ${y.toFixed(2)})`);
+                grp.classList.add('node-group');
+                grp.dataset.nodeId = node.id;
+
+                const isSel = node.id === state.selectedNodeId;
+
+                if (isSel) {
+                    const halo = document.createElementNS(SVG_NS, 'circle');
+                    halo.setAttribute('r', 16);
+                    halo.setAttribute('fill', passColor(node.passIndex));
+                    halo.setAttribute('opacity', 0.25);
+                    halo.style.pointerEvents = 'none';
+                    grp.appendChild(halo);
+                }
+
+                const circle = document.createElementNS(SVG_NS, 'circle');
+                circle.setAttribute('r', 10);
+                circle.setAttribute('fill', passColor(node.passIndex));
+                circle.setAttribute('stroke', isSel ? '#fff' : 'rgba(255,255,255,0.5)');
+                circle.setAttribute('stroke-width', isSel ? 3 : 2);
+                grp.appendChild(circle);
+
+                const display = node.name.length > 18 ? node.name.slice(0, 16) + '…' : node.name;
+                const text = document.createElementNS(SVG_NS, 'text');
+                text.setAttribute('x', 0);
+                text.setAttribute('y', 24);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('dominant-baseline', 'middle');
+                text.setAttribute('fill', '#fff');
+                text.setAttribute('font-size', 11);
+                text.setAttribute('paint-order', 'stroke');
+                text.setAttribute('stroke', 'rgba(0,0,0,0.85)');
+                text.setAttribute('stroke-width', 3);
+                text.style.pointerEvents = 'none';
+                text.textContent = display;
+                grp.appendChild(text);
+
+                g.appendChild(grp);
+            }
+        }
+
+        function renderSectorsList() {
+            const list = document.getElementById('sectors-list');
+            list.innerHTML = '';
+            for (const s of state.sectors) {
+                list.appendChild(buildSectorItem(s));
+            }
+        }
+
+        function buildSectorItem(s) {
+            const item = document.createElement('div');
+            item.className = 'sector-item';
+            item.dataset.sectorId = s.id;
+
+            // Row 1: color picker, name input, delete
+            const row1 = document.createElement('div');
+            row1.className = 'si-row';
+
+            const colorInput = document.createElement('input');
+            colorInput.type = 'color';
+            colorInput.value = s.color;
+            colorInput.title = 'Цвет';
+            colorInput.addEventListener('input', () => {
+                s.color = colorInput.value;
+                renderSectors();
+            });
+
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.className = 'name-input';
+            nameInput.value = s.name;
+            nameInput.addEventListener('input', () => {
+                s.name = nameInput.value;
+                renderSectors();
+            });
+
+            const delBtn = document.createElement('button');
+            delBtn.textContent = '×';
+            delBtn.title = 'Удалить сектор';
+            delBtn.addEventListener('click', () => {
+                state.sectors = state.sectors.filter(x => x.id !== s.id);
+                renderSectors();
+                renderSectorsList();
+                updateInfoPanel();
+            });
+
+            row1.appendChild(colorInput);
+            row1.appendChild(nameInput);
+            row1.appendChild(delBtn);
+
+            // Row 2: from°  →  to°   span°
+            const row2 = document.createElement('div');
+            row2.className = 'si-row';
+
+            const fromInput = document.createElement('input');
+            fromInput.type = 'number';
+            fromInput.className = 'from-input';
+            fromInput.min = '0';
+            fromInput.max = '360';
+            fromInput.step = '1';
+            fromInput.value = Math.round(s.startDeg);
+
+            const toInput = document.createElement('input');
+            toInput.type = 'number';
+            toInput.className = 'to-input';
+            toInput.min = '0';
+            toInput.max = '360';
+            toInput.step = '1';
+            toInput.value = Math.round(s.endDeg);
+
+            const spanInfo = document.createElement('span');
+            spanInfo.className = 'span-info';
+            spanInfo.textContent = Math.round(sectorAngularSpan(s)) + '°';
+
+            const refreshSpan = () => {
+                spanInfo.textContent = Math.round(sectorAngularSpan(s)) + '°';
+            };
+
+            fromInput.addEventListener('input', () => {
+                const v = parseFloat(fromInput.value);
+                if (!Number.isFinite(v)) return;
+                s.startDeg = normDeg(v);
+                refreshSpan();
+                renderSectors();
+            });
+            toInput.addEventListener('input', () => {
+                const v = parseFloat(toInput.value);
+                if (!Number.isFinite(v)) return;
+                s.endDeg = normDeg(v);
+                refreshSpan();
+                renderSectors();
+            });
+
+            const sep1 = document.createElement('span');
+            sep1.className = 'deg-sep';
+            sep1.textContent = '°→';
+            const sep2 = document.createElement('span');
+            sep2.className = 'deg-sep';
+            sep2.textContent = '°';
+
+            row2.appendChild(fromInput);
+            row2.appendChild(sep1);
+            row2.appendChild(toInput);
+            row2.appendChild(sep2);
+            row2.appendChild(spanInfo);
+
+            item.appendChild(row1);
+            item.appendChild(row2);
+            return item;
+        }
+
+        // Update only the from/to/span inputs of one sector card without rebuilding the list.
+        // Used during sector-handle drag to keep inputs in sync without losing focus.
+        function syncSectorListItem(sector) {
+            const item = document.querySelector(`.sector-item[data-sector-id="${sector.id}"]`);
+            if (!item) return;
+            const fromInput = item.querySelector('.from-input');
+            const toInput = item.querySelector('.to-input');
+            const spanInfo = item.querySelector('.span-info');
+            if (fromInput && document.activeElement !== fromInput) {
+                fromInput.value = Math.round(sector.startDeg);
+            }
+            if (toInput && document.activeElement !== toInput) {
+                toInput.value = Math.round(sector.endDeg);
+            }
+            if (spanInfo) {
+                spanInfo.textContent = Math.round(sectorAngularSpan(sector)) + '°';
+            }
+        }
+
+        function renderAll() {
+            renderCenter();
+            renderSectors();
+            renderSpirals();
+            renderNodes();
+            renderEndpoints();
+            updateInfoPanel();
+        }
+
+        // ============== INFO PANEL ==============
+        function updateInfoPanel() {
+            const panel = document.getElementById('right-panel');
+            if (state.selectedNodeId == null) {
+                panel.style.display = 'none';
+                return;
+            }
+            const node = state.nodes.find(n => n.id === state.selectedNodeId);
+            if (!node) {
+                state.selectedNodeId = null;
+                panel.style.display = 'none';
+                return;
+            }
+            panel.style.display = 'block';
+
+            const deg = nodeWorldDeg(node);
+            const turn = Math.floor(node.theta / TAU) + 1;
+            const sector = findNodeSector(node);
+
+            document.getElementById('info-pass').textContent = `${node.passIndex + 1} из ${state.spiral.passCount}`;
+            document.getElementById('info-pass-color').style.background = passColor(node.passIndex);
+            document.getElementById('info-angle').textContent = deg.toFixed(1) + '°';
+            document.getElementById('info-turn').textContent = turn;
+            document.getElementById('info-sector').textContent = sector ? sector.name : '—';
+            if (sector) {
+                document.getElementById('info-sector').style.color = sector.color;
+            } else {
+                document.getElementById('info-sector').style.color = '';
+            }
+
+            const nameInput = document.getElementById('info-name');
+            if (document.activeElement !== nameInput) {
+                nameInput.value = node.name;
+            }
+        }
+
+        // ============== INTERACTIONS ==============
+        let dragging = null; // { type, ... }
+
+        function showDragInfo(sector) {
+            document.getElementById('drag-info').style.display = 'flex';
+            updateDragInfo(sector);
+        }
+
+        function updateDragInfo(sector) {
+            const start = Math.round(normDeg(sector.startDeg));
+            const end = Math.round(normDeg(sector.endDeg));
+            const span = Math.round(sectorAngularSpan(sector));
+            document.getElementById('drag-start').textContent = start + '°';
+            document.getElementById('drag-end').textContent = end + '°';
+            document.getElementById('drag-span').textContent = span + '°';
+            document.getElementById('drag-color').style.background = sector.color;
+            document.getElementById('drag-name').textContent = sector.name;
+        }
+
+        function hideDragInfo() {
+            document.getElementById('drag-info').style.display = 'none';
+        }
+
+        // Convert client coords to SVG world coords (inverse of viewport transform).
+        function svgPoint(e) {
+            const rect = document.getElementById('canvas').getBoundingClientRect();
+            const sx = e.clientX - rect.left;
+            const sy = e.clientY - rect.top;
+            return [(sx - view.tx) / view.scale, (sy - view.ty) / view.scale];
+        }
+
+        // Raw screen coords (relative to SVG element, no viewport applied) — needed for wheel-zoom anchoring.
+        function screenPoint(e) {
+            const rect = document.getElementById('canvas').getBoundingClientRect();
+            return [e.clientX - rect.left, e.clientY - rect.top];
+        }
+
+        function onWheel(e) {
+            e.preventDefault();
+            const [sx, sy] = screenPoint(e);
+            if (e.altKey) {
+                const factor = e.deltaY < 0 ? 1.1 : 1 / 1.1;
+                const newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, view.scale * factor));
+                if (newScale === view.scale) return;
+                // Keep world point under cursor anchored to its screen position.
+                const wx = (sx - view.tx) / view.scale;
+                const wy = (sy - view.ty) / view.scale;
+                view.scale = newScale;
+                view.tx = sx - wx * newScale;
+                view.ty = sy - wy * newScale;
+            } else if (e.shiftKey) {
+                // Shift+Wheel: horizontal pan only. Use whichever delta the browser provides
+                // (some auto-swap deltaY→deltaX, some don't).
+                const dx = e.deltaX !== 0 ? e.deltaX : e.deltaY;
+                view.tx -= dx;
+            } else {
+                // Plain wheel: 2D pan. Trackpads emit deltaX for horizontal gestures naturally.
+                view.tx -= e.deltaX;
+                view.ty -= e.deltaY;
+            }
+            applyViewTransform();
+        }
+
+        function clampNodesOnPass(k) {
+            const pass = state.passes[k];
+            for (const node of state.nodes) {
+                if (node.passIndex === k) {
+                    if (node.theta < pass.thetaStart) node.theta = pass.thetaStart;
+                    if (node.theta > pass.thetaEnd) node.theta = pass.thetaEnd;
+                }
+            }
+        }
+
+        function onPointerDown(e) {
+            const target = e.target;
+            const [mx, my] = svgPoint(e);
+
+            if (target.classList && target.classList.contains('handle')) {
+                e.preventDefault();
+                const passIndex = +target.dataset.passIndex;
+                const kind = target.dataset.kind;
+                const initialAng = Math.atan2(my - state.cy, mx - state.cx);
+                dragging = {
+                    type: 'handle',
+                    passIndex,
+                    kind,
+                    lastAng: initialAng,
+                    moved: false,
+                };
+                target.style.cursor = 'grabbing';
+                target.setPointerCapture && target.setPointerCapture(e.pointerId);
+                return;
+            }
+
+            if (target.classList && target.classList.contains('sector-handle')) {
+                e.preventDefault();
+                const sectorId = +target.dataset.sectorId;
+                const kind = target.dataset.kind;
+                const sector = state.sectors.find(s => s.id === sectorId);
+                if (!sector) return;
+                dragging = {
+                    type: 'sector-handle',
+                    sectorId,
+                    kind,
+                    moved: false,
+                };
+                target.style.cursor = 'grabbing';
+                showDragInfo(sector);
+                return;
+            }
+
+            const nodeGrp = target.closest && target.closest('.node-group');
+            if (nodeGrp) {
+                e.preventDefault();
+                const nodeId = +nodeGrp.dataset.nodeId;
+                dragging = {
+                    type: 'node',
+                    nodeId,
+                    startX: mx,
+                    startY: my,
+                    moved: false,
+                };
+                return;
+            }
+
+            // Background — start pan-or-click. We defer the click action (create node or
+            // deselect) until pointerup, so a drag on the background pans the viewport.
+            e.preventDefault();
+            const [sx, sy] = screenPoint(e);
+            dragging = {
+                type: 'pan',
+                startSx: sx,
+                startSy: sy,
+                startTx: view.tx,
+                startTy: view.ty,
+                clickWx: mx,
+                clickWy: my,
+                moved: false,
+            };
+        }
+
+        function onPointerMove(e) {
+            if (!dragging) return;
+
+            if (dragging.type === 'pan') {
+                const [sx, sy] = screenPoint(e);
+                const dx = sx - dragging.startSx;
+                const dy = sy - dragging.startSy;
+                if (!dragging.moved) {
+                    if (Math.hypot(dx, dy) > 4) {
+                        dragging.moved = true;
+                        document.getElementById('canvas').classList.add('panning');
+                    }
+                }
+                if (dragging.moved) {
+                    view.tx = dragging.startTx + dx;
+                    view.ty = dragging.startTy + dy;
+                    applyViewTransform();
+                }
+                return;
+            }
+
+            const [mx, my] = svgPoint(e);
+
+            if (dragging.type === 'sector-handle') {
+                const sector = state.sectors.find(s => s.id === dragging.sectorId);
+                if (!sector) return;
+                const ang = Math.atan2(my - state.cy, mx - state.cx);
+                const deg = normDeg(ang * 180 / PI);
+                if (dragging.kind === 'start') sector.startDeg = deg;
+                else sector.endDeg = deg;
+                dragging.moved = true;
+                renderSectors();
+                syncSectorListItem(sector);
+                updateInfoPanel();
+                updateDragInfo(sector);
+                return;
+            }
+
+            if (dragging.type === 'handle') {
+                const ang = Math.atan2(my - state.cy, mx - state.cx);
+                let delta = ang - dragging.lastAng;
+                while (delta > PI) delta -= TAU;
+                while (delta < -PI) delta += TAU;
+                dragging.lastAng = ang;
+                dragging.moved = true;
+
+                const pass = state.passes[dragging.passIndex];
+                const { a, b } = state.spiral;
+                if (dragging.kind === 'start') {
+                    let newT = pass.thetaStart + delta;
+                    const minT = b > 0 ? (1 - a) / b : 0;
+                    const minAllowed = Math.max(minT, -2 * PI);
+                    newT = Math.max(minAllowed, Math.min(newT, pass.thetaEnd - 0.5));
+                    pass.thetaStart = newT;
+                } else {
+                    let newT = pass.thetaEnd + delta;
+                    newT = Math.max(pass.thetaStart + 0.5, Math.min(newT, 20 * PI));
+                    pass.thetaEnd = newT;
+                }
+                clampNodesOnPass(dragging.passIndex);
+                renderSpirals();
+                renderEndpoints();
+                renderNodes();
+                renderSectors(); // may grow with thetaEnd
+                updateInfoPanel();
+                return;
+            }
+
+            if (dragging.type === 'node') {
+                if (!dragging.moved) {
+                    if (Math.hypot(mx - dragging.startX, my - dragging.startY) > 4) {
+                        dragging.moved = true;
+                    }
+                }
+                if (dragging.moved) {
+                    const node = state.nodes.find(n => n.id === dragging.nodeId);
+                    if (node) {
+                        const near = nearestPointOnSpirals(mx, my);
+                        node.passIndex = near.passIndex;
+                        const pass = state.passes[near.passIndex];
+                        node.theta = Math.max(pass.thetaStart, Math.min(near.theta, pass.thetaEnd));
+                        renderNodes();
+                        if (state.selectedNodeId === node.id) updateInfoPanel();
+                    }
+                }
+            }
+        }
+
+        function onPointerUp(e) {
+            if (!dragging) return;
+
+            if (dragging.type === 'pan') {
+                document.getElementById('canvas').classList.remove('panning');
+                if (!dragging.moved) {
+                    // Pure click on background: create node or deselect.
+                    const mx = dragging.clickWx;
+                    const my = dragging.clickWy;
+                    const near = nearestPointOnSpirals(mx, my);
+                    const passSpacing = state.spiral.b * TAU / state.spiral.passCount;
+                    const threshold = Math.max(40 / view.scale, passSpacing * 0.8);
+                    if (near.dist < threshold) {
+                        const newId = state.nextNodeId++;
+                        state.nodes.push({
+                            id: newId,
+                            name: 'Упражнение ' + newId,
+                            passIndex: near.passIndex,
+                            theta: near.theta,
+                        });
+                        state.selectedNodeId = newId;
+                        renderNodes();
+                        updateInfoPanel();
+                        const nameInput = document.getElementById('info-name');
+                        setTimeout(() => { nameInput.focus(); nameInput.select(); }, 0);
+                    } else if (state.selectedNodeId != null) {
+                        state.selectedNodeId = null;
+                        renderNodes();
+                        updateInfoPanel();
+                    }
+                }
+                dragging = null;
+                return;
+            }
+
+            if (dragging.type === 'sector-handle') {
+                document.querySelectorAll('.sector-handle').forEach(h => h.style.cursor = 'grab');
+                hideDragInfo();
+                // Snap to integer degrees so adjacent sectors share an exact boundary.
+                const sector = state.sectors.find(s => s.id === dragging.sectorId);
+                if (sector) {
+                    sector.startDeg = normDeg(Math.round(sector.startDeg));
+                    sector.endDeg = normDeg(Math.round(sector.endDeg));
+                    renderSectors();
+                    renderSectorsList();
+                    updateInfoPanel();
+                }
+                dragging = null;
+                return;
+            }
+
+            if (dragging.type === 'handle') {
+                document.querySelectorAll('.handle').forEach(h => h.style.cursor = 'grab');
+            } else if (dragging.type === 'node' && !dragging.moved) {
+                // Plain click on node → select
+                state.selectedNodeId = dragging.nodeId;
+                renderNodes();
+                updateInfoPanel();
+            }
+            dragging = null;
+        }
+
+        // ============== UI BINDINGS ==============
+        function bindUI() {
+            // Pass count
+            const passCountInput = document.getElementById('passCount');
+            passCountInput.addEventListener('input', () => {
+                let n = parseInt(passCountInput.value);
+                if (!Number.isFinite(n)) return;
+                n = Math.max(1, Math.min(16, n));
+                state.spiral.passCount = n;
+                const tEnd = defaultThetaEnd();
+                while (state.passes.length < n) {
+                    state.passes.push({ thetaStart: 0, thetaEnd: tEnd });
+                }
+                state.passes.length = n;
+                for (const node of state.nodes) {
+                    if (node.passIndex >= n) node.passIndex = n - 1;
+                    clampNodesOnPass(node.passIndex);
+                }
+                renderAll();
+            });
+
+            // Range sliders
+            const rangeA = document.getElementById('rangeA');
+            const rangeB = document.getElementById('rangeB');
+            const rangeTurns = document.getElementById('rangeTurns');
+            const valA = document.getElementById('valA');
+            const valB = document.getElementById('valB');
+            const valTurns = document.getElementById('valTurns');
+            rangeA.addEventListener('input', () => {
+                state.spiral.a = parseFloat(rangeA.value);
+                valA.textContent = state.spiral.a;
+                renderAll();
+            });
+            rangeB.addEventListener('input', () => {
+                state.spiral.b = parseFloat(rangeB.value);
+                valB.textContent = state.spiral.b;
+                renderAll();
+            });
+            rangeTurns.addEventListener('input', () => {
+                const t = parseFloat(rangeTurns.value);
+                if (!Number.isFinite(t)) return;
+                state.spiral.turns = t;
+                valTurns.textContent = t;
+                // Apply to ALL passes: keep each pass's thetaStart, set length to turns*TAU.
+                const len = t * TAU;
+                for (const pass of state.passes) {
+                    pass.thetaEnd = pass.thetaStart + len;
+                }
+                for (let k = 0; k < state.spiral.passCount; k++) clampNodesOnPass(k);
+                renderAll();
+            });
+
+            // Sector form
+            document.getElementById('sector-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('sector-name').value.trim();
+                let from = parseFloat(document.getElementById('sector-from').value);
+                let to = parseFloat(document.getElementById('sector-to').value);
+                const color = document.getElementById('sector-color').value;
+                if (!name) return;
+                if (!Number.isFinite(from)) from = 0;
+                if (!Number.isFinite(to)) to = 90;
+                from = Math.max(0, Math.min(360, Math.round(from)));
+                to = Math.max(0, Math.min(360, Math.round(to)));
+                state.sectors.push({
+                    id: state.nextSectorId++,
+                    name,
+                    startDeg: from,
+                    endDeg: to,
+                    color,
+                });
+                document.getElementById('sector-name').value = '';
+                renderSectors();
+                renderSectorsList();
+                updateInfoPanel();
+            });
+
+            // Reset view button
+            document.getElementById('reset-view').addEventListener('click', resetView);
+
+            // Clear nodes — two-step (first click arms, second click confirms within 3s).
+            const clearBtn = document.getElementById('clear-nodes');
+            let clearArmed = false;
+            let clearTimer = null;
+            const resetClearBtn = () => {
+                clearArmed = false;
+                clearBtn.textContent = 'Очистить узлы';
+                clearBtn.classList.remove('armed');
+                if (clearTimer) { clearTimeout(clearTimer); clearTimer = null; }
+            };
+            clearBtn.addEventListener('click', () => {
+                if (state.nodes.length === 0) return;
+                if (!clearArmed) {
+                    clearArmed = true;
+                    clearBtn.textContent = 'Точно? Кликни ещё раз';
+                    clearBtn.classList.add('armed');
+                    clearTimer = setTimeout(resetClearBtn, 3000);
+                    return;
+                }
+                state.nodes = [];
+                state.selectedNodeId = null;
+                renderNodes();
+                updateInfoPanel();
+                resetClearBtn();
+            });
+
+            // Export
+            document.getElementById('export-btn').addEventListener('click', () => {
+                const data = {
+                    version: 1,
+                    spiral: state.spiral,
+                    passes: state.passes,
+                    sectors: state.sectors,
+                    nodes: state.nodes,
+                };
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'spiral.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+
+            // Import
+            const importFile = document.getElementById('import-file');
+            document.getElementById('import-btn').addEventListener('click', () => importFile.click());
+            importFile.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                try {
+                    const text = await file.text();
+                    const data = JSON.parse(text);
+                    const numOr = (v, def) => Number.isFinite(+v) ? +v : def;
+                    if (data.spiral && typeof data.spiral === 'object') {
+                        state.spiral.a = numOr(data.spiral.a, 400);
+                        state.spiral.b = numOr(data.spiral.b, 40);
+                        state.spiral.passCount = Math.max(1, Math.min(16, numOr(data.spiral.passCount, 4)));
+                        state.spiral.turns = numOr(data.spiral.turns, 8);
+                    }
+                    if (Array.isArray(data.passes)) {
+                        state.passes = data.passes.map(p => ({
+                            thetaStart: numOr(p.thetaStart, 0),
+                            thetaEnd: numOr(p.thetaEnd, 6 * PI),
+                        }));
+                    }
+                    while (state.passes.length < state.spiral.passCount) {
+                        state.passes.push({ thetaStart: 0, thetaEnd: defaultThetaEnd() });
+                    }
+                    state.passes.length = state.spiral.passCount;
+                    if (Array.isArray(data.sectors)) {
+                        state.sectors = data.sectors.map(s => ({
+                            id: numOr(s.id, ++state.nextSectorId),
+                            name: String(s.name || ''),
+                            startDeg: numOr(s.startDeg, 0),
+                            endDeg: numOr(s.endDeg, 0),
+                            color: String(s.color || '#FF6B6B'),
+                        }));
+                        state.nextSectorId = Math.max(0, ...state.sectors.map(s => s.id)) + 1;
+                    }
+                    if (Array.isArray(data.nodes)) {
+                        state.nodes = data.nodes.map(n => ({
+                            id: numOr(n.id, ++state.nextNodeId),
+                            name: String(n.name || ''),
+                            passIndex: Math.max(0, Math.min(state.spiral.passCount - 1, numOr(n.passIndex, 0))),
+                            theta: numOr(n.theta, 0),
+                        }));
+                        state.nextNodeId = Math.max(0, ...state.nodes.map(n => n.id)) + 1;
+                    }
+                    state.selectedNodeId = null;
+                    document.getElementById('passCount').value = state.spiral.passCount;
+                    document.getElementById('rangeA').value = state.spiral.a;
+                    document.getElementById('rangeB').value = state.spiral.b;
+                    document.getElementById('rangeTurns').value = state.spiral.turns;
+                    document.getElementById('valA').textContent = state.spiral.a;
+                    document.getElementById('valB').textContent = state.spiral.b;
+                    document.getElementById('valTurns').textContent = state.spiral.turns;
+                    renderAll();
+                    renderSectorsList();
+                } catch (err) {
+                    console.error('Ошибка импорта:', err);
+                    const importBtn = document.getElementById('import-btn');
+                    const orig = importBtn.textContent;
+                    importBtn.textContent = '❌ Ошибка импорта';
+                    importBtn.style.background = 'rgba(255,107,107,0.7)';
+                    setTimeout(() => {
+                        importBtn.textContent = orig;
+                        importBtn.style.background = '';
+                    }, 2500);
+                }
+                e.target.value = '';
+            });
+
+            // Info panel
+            document.getElementById('info-name').addEventListener('input', (e) => {
+                if (state.selectedNodeId == null) return;
+                const node = state.nodes.find(n => n.id === state.selectedNodeId);
+                if (node) {
+                    node.name = e.target.value;
+                    renderNodes();
+                }
+            });
+            document.getElementById('info-prev').addEventListener('click', () => {
+                const node = state.nodes.find(n => n.id === state.selectedNodeId);
+                if (!node) return;
+                const N = state.spiral.passCount;
+                node.passIndex = (node.passIndex - 1 + N) % N;
+                clampNodesOnPass(node.passIndex);
+                renderNodes();
+                updateInfoPanel();
+            });
+            document.getElementById('info-next').addEventListener('click', () => {
+                const node = state.nodes.find(n => n.id === state.selectedNodeId);
+                if (!node) return;
+                const N = state.spiral.passCount;
+                node.passIndex = (node.passIndex + 1) % N;
+                clampNodesOnPass(node.passIndex);
+                renderNodes();
+                updateInfoPanel();
+            });
+            document.getElementById('info-delete').addEventListener('click', () => {
+                state.nodes = state.nodes.filter(n => n.id !== state.selectedNodeId);
+                state.selectedNodeId = null;
+                renderNodes();
+                updateInfoPanel();
+            });
+        }
+
+        // ============== INIT ==============
+        function onResize() {
+            const svg = document.getElementById('canvas');
+            state.cx = window.innerWidth / 2;
+            state.cy = window.innerHeight / 2;
+            svg.setAttribute('width', window.innerWidth);
+            svg.setAttribute('height', window.innerHeight);
+            renderAll();
+        }
+
+        function init() {
+            const svg = document.getElementById('canvas');
+            state.cx = window.innerWidth / 2;
+            state.cy = window.innerHeight / 2;
+            svg.setAttribute('width', window.innerWidth);
+            svg.setAttribute('height', window.innerHeight);
+            initPasses(state.spiral.passCount);
+
+            // Default sample sectors (4 quadrants)
+            state.sectors = [
+                { id: state.nextSectorId++, name: 'Сектор 1', startDeg: 0, endDeg: 90, color: '#FF6B6B' },
+                { id: state.nextSectorId++, name: 'Сектор 2', startDeg: 90, endDeg: 180, color: '#FFD93D' },
+                { id: state.nextSectorId++, name: 'Сектор 3', startDeg: 180, endDeg: 270, color: '#6BCB77' },
+                { id: state.nextSectorId++, name: 'Сектор 4', startDeg: 270, endDeg: 360, color: '#4D96FF' },
+            ];
+
+            renderAll();
+            renderSectorsList();
+            bindUI();
+
+            svg.addEventListener('pointerdown', onPointerDown);
+            svg.addEventListener('wheel', onWheel, { passive: false });
+            window.addEventListener('pointermove', onPointerMove);
+            window.addEventListener('pointerup', onPointerUp);
+            window.addEventListener('resize', onResize);
+            window.addEventListener('keydown', (e) => {
+                if (e.key === '0' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                    const tag = (e.target && e.target.tagName) || '';
+                    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+                    resetView();
+                }
+            });
+            applyViewTransform();
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+
+</html>
