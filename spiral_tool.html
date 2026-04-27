@@ -49,6 +49,7 @@
             max-height: calc(100vh - 32px);
             overflow-y: auto;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transition: transform 0.28s ease, opacity 0.2s ease;
         }
 
         #left-panel {
@@ -62,11 +63,114 @@
             display: none;
         }
 
-        .panel h3 {
-            font-size: 14px;
+        #left-panel.collapsed {
+            transform: translateX(calc(-100% - 32px));
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #right-panel.collapsed {
+            transform: translateX(calc(100% + 32px));
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
             margin-bottom: 12px;
             padding-bottom: 8px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .panel-header h3 {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .panel-close {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            color: rgba(255, 255, 255, 0.85);
+            border-radius: 8px;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            padding: 0;
+            flex-shrink: 0;
+            font-family: inherit;
+        }
+
+        .panel-close:hover {
+            background: rgba(255, 255, 255, 0.14);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .panel-open {
+            position: fixed;
+            top: 16px;
+            z-index: 99;
+            background: rgba(20, 20, 40, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: inherit;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            display: none;
+            align-items: center;
+            gap: 6px;
+            max-width: calc(100vw - 32px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .panel-open.shown {
+            display: inline-flex;
+        }
+
+        .panel-open.left {
+            left: 16px;
+        }
+
+        .panel-open.right {
+            right: 16px;
+        }
+
+        .panel-open:hover {
+            background: rgba(40, 40, 60, 0.95);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        @media (max-width: 600px) {
+
+            #left-panel,
+            #right-panel {
+                width: calc(100vw - 32px);
+                max-width: 360px;
+            }
+        }
+
+        .panel h3 {
+            font-size: 14px;
         }
 
         .panel h4 {
@@ -738,8 +842,14 @@
         <span class="lbl">Размер:</span> <span id="drag-span">0°</span>
     </div>
 
+    <button id="left-open" class="panel-open left" type="button" title="Показать панель">☰ Спираль</button>
+    <button id="right-open" class="panel-open right" type="button" title="Показать панель узла">📍 Узел</button>
+
     <div id="left-panel" class="panel">
-        <h3>🌀 Спираль</h3>
+        <div class="panel-header">
+            <h3>🌀 Спираль</h3>
+            <button class="panel-close" id="left-close" type="button" title="Скрыть панель" aria-label="Скрыть панель">✕</button>
+        </div>
 
         <h4>Параметры</h4>
         <div class="row">
@@ -813,7 +923,10 @@
     </div>
 
     <div id="right-panel" class="panel">
-        <h3>📍 Узел</h3>
+        <div class="panel-header">
+            <h3>📍 Узел</h3>
+            <button class="panel-close" id="right-close" type="button" title="Скрыть панель" aria-label="Скрыть панель">✕</button>
+        </div>
 
         <div class="info-row">
             <span class="label">Заход</span>
@@ -1660,6 +1773,35 @@
             return item;
         }
 
+        // ============== PANEL COLLAPSE / OPEN ==============
+        let leftPanelCollapsed = false;
+        let rightPanelCollapsed = false;
+
+        function setLeftPanelCollapsed(collapsed) {
+            leftPanelCollapsed = collapsed;
+            document.getElementById('left-panel').classList.toggle('collapsed', collapsed);
+            document.getElementById('left-open').classList.toggle('shown', collapsed);
+        }
+
+        function setRightPanelCollapsed(collapsed) {
+            rightPanelCollapsed = collapsed;
+            document.getElementById('right-panel').classList.toggle('collapsed', collapsed);
+            refreshRightOpenButton();
+        }
+
+        function refreshRightOpenButton() {
+            const btn = document.getElementById('right-open');
+            const node = state.selectedNodeId != null
+                ? state.nodes.find(n => n.id === state.selectedNodeId)
+                : null;
+            const visible = rightPanelCollapsed && !!node;
+            btn.classList.toggle('shown', visible);
+            if (node) {
+                const name = node.name && node.name.length > 22 ? node.name.slice(0, 20) + '…' : (node.name || 'Узел');
+                btn.textContent = '📍 ' + name;
+            }
+        }
+
         // ============== INFO PANEL ==============
         function updateInfoPanel() {
             const panel = document.getElementById('right-panel');
@@ -1676,15 +1818,18 @@
 
             if (state.selectedNodeId == null) {
                 panel.style.display = 'none';
+                refreshRightOpenButton();
                 return;
             }
             const node = state.nodes.find(n => n.id === state.selectedNodeId);
             if (!node) {
                 state.selectedNodeId = null;
                 panel.style.display = 'none';
+                refreshRightOpenButton();
                 return;
             }
             panel.style.display = 'block';
+            refreshRightOpenButton();
 
             const deg = nodeWorldDeg(node);
             const turn = Math.floor(node.theta / TAU) + 1;
@@ -2165,6 +2310,8 @@
                             theta: near.theta,
                         });
                         state.selectedNodeId = newId;
+                        // Auto-expand the right panel so the user immediately sees the new node.
+                        if (rightPanelCollapsed) setRightPanelCollapsed(false);
                         renderNodes();
                         updateInfoPanel();
                         renderEquipmentList();
@@ -2434,6 +2581,12 @@
                 renderNodes();
                 updateInfoPanel();
             });
+
+            // Panel collapse / open
+            document.getElementById('left-close').addEventListener('click', () => setLeftPanelCollapsed(true));
+            document.getElementById('left-open').addEventListener('click', () => setLeftPanelCollapsed(false));
+            document.getElementById('right-close').addEventListener('click', () => setRightPanelCollapsed(true));
+            document.getElementById('right-open').addEventListener('click', () => setRightPanelCollapsed(false));
         }
 
         // ============== IMPORT / AUTO-LOAD ==============
@@ -2557,6 +2710,11 @@
             renderPassesList();
             renderEquipmentList();
             bindUI();
+            // On narrow screens both panels would otherwise hide the canvas —
+            // start with the left panel collapsed so the spiral is visible first.
+            if (window.matchMedia && window.matchMedia('(max-width: 600px)').matches) {
+                setLeftPanelCollapsed(true);
+            }
             // Fire-and-forget; on success it replaces the default scene seamlessly.
             autoLoadDefaultSpiral();
 
