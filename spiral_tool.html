@@ -191,10 +191,83 @@
             margin-top: 4px;
         }
 
-        #sectors-list {
+        #sectors-list,
+        #passes-list {
             margin-top: 8px;
             max-height: 200px;
             overflow-y: auto;
+        }
+
+        .pass-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 6px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            margin-bottom: 4px;
+        }
+
+        .pass-item.hidden-pass {
+            opacity: 0.45;
+        }
+
+        .pass-item input[type="checkbox"] {
+            flex-shrink: 0;
+            cursor: pointer;
+            accent-color: rgba(108, 92, 231, 0.9);
+        }
+
+        .pass-item input[type="color"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            background: transparent;
+            flex-shrink: 0;
+        }
+
+        .pass-item input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+            border-radius: 50%;
+        }
+
+        .pass-item input[type="color"]::-webkit-color-swatch {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .pass-item input[type="text"] {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: white;
+            border-radius: 4px;
+            padding: 4px 6px;
+            font-size: 12px;
+            outline: none;
+            font-family: inherit;
+            min-width: 0;
+        }
+
+        .pass-item input[type="text"]:focus {
+            border-color: rgba(108, 92, 231, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .row.checkbox-row {
+            justify-content: flex-start;
+            gap: 8px;
+        }
+
+        .row.checkbox-row label {
+            cursor: pointer;
+            user-select: none;
         }
 
         .sector-item {
@@ -354,6 +427,191 @@
             flex: 1;
         }
 
+        #info-csv {
+            font-family: 'SF Mono', Menlo, Consolas, monospace;
+            font-size: 11px;
+        }
+
+        #info-exercise-display {
+            margin-top: 12px;
+        }
+
+        .ex-equipment {
+            display: inline-block;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            background: rgba(108, 92, 231, 0.18);
+            border: 1px solid rgba(108, 92, 231, 0.4);
+            color: rgba(220, 215, 255, 0.95);
+            margin-bottom: 8px;
+        }
+
+        .ex-video {
+            width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            margin-bottom: 8px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .ex-thumb {
+            width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .muscle-section {
+            margin-top: 8px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .muscle-section h5 {
+            margin: 0 0 6px 0;
+            font-size: 10.5px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .muscle-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .muscle-pill {
+            padding: 3px 9px;
+            border-radius: 12px;
+            font-size: 11px;
+            border: 1px solid;
+            background: transparent;
+            white-space: nowrap;
+            line-height: 1.4;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.12s, color 0.12s, transform 0.05s;
+        }
+
+        .muscle-pill:hover {
+            transform: translateY(-1px);
+        }
+
+        .muscle-section.primary .muscle-pill {
+            border-color: rgba(255, 107, 107, 0.65);
+            color: rgba(255, 200, 200, 0.95);
+        }
+
+        .muscle-section.secondary .muscle-pill {
+            border-color: rgba(255, 175, 75, 0.6);
+            color: rgba(255, 220, 175, 0.95);
+        }
+
+        .muscle-section.primary .muscle-pill.active {
+            background: rgba(255, 107, 107, 0.85);
+            border-color: rgba(255, 200, 200, 1);
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.25);
+        }
+
+        .muscle-section.secondary .muscle-pill.active {
+            background: rgba(255, 175, 75, 0.85);
+            border-color: rgba(255, 220, 175, 1);
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 0 0 2px rgba(255, 175, 75, 0.25);
+        }
+
+        .ex-empty-hint {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            font-style: italic;
+            padding: 6px 0;
+        }
+
+        #equipment-search {
+            width: 100%;
+            margin-bottom: 6px;
+        }
+
+        .equip-actions {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 6px;
+        }
+
+        .equip-actions button {
+            flex: 1;
+            padding: 5px 8px;
+            font-size: 11px;
+        }
+
+        #equipment-list {
+            margin-top: 4px;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+
+        .equip-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 6px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            margin-bottom: 3px;
+            font-size: 12px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .equip-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .equip-item.disabled {
+            opacity: 0.45;
+        }
+
+        .equip-item input[type="checkbox"] {
+            accent-color: rgba(108, 92, 231, 0.9);
+            flex-shrink: 0;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .equip-item .equip-name {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .equip-item .equip-count {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 11px;
+            font-variant-numeric: tabular-nums;
+            flex-shrink: 0;
+        }
+
+        .equip-empty {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            font-style: italic;
+            padding: 6px;
+            text-align: center;
+        }
+
         .hint {
             font-size: 11px;
             color: rgba(255, 255, 255, 0.5);
@@ -503,6 +761,21 @@
             <input type="range" id="rangeTurns" min="0.5" max="15" value="8" step="0.5">
             <span class="val" id="valTurns">8</span>
         </div>
+        <div class="row checkbox-row">
+            <input type="checkbox" id="cwToggle" checked>
+            <label for="cwToggle">По часовой стрелке</label>
+        </div>
+
+        <h4>Заходы</h4>
+        <div id="passes-list"></div>
+
+        <h4>Фильтр по оборудованию</h4>
+        <input type="text" id="equipment-search" placeholder="🔍 Поиск оборудования…">
+        <div class="equip-actions">
+            <button type="button" class="ghost" id="equip-all">Все</button>
+            <button type="button" class="ghost" id="equip-none">Никакие</button>
+        </div>
+        <div id="equipment-list"></div>
 
         <h4>Сектора</h4>
         <form class="sector-form" id="sector-form">
@@ -562,10 +835,11 @@
         <h4>Название упражнения</h4>
         <input type="text" id="info-name" placeholder="Введите название…">
 
-        <div class="button-group">
-            <button class="ghost" id="info-prev">← Заход</button>
-            <button class="ghost" id="info-next">Заход →</button>
-        </div>
+        <h4>CSV-строка упражнения</h4>
+        <input type="text" id="info-csv" placeholder='"Body weight","triceps","deltoids","https://….mp4","https://….png"'>
+
+        <div id="info-exercise-display"></div>
+
         <div class="button-group">
             <button class="danger" id="info-delete" style="width:100%;">🗑 Удалить узел</button>
         </div>
@@ -577,17 +851,232 @@
         const TAU = 2 * PI;
 
         // ============== STATE ==============
+        const DEFAULT_PASS_COLORS = [
+            '#FF6B6B', '#FFD93D', '#6BCB77', '#4D96FF',
+            '#A66BFF', '#FF8C6B', '#6BFFD9', '#FF6BD9',
+            '#FFB86B', '#6BB8FF', '#B8FF6B', '#FF6BB8',
+            '#6BFFB8', '#B86BFF', '#FFCC6B', '#6BCCFF',
+        ];
+
+        function defaultPassColor(i) {
+            return DEFAULT_PASS_COLORS[i % DEFAULT_PASS_COLORS.length];
+        }
+
         const state = {
             cx: 0,
             cy: 0,
-            spiral: { a: 400, b: 40, passCount: 4, turns: 8 },
+            spiral: { a: 400, b: 40, passCount: 4, turns: 8, dir: 1 },
             passes: [],
             sectors: [],
             nodes: [],
             selectedNodeId: null,
             nextNodeId: 1,
             nextSectorId: 1,
+            hiddenEquipment: new Set(),
+            muscleHighlight: null, // { nodeId, muscle } | null
         };
+
+        // ============== EXERCISE CSV ==============
+        const MUSCLE_LABELS_RU = {
+            'deltoid_anterior': 'Дельтовидная (передний пучок)',
+            'deltoid_lateral': 'Дельтовидная (средний пучок)',
+            'deltoid_posterior': 'Дельтовидная (задний пучок)',
+            'deltoids': 'Дельтовидная',
+            'chest_clavicular_head': 'Грудная (верхняя)',
+            'chest_sternal_head': 'Грудная (средняя)',
+            'pectoralis_major': 'Грудные',
+            'pectorals': 'Грудные',
+            'triceps': 'Трицепсы',
+            'biceps': 'Бицепсы',
+            'brachialis': 'Плечевая',
+            'brachioradialis': 'Плечелучевая',
+            'forearms': 'Предплечья',
+            'rectus_abdominis': 'Прямая мышца живота',
+            'obliques': 'Косые мышцы',
+            'serratus_anterior': 'Передняя зубчатая',
+            'iliopsoas': 'Подвздошно-поясничная',
+            'gluteus_maximus': 'Большие ягодичные',
+            'gluteus_medius': 'Средние ягодичные',
+            'gluteus_minimus': 'Малые ягодичные',
+            'quadriceps': 'Квадрицепсы',
+            'hamstrings': 'Задняя часть бедер',
+            'gastrocnemius': 'Икроножная',
+            'soleus': 'Камбаловидная',
+            'calves': 'Голени',
+            'hip_adductors': 'Приводящие бедра',
+            'hip_abductors': 'Отводящие бедра',
+            'tensor_fasciae_femoris': 'Напрягатель фасции бедра',
+            'tensor_fasciae_latae': 'Напрягатель фасции бедра',
+            'latissimus_dorsi': 'Широчайшие',
+            'trapezius': 'Трапециевидная',
+            'trapezius_upper': 'Трапециевидная (верхняя)',
+            'trapezius_middle': 'Трапециевидная (средняя)',
+            'trapezius_lower': 'Трапециевидная (нижняя)',
+            'infraspinatus': 'Подостная',
+            'supraspinatus': 'Надостная',
+            'teres_major': 'Большая круглая',
+            'teres_minor': 'Малая круглая',
+            'rhomboids': 'Ромбовидная',
+            'erector_spinae': 'Разгибатели спины',
+            'lower_back': 'Нижняя часть спины',
+            'full_body': 'Всё тело',
+            'traps': 'Трапециевидная',
+        };
+
+        function muscleLabel(code) {
+            const key = String(code || '').trim().toLowerCase().replace(/\s+/g, '_');
+            if (!key) return '';
+            return MUSCLE_LABELS_RU[key] || code.trim();
+        }
+
+        // RFC4180-ish CSV row parser. Handles quoted fields and "" escape.
+        function parseCsvRow(row) {
+            const out = [];
+            let cur = '';
+            let inQ = false;
+            for (let i = 0; i < row.length; i++) {
+                const c = row[i];
+                if (inQ) {
+                    if (c === '"') {
+                        if (row[i + 1] === '"') { cur += '"'; i++; }
+                        else { inQ = false; }
+                    } else {
+                        cur += c;
+                    }
+                } else {
+                    if (c === '"') inQ = true;
+                    else if (c === ',') { out.push(cur); cur = ''; }
+                    else cur += c;
+                }
+            }
+            out.push(cur);
+            return out.map(s => s.trim());
+        }
+
+        function parseExerciseCsv(raw) {
+            if (!raw || typeof raw !== 'string') return null;
+            const trimmed = raw.trim();
+            if (!trimmed) return null;
+            const fields = parseCsvRow(trimmed);
+            // Expecting [equipment, primary, secondary, video, thumbnail].
+            // Skip header if present.
+            if (fields[0] && /^equipment$/i.test(fields[0])) return null;
+            const [equipment = '', primary = '', secondary = '', video = '', thumbnail = ''] = fields;
+            const splitMuscles = s => s.split(',').map(x => x.trim()).filter(Boolean);
+            return {
+                equipment,
+                primaryMuscles: splitMuscles(primary),
+                secondaryMuscles: splitMuscles(secondary),
+                videoUrl: video,
+                thumbnailUrl: thumbnail,
+            };
+        }
+
+        // ============== EQUIPMENT FILTER ==============
+        const NO_EQUIPMENT_KEY = '__none__';
+        const NO_EQUIPMENT_LABEL = '(без оборудования)';
+
+        function nodeEquipmentKey(node) {
+            if (!node || !node.exerciseRaw) return NO_EQUIPMENT_KEY;
+            const data = parseExerciseCsv(node.exerciseRaw);
+            const eq = data && data.equipment ? data.equipment.trim() : '';
+            return eq || NO_EQUIPMENT_KEY;
+        }
+
+        function uniqueEquipments() {
+            const counts = new Map();
+            for (const node of state.nodes) {
+                const key = nodeEquipmentKey(node);
+                counts.set(key, (counts.get(key) || 0) + 1);
+            }
+            const arr = [];
+            for (const [key, count] of counts) {
+                const label = key === NO_EQUIPMENT_KEY ? NO_EQUIPMENT_LABEL : key;
+                arr.push({ key, label, count });
+            }
+            // Real equipment alphabetically; "(без оборудования)" last.
+            arr.sort((a, b) => {
+                if (a.key === NO_EQUIPMENT_KEY) return 1;
+                if (b.key === NO_EQUIPMENT_KEY) return -1;
+                return a.label.localeCompare(b.label, 'ru');
+            });
+            return arr;
+        }
+
+        function isNodeVisibleByFilter(node) {
+            return !state.hiddenEquipment.has(nodeEquipmentKey(node));
+        }
+
+        function renderEquipmentList() {
+            const list = document.getElementById('equipment-list');
+            if (!list) return;
+            list.innerHTML = '';
+            const items = uniqueEquipments();
+
+            // Drop stale entries that no longer correspond to any node.
+            const existingKeys = new Set(items.map(it => it.key));
+            for (const key of Array.from(state.hiddenEquipment)) {
+                if (!existingKeys.has(key)) state.hiddenEquipment.delete(key);
+            }
+
+            if (items.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'equip-empty';
+                empty.textContent = 'Нет данных об оборудовании';
+                list.appendChild(empty);
+                return;
+            }
+
+            const searchInput = document.getElementById('equipment-search');
+            const filter = ((searchInput && searchInput.value) || '').trim().toLowerCase();
+            let shown = 0;
+            for (const it of items) {
+                if (filter && !it.label.toLowerCase().includes(filter)) continue;
+                shown++;
+                const row = document.createElement('div');
+                row.className = 'equip-item';
+                if (state.hiddenEquipment.has(it.key)) row.classList.add('disabled');
+
+                const cb = document.createElement('input');
+                cb.type = 'checkbox';
+                cb.checked = !state.hiddenEquipment.has(it.key);
+                cb.addEventListener('change', () => {
+                    if (cb.checked) state.hiddenEquipment.delete(it.key);
+                    else state.hiddenEquipment.add(it.key);
+                    row.classList.toggle('disabled', !cb.checked);
+                    renderNodes();
+                    updateInfoPanel();
+                });
+
+                const name = document.createElement('span');
+                name.className = 'equip-name';
+                name.textContent = it.label;
+                name.title = it.label;
+
+                const count = document.createElement('span');
+                count.className = 'equip-count';
+                count.textContent = it.count;
+
+                // Click anywhere on the row toggles the checkbox.
+                row.addEventListener('click', (e) => {
+                    if (e.target === cb) return;
+                    cb.checked = !cb.checked;
+                    cb.dispatchEvent(new Event('change'));
+                });
+
+                row.appendChild(cb);
+                row.appendChild(name);
+                row.appendChild(count);
+                list.appendChild(row);
+            }
+
+            if (shown === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'equip-empty';
+                empty.textContent = 'Ничего не найдено';
+                list.appendChild(empty);
+            }
+        }
 
         // Viewport (zoom + pan). Visual transform applied to <g id="g-viewport">.
         const view = { scale: 1, tx: 0, ty: 0 };
@@ -615,7 +1104,13 @@
             state.passes = [];
             const tEnd = defaultThetaEnd();
             for (let i = 0; i < count; i++) {
-                state.passes.push({ thetaStart: 0, thetaEnd: tEnd });
+                state.passes.push({
+                    thetaStart: 0,
+                    thetaEnd: tEnd,
+                    name: `Заход ${i + 1}`,
+                    color: defaultPassColor(i),
+                    visible: true,
+                });
             }
         }
 
@@ -625,15 +1120,15 @@
         }
 
         function pointOnPass(k, t) {
-            const { a, b } = state.spiral;
+            const { a, b, dir } = state.spiral;
             const r = a + b * t;
-            const ang = t + passOffset(k);
+            const ang = dir * t + passOffset(k);
             return [state.cx + r * Math.cos(ang), state.cy + r * Math.sin(ang)];
         }
 
         // Returns world-angle (radians) of node, in [0, 2π)
         function nodeWorldAngle(node) {
-            const a = node.theta + passOffset(node.passIndex);
+            const a = state.spiral.dir * node.theta + passOffset(node.passIndex);
             return ((a % TAU) + TAU) % TAU;
         }
 
@@ -642,7 +1137,9 @@
         }
 
         function passColor(k) {
-            return `hsl(${(360 * k / state.spiral.passCount).toFixed(0)}, 70%, 62%)`;
+            const p = state.passes[k];
+            if (p && p.color) return p.color;
+            return defaultPassColor(k);
         }
 
         function maxRadius() {
@@ -759,7 +1256,20 @@
 
         function renderSectors() {
             const g = clearGroup('g-sectors');
-            const R = maxRadius() + 40;
+
+            // Real outer edge of the spiral (a + b * thetaEnd), without padding.
+            let spiralOuter = 0;
+            for (const p of state.passes) {
+                spiralOuter = Math.max(spiralOuter, state.spiral.a + state.spiral.b * p.thetaEnd);
+            }
+            spiralOuter = Math.max(spiralOuter, 100);
+
+            // Label size scales with the spiral so it stays readable when zooming
+            // out (everything inside g-viewport scales by view.scale uniformly).
+            const fontSize = Math.max(spiralOuter * 0.045, 18);
+            const labelR = spiralOuter + fontSize / 2 + 14;       // label center, just outside spiral
+            const R = spiralOuter + fontSize + 36;                // sector ring outer radius
+
             for (const sector of state.sectors) {
                 const p = document.createElementNS(SVG_NS, 'path');
                 p.setAttribute('d', sectorPath(sector, R));
@@ -771,24 +1281,29 @@
                 p.style.pointerEvents = 'none';
                 g.appendChild(p);
 
-                // Label
+                // Label — placed beyond the spiral edge, rotated tangent to the arc.
                 const span = sectorAngularSpan(sector);
                 const midDeg = normDeg(sector.startDeg + span / 2);
                 const midRad = midDeg * PI / 180;
-                const lr = R * 0.78;
-                const lx = state.cx + lr * Math.cos(midRad);
-                const ly = state.cy + lr * Math.sin(midRad);
+                const lx = state.cx + labelR * Math.cos(midRad);
+                const ly = state.cy + labelR * Math.sin(midRad);
+
+                // Tangent direction = radial + 90°. Flip if it would render upside-down.
+                let rot = midDeg + 90;
+                const rotMod = ((rot % 360) + 360) % 360;
+                if (rotMod > 90 && rotMod < 270) rot += 180;
+
                 const text = document.createElementNS(SVG_NS, 'text');
-                text.setAttribute('x', lx);
-                text.setAttribute('y', ly);
                 text.setAttribute('text-anchor', 'middle');
                 text.setAttribute('dominant-baseline', 'middle');
                 text.setAttribute('fill', '#fff');
-                text.setAttribute('font-size', 14);
+                text.setAttribute('font-size', fontSize.toFixed(1));
                 text.setAttribute('font-weight', 'bold');
                 text.setAttribute('paint-order', 'stroke');
-                text.setAttribute('stroke', 'rgba(0,0,0,0.7)');
-                text.setAttribute('stroke-width', 3);
+                text.setAttribute('stroke', 'rgba(0,0,0,0.85)');
+                text.setAttribute('stroke-width', Math.max(2, fontSize * 0.18).toFixed(1));
+                text.setAttribute('transform',
+                    `translate(${lx.toFixed(2)} ${ly.toFixed(2)}) rotate(${rot.toFixed(2)})`);
                 text.style.pointerEvents = 'none';
                 text.textContent = sector.name;
                 g.appendChild(text);
@@ -843,6 +1358,7 @@
         function renderSpirals() {
             const g = clearGroup('g-spirals');
             for (let k = 0; k < state.spiral.passCount; k++) {
+                if (state.passes[k] && state.passes[k].visible === false) continue;
                 const path = document.createElementNS(SVG_NS, 'path');
                 path.setAttribute('d', buildSpiralPath(k));
                 path.setAttribute('stroke', passColor(k));
@@ -859,6 +1375,7 @@
             const g = clearGroup('g-endpoints');
             for (let k = 0; k < state.spiral.passCount; k++) {
                 const pass = state.passes[k];
+                if (pass.visible === false) continue;
                 const [xs, ys] = pointOnPass(k, pass.thetaStart);
                 const [xe, ye] = pointOnPass(k, pass.thetaEnd);
                 g.appendChild(makeHandle(xs, ys, k, 'start'));
@@ -883,14 +1400,36 @@
 
         function renderNodes() {
             const g = clearGroup('g-nodes');
+            const hl = state.muscleHighlight;
             for (const node of state.nodes) {
+                const pass = state.passes[node.passIndex];
+                if (pass && pass.visible === false) continue;
+                if (!isNodeVisibleByFilter(node)) continue;
                 const [x, y] = pointOnPass(node.passIndex, node.theta);
                 const grp = document.createElementNS(SVG_NS, 'g');
                 grp.setAttribute('transform', `translate(${x.toFixed(2)}, ${y.toFixed(2)})`);
                 grp.classList.add('node-group');
                 grp.dataset.nodeId = node.id;
 
+                const op = nodeOpacity(node);
+                if (op < 1) grp.setAttribute('opacity', op.toFixed(2));
+                if (op === 0) grp.style.pointerEvents = 'none';
+
                 const isSel = node.id === state.selectedNodeId;
+                const isFocus = !!(hl && node.id === hl.nodeId);
+
+                if (isFocus) {
+                    // Extra outer glow ring for the muscle-highlight focus node.
+                    const ring = document.createElementNS(SVG_NS, 'circle');
+                    ring.setAttribute('r', 22);
+                    ring.setAttribute('fill', 'none');
+                    ring.setAttribute('stroke', '#fff');
+                    ring.setAttribute('stroke-width', 2);
+                    ring.setAttribute('stroke-dasharray', '3 3');
+                    ring.setAttribute('opacity', 0.7);
+                    ring.style.pointerEvents = 'none';
+                    grp.appendChild(ring);
+                }
 
                 if (isSel) {
                     const halo = document.createElementNS(SVG_NS, 'circle');
@@ -1065,9 +1604,76 @@
             updateInfoPanel();
         }
 
+        function renderPassesList() {
+            const list = document.getElementById('passes-list');
+            if (!list) return;
+            list.innerHTML = '';
+            for (let i = 0; i < state.passes.length; i++) {
+                list.appendChild(buildPassItem(i));
+            }
+        }
+
+        function buildPassItem(i) {
+            const pass = state.passes[i];
+            const item = document.createElement('div');
+            item.className = 'pass-item';
+            if (pass.visible === false) item.classList.add('hidden-pass');
+            item.dataset.passIndex = i;
+
+            const visCb = document.createElement('input');
+            visCb.type = 'checkbox';
+            visCb.checked = pass.visible !== false;
+            visCb.title = 'Показывать заход';
+            visCb.addEventListener('change', () => {
+                pass.visible = visCb.checked;
+                item.classList.toggle('hidden-pass', !visCb.checked);
+                renderSpirals();
+                renderEndpoints();
+                renderNodes();
+                updateInfoPanel();
+            });
+
+            const colorInput = document.createElement('input');
+            colorInput.type = 'color';
+            colorInput.value = pass.color || defaultPassColor(i);
+            colorInput.title = 'Цвет захода';
+            colorInput.addEventListener('input', () => {
+                pass.color = colorInput.value;
+                renderSpirals();
+                renderEndpoints();
+                renderNodes();
+                updateInfoPanel();
+            });
+
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.value = pass.name || `Заход ${i + 1}`;
+            nameInput.placeholder = `Заход ${i + 1}`;
+            nameInput.addEventListener('input', () => {
+                pass.name = nameInput.value;
+                updateInfoPanel();
+            });
+
+            item.appendChild(visCb);
+            item.appendChild(colorInput);
+            item.appendChild(nameInput);
+            return item;
+        }
+
         // ============== INFO PANEL ==============
         function updateInfoPanel() {
             const panel = document.getElementById('right-panel');
+
+            // Drop a stale muscle-highlight when selection changes or its node disappears.
+            const hl = state.muscleHighlight;
+            if (hl) {
+                const stillExists = state.nodes.some(n => n.id === hl.nodeId);
+                if (!stillExists || hl.nodeId !== state.selectedNodeId) {
+                    state.muscleHighlight = null;
+                    renderNodes();
+                }
+            }
+
             if (state.selectedNodeId == null) {
                 panel.style.display = 'none';
                 return;
@@ -1084,7 +1690,9 @@
             const turn = Math.floor(node.theta / TAU) + 1;
             const sector = findNodeSector(node);
 
-            document.getElementById('info-pass').textContent = `${node.passIndex + 1} из ${state.spiral.passCount}`;
+            const passObj = state.passes[node.passIndex];
+            const passName = (passObj && passObj.name) ? passObj.name : `Заход ${node.passIndex + 1}`;
+            document.getElementById('info-pass').textContent = passName;
             document.getElementById('info-pass-color').style.background = passColor(node.passIndex);
             document.getElementById('info-angle').textContent = deg.toFixed(1) + '°';
             document.getElementById('info-turn').textContent = turn;
@@ -1099,6 +1707,136 @@
             if (document.activeElement !== nameInput) {
                 nameInput.value = node.name;
             }
+            const csvInput = document.getElementById('info-csv');
+            if (document.activeElement !== csvInput) {
+                csvInput.value = node.exerciseRaw || '';
+            }
+            renderExerciseDisplay(node);
+        }
+
+        function renderExerciseDisplay(node) {
+            const display = document.getElementById('info-exercise-display');
+            display.innerHTML = '';
+            const data = node ? parseExerciseCsv(node.exerciseRaw) : null;
+            if (!data) {
+                if (node && node.exerciseRaw) {
+                    const hint = document.createElement('div');
+                    hint.className = 'ex-empty-hint';
+                    hint.textContent = 'Не удалось разобрать CSV-строку';
+                    display.appendChild(hint);
+                }
+                return;
+            }
+
+            if (data.equipment) {
+                const eq = document.createElement('div');
+                eq.className = 'ex-equipment';
+                eq.textContent = data.equipment;
+                display.appendChild(eq);
+            }
+
+            if (data.videoUrl) {
+                const v = document.createElement('video');
+                v.className = 'ex-video';
+                v.src = data.videoUrl;
+                v.autoplay = true;
+                v.loop = true;
+                v.muted = true;
+                v.playsInline = true;
+                v.setAttribute('playsinline', '');
+                v.setAttribute('muted', '');
+                if (data.thumbnailUrl) v.poster = data.thumbnailUrl;
+                v.addEventListener('error', () => {
+                    v.style.display = 'none';
+                    if (data.thumbnailUrl) {
+                        const img = document.createElement('img');
+                        img.className = 'ex-thumb';
+                        img.src = data.thumbnailUrl;
+                        img.alt = '';
+                        v.parentNode && v.parentNode.insertBefore(img, v);
+                    }
+                });
+                display.appendChild(v);
+            } else if (data.thumbnailUrl) {
+                const img = document.createElement('img');
+                img.className = 'ex-thumb';
+                img.src = data.thumbnailUrl;
+                img.alt = '';
+                display.appendChild(img);
+            }
+
+            if (data.primaryMuscles.length) {
+                display.appendChild(buildMuscleSection('Основные мышцы', data.primaryMuscles, 'primary', node));
+            }
+            if (data.secondaryMuscles.length) {
+                display.appendChild(buildMuscleSection('Дополнительные мышцы', data.secondaryMuscles, 'secondary', node));
+            }
+        }
+
+        function buildMuscleSection(title, muscles, kind, node) {
+            const section = document.createElement('div');
+            section.className = 'muscle-section ' + kind;
+            const h = document.createElement('h5');
+            h.textContent = title;
+            section.appendChild(h);
+            const pills = document.createElement('div');
+            pills.className = 'muscle-pills';
+            const hl = state.muscleHighlight;
+            for (const m of muscles) {
+                const pill = document.createElement('span');
+                pill.className = 'muscle-pill';
+                pill.textContent = muscleLabel(m);
+                pill.title = m + ' — кликните, чтобы подсветить упражнения';
+                pill.dataset.muscle = m;
+                if (hl && node && hl.nodeId === node.id && hl.muscle === m) {
+                    pill.classList.add('active');
+                }
+                pill.addEventListener('click', () => {
+                    if (!node) return;
+                    setMuscleHighlight(node.id, m);
+                });
+                pills.appendChild(pill);
+            }
+            section.appendChild(pills);
+            return section;
+        }
+
+        // ============== MUSCLE HIGHLIGHT ==============
+        // Click a muscle pill in the right panel → focus that exercise on the spiral.
+        // "After" the focus = closer to the center (smaller theta) → opacity 0.
+        // "Before" the focus (larger theta) is dimmed by muscle relevance:
+        //   primary muscle    → unchanged (opacity 1)
+        //   secondary muscle  → opacity 0.8
+        //   muscle absent     → opacity 0.2
+        function setMuscleHighlight(nodeId, muscle) {
+            const hl = state.muscleHighlight;
+            if (hl && hl.nodeId === nodeId && hl.muscle === muscle) {
+                state.muscleHighlight = null;
+            } else {
+                state.muscleHighlight = { nodeId, muscle };
+            }
+            renderNodes();
+            // Refresh "active" state on visible pills without rebuilding the panel.
+            const cur = state.muscleHighlight;
+            document.querySelectorAll('.muscle-pill').forEach(p => {
+                const isActive = !!(cur && p.dataset.muscle === cur.muscle);
+                p.classList.toggle('active', isActive);
+            });
+        }
+
+        function nodeOpacity(node) {
+            const hl = state.muscleHighlight;
+            if (!hl) return 1;
+            const focus = state.nodes.find(n => n.id === hl.nodeId);
+            if (!focus) return 1;
+            if (node.id === focus.id) return 1;
+            // "After" = closer to center = smaller theta on the spiral.
+            if (node.theta < focus.theta) return 0;
+            const data = parseExerciseCsv(node.exerciseRaw);
+            if (!data) return 0.2;
+            if (data.primaryMuscles.includes(hl.muscle)) return 1;
+            if (data.secondaryMuscles.includes(hl.muscle)) return 0.8;
+            return 0.2;
         }
 
         // ============== INTERACTIONS ==============
@@ -1355,15 +2093,17 @@
                 dragging.moved = true;
 
                 const pass = state.passes[dragging.passIndex];
-                const { a, b } = state.spiral;
+                const { a, b, dir } = state.spiral;
+                // For CCW spirals (dir=-1), screen-space Δangle maps to opposite Δt.
+                const dt = dir * delta;
                 if (dragging.kind === 'start') {
-                    let newT = pass.thetaStart + delta;
+                    let newT = pass.thetaStart + dt;
                     const minT = b > 0 ? (1 - a) / b : 0;
                     const minAllowed = Math.max(minT, -2 * PI);
                     newT = Math.max(minAllowed, Math.min(newT, pass.thetaEnd - 0.5));
                     pass.thetaStart = newT;
                 } else {
-                    let newT = pass.thetaEnd + delta;
+                    let newT = pass.thetaEnd + dt;
                     newT = Math.max(pass.thetaStart + 0.5, Math.min(newT, 20 * PI));
                     pass.thetaEnd = newT;
                 }
@@ -1420,12 +2160,14 @@
                         state.nodes.push({
                             id: newId,
                             name: 'Упражнение ' + newId,
+                            exerciseRaw: '',
                             passIndex: near.passIndex,
                             theta: near.theta,
                         });
                         state.selectedNodeId = newId;
                         renderNodes();
                         updateInfoPanel();
+                        renderEquipmentList();
                         const nameInput = document.getElementById('info-name');
                         setTimeout(() => { nameInput.focus(); nameInput.select(); }, 0);
                     } else if (state.selectedNodeId != null) {
@@ -1476,13 +2218,48 @@
                 state.spiral.passCount = n;
                 const tEnd = defaultThetaEnd();
                 while (state.passes.length < n) {
-                    state.passes.push({ thetaStart: 0, thetaEnd: tEnd });
+                    const idx = state.passes.length;
+                    state.passes.push({
+                        thetaStart: 0,
+                        thetaEnd: tEnd,
+                        name: `Заход ${idx + 1}`,
+                        color: defaultPassColor(idx),
+                        visible: true,
+                    });
                 }
                 state.passes.length = n;
                 for (const node of state.nodes) {
                     if (node.passIndex >= n) node.passIndex = n - 1;
                     clampNodesOnPass(node.passIndex);
                 }
+                renderAll();
+                renderPassesList();
+            });
+
+            // Direction toggle. Flipping dir reflects the spiral, so to keep each
+            // node's displayed (turn, world-angle) the same we mirror its theta
+            // within its current turn:
+            //   new_theta = n*TAU + (TAU - frac),  where n = floor(theta/TAU), frac = theta - n*TAU
+            // This satisfies new_theta ≡ -old_theta (mod TAU), preserving the screen
+            // angle (since dir*theta + offset is preserved when dir flips), while
+            // keeping the same turn n. Radius shifts by ±b*frac inside the turn.
+            const cwToggle = document.getElementById('cwToggle');
+            cwToggle.addEventListener('change', () => {
+                const newDir = cwToggle.checked ? 1 : -1;
+                if (newDir === state.spiral.dir) return;
+                for (const node of state.nodes) {
+                    const n = Math.floor(node.theta / TAU);
+                    const frac = node.theta - n * TAU;
+                    if (frac > 0) {
+                        node.theta = n * TAU + (TAU - frac);
+                    }
+                    const pass = state.passes[node.passIndex];
+                    if (pass) {
+                        if (node.theta < pass.thetaStart) node.theta = pass.thetaStart;
+                        if (node.theta > pass.thetaEnd) node.theta = pass.thetaEnd;
+                    }
+                }
+                state.spiral.dir = newDir;
                 renderAll();
             });
 
@@ -1568,6 +2345,7 @@
                 state.selectedNodeId = null;
                 renderNodes();
                 updateInfoPanel();
+                renderEquipmentList();
                 resetClearBtn();
             });
 
@@ -1600,52 +2378,7 @@
                 try {
                     const text = await file.text();
                     const data = JSON.parse(text);
-                    const numOr = (v, def) => Number.isFinite(+v) ? +v : def;
-                    if (data.spiral && typeof data.spiral === 'object') {
-                        state.spiral.a = numOr(data.spiral.a, 400);
-                        state.spiral.b = numOr(data.spiral.b, 40);
-                        state.spiral.passCount = Math.max(1, Math.min(16, numOr(data.spiral.passCount, 4)));
-                        state.spiral.turns = numOr(data.spiral.turns, 8);
-                    }
-                    if (Array.isArray(data.passes)) {
-                        state.passes = data.passes.map(p => ({
-                            thetaStart: numOr(p.thetaStart, 0),
-                            thetaEnd: numOr(p.thetaEnd, 6 * PI),
-                        }));
-                    }
-                    while (state.passes.length < state.spiral.passCount) {
-                        state.passes.push({ thetaStart: 0, thetaEnd: defaultThetaEnd() });
-                    }
-                    state.passes.length = state.spiral.passCount;
-                    if (Array.isArray(data.sectors)) {
-                        state.sectors = data.sectors.map(s => ({
-                            id: numOr(s.id, ++state.nextSectorId),
-                            name: String(s.name || ''),
-                            startDeg: numOr(s.startDeg, 0),
-                            endDeg: numOr(s.endDeg, 0),
-                            color: String(s.color || '#FF6B6B'),
-                        }));
-                        state.nextSectorId = Math.max(0, ...state.sectors.map(s => s.id)) + 1;
-                    }
-                    if (Array.isArray(data.nodes)) {
-                        state.nodes = data.nodes.map(n => ({
-                            id: numOr(n.id, ++state.nextNodeId),
-                            name: String(n.name || ''),
-                            passIndex: Math.max(0, Math.min(state.spiral.passCount - 1, numOr(n.passIndex, 0))),
-                            theta: numOr(n.theta, 0),
-                        }));
-                        state.nextNodeId = Math.max(0, ...state.nodes.map(n => n.id)) + 1;
-                    }
-                    state.selectedNodeId = null;
-                    document.getElementById('passCount').value = state.spiral.passCount;
-                    document.getElementById('rangeA').value = state.spiral.a;
-                    document.getElementById('rangeB').value = state.spiral.b;
-                    document.getElementById('rangeTurns').value = state.spiral.turns;
-                    document.getElementById('valA').textContent = state.spiral.a;
-                    document.getElementById('valB').textContent = state.spiral.b;
-                    document.getElementById('valTurns').textContent = state.spiral.turns;
-                    renderAll();
-                    renderSectorsList();
+                    applyImportedData(data);
                 } catch (err) {
                     console.error('Ошибка импорта:', err);
                     const importBtn = document.getElementById('import-btn');
@@ -1669,30 +2402,128 @@
                     renderNodes();
                 }
             });
-            document.getElementById('info-prev').addEventListener('click', () => {
+            document.getElementById('info-csv').addEventListener('input', (e) => {
+                if (state.selectedNodeId == null) return;
                 const node = state.nodes.find(n => n.id === state.selectedNodeId);
                 if (!node) return;
-                const N = state.spiral.passCount;
-                node.passIndex = (node.passIndex - 1 + N) % N;
-                clampNodesOnPass(node.passIndex);
+                node.exerciseRaw = e.target.value;
+                renderExerciseDisplay(node);
+                renderEquipmentList();
                 renderNodes();
-                updateInfoPanel();
-            });
-            document.getElementById('info-next').addEventListener('click', () => {
-                const node = state.nodes.find(n => n.id === state.selectedNodeId);
-                if (!node) return;
-                const N = state.spiral.passCount;
-                node.passIndex = (node.passIndex + 1) % N;
-                clampNodesOnPass(node.passIndex);
-                renderNodes();
-                updateInfoPanel();
             });
             document.getElementById('info-delete').addEventListener('click', () => {
                 state.nodes = state.nodes.filter(n => n.id !== state.selectedNodeId);
                 state.selectedNodeId = null;
                 renderNodes();
                 updateInfoPanel();
+                renderEquipmentList();
             });
+
+            // Equipment filter: search + all/none
+            const equipSearch = document.getElementById('equipment-search');
+            equipSearch.addEventListener('input', () => renderEquipmentList());
+            document.getElementById('equip-all').addEventListener('click', () => {
+                state.hiddenEquipment.clear();
+                renderEquipmentList();
+                renderNodes();
+                updateInfoPanel();
+            });
+            document.getElementById('equip-none').addEventListener('click', () => {
+                for (const it of uniqueEquipments()) state.hiddenEquipment.add(it.key);
+                renderEquipmentList();
+                renderNodes();
+                updateInfoPanel();
+            });
+        }
+
+        // ============== IMPORT / AUTO-LOAD ==============
+        // Apply a parsed JSON payload (same shape as `export-btn` produces) to state
+        // and refresh all panels. Throws on malformed data.
+        function applyImportedData(data) {
+            if (!data || typeof data !== 'object') {
+                throw new Error('Invalid data: expected an object');
+            }
+            const numOr = (v, def) => Number.isFinite(+v) ? +v : def;
+            if (data.spiral && typeof data.spiral === 'object') {
+                state.spiral.a = numOr(data.spiral.a, 400);
+                state.spiral.b = numOr(data.spiral.b, 40);
+                state.spiral.passCount = Math.max(1, Math.min(16, numOr(data.spiral.passCount, 4)));
+                state.spiral.turns = numOr(data.spiral.turns, 8);
+                state.spiral.dir = numOr(data.spiral.dir, 1) >= 0 ? 1 : -1;
+            }
+            if (Array.isArray(data.passes)) {
+                state.passes = data.passes.map((p, i) => ({
+                    thetaStart: numOr(p.thetaStart, 0),
+                    thetaEnd: numOr(p.thetaEnd, 6 * PI),
+                    name: typeof p.name === 'string' ? p.name : `Заход ${i + 1}`,
+                    color: typeof p.color === 'string' ? p.color : defaultPassColor(i),
+                    visible: p.visible !== false,
+                }));
+            }
+            while (state.passes.length < state.spiral.passCount) {
+                const idx = state.passes.length;
+                state.passes.push({
+                    thetaStart: 0,
+                    thetaEnd: defaultThetaEnd(),
+                    name: `Заход ${idx + 1}`,
+                    color: defaultPassColor(idx),
+                    visible: true,
+                });
+            }
+            state.passes.length = state.spiral.passCount;
+            if (Array.isArray(data.sectors)) {
+                state.sectors = data.sectors.map(s => ({
+                    id: numOr(s.id, ++state.nextSectorId),
+                    name: String(s.name || ''),
+                    startDeg: numOr(s.startDeg, 0),
+                    endDeg: numOr(s.endDeg, 0),
+                    color: String(s.color || '#FF6B6B'),
+                }));
+                state.nextSectorId = Math.max(0, ...state.sectors.map(s => s.id)) + 1;
+            }
+            if (Array.isArray(data.nodes)) {
+                state.nodes = data.nodes.map(n => ({
+                    id: numOr(n.id, ++state.nextNodeId),
+                    name: String(n.name || ''),
+                    exerciseRaw: typeof n.exerciseRaw === 'string' ? n.exerciseRaw : '',
+                    passIndex: Math.max(0, Math.min(state.spiral.passCount - 1, numOr(n.passIndex, 0))),
+                    theta: numOr(n.theta, 0),
+                }));
+                state.nextNodeId = Math.max(0, ...state.nodes.map(n => n.id)) + 1;
+            }
+            state.selectedNodeId = null;
+            state.hiddenEquipment.clear();
+            state.muscleHighlight = null;
+            document.getElementById('passCount').value = state.spiral.passCount;
+            document.getElementById('rangeA').value = state.spiral.a;
+            document.getElementById('rangeB').value = state.spiral.b;
+            document.getElementById('rangeTurns').value = state.spiral.turns;
+            document.getElementById('valA').textContent = state.spiral.a;
+            document.getElementById('valB').textContent = state.spiral.b;
+            document.getElementById('valTurns').textContent = state.spiral.turns;
+            document.getElementById('cwToggle').checked = state.spiral.dir >= 0;
+            renderAll();
+            renderSectorsList();
+            renderPassesList();
+            renderEquipmentList();
+        }
+
+        // Best-effort auto-load on page open. Any failure is non-fatal: just warn
+        // in the console and keep the default state — the tool stays fully usable.
+        async function autoLoadDefaultSpiral() {
+            const url = './example_spiral_mendeleeva.json';
+            try {
+                const res = await fetch(url, { cache: 'no-cache' });
+                if (!res.ok) {
+                    console.warn(`Auto-load пропущен: ${url} — HTTP ${res.status}`);
+                    return;
+                }
+                const data = await res.json();
+                applyImportedData(data);
+                console.info(`Auto-load: загружен ${url}`);
+            } catch (err) {
+                console.warn(`Auto-load пропущен: ${url} —`, err && err.message ? err.message : err);
+            }
         }
 
         // ============== INIT ==============
@@ -1723,7 +2554,11 @@
 
             renderAll();
             renderSectorsList();
+            renderPassesList();
+            renderEquipmentList();
             bindUI();
+            // Fire-and-forget; on success it replaces the default scene seamlessly.
+            autoLoadDefaultSpiral();
 
             svg.addEventListener('pointerdown', onPointerDown);
             svg.addEventListener('wheel', onWheel, { passive: false });
