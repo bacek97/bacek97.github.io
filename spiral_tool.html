@@ -1866,7 +1866,11 @@
 
         function pointOnPass(k, t) {
             const { a, b, dir } = state.spiral;
-            const r = a + b * t;
+            // View-only compresses the spiral toward the center: subtract a
+            // constant radial shift so that t == thetaFloor lands at radius `a`.
+            // Angles are unchanged — nodes keep their angular (sector) position,
+            // only their distance from the center shrinks.
+            const r = Math.max(0, a + b * t - viewOnlyRadiusShift());
             const ang = dir * t + passOffset(k);
             return [state.cx + r * Math.cos(ang), state.cy + r * Math.sin(ang)];
         }
@@ -2034,11 +2038,13 @@
             const g = clearGroup('g-sectors');
 
             // Real outer edge of the spiral (a + b * thetaEnd), without padding.
+            // In view-only the entire spiral is compressed toward the center,
+            // so subtract the radial shift to keep sector labels aligned.
             let spiralOuter = 0;
             for (const p of state.passes) {
                 spiralOuter = Math.max(spiralOuter, state.spiral.a + state.spiral.b * p.thetaEnd);
             }
-            spiralOuter = Math.max(spiralOuter, 100);
+            spiralOuter = Math.max(spiralOuter - viewOnlyRadiusShift(), 100);
 
             // Label size scales with the spiral so it stays readable when zooming
             // out (everything inside g-viewport scales by view.scale uniformly).
@@ -2420,7 +2426,9 @@
             cleanBtn.addEventListener('click', () => {
                 toggleNodeLevel(node.id, 'clean');
                 renderLevelAssessment();
-                renderNodes();
+                // renderAll (not just renderNodes) because in view-only the
+                // spiral path and rings depend on the uncertain-node cutoff.
+                renderAll();
                 updateInfoPanel();
             });
 
@@ -2431,7 +2439,7 @@
             uncertainBtn.addEventListener('click', () => {
                 toggleNodeLevel(node.id, 'uncertain');
                 renderLevelAssessment();
-                renderNodes();
+                renderAll();
                 updateInfoPanel();
             });
 
@@ -2472,7 +2480,10 @@
 
         function buildSpiralPath(k) {
             const pass = state.passes[k];
-            const tStart = pass.thetaStart;
+            // View-only: clamp the spiral start inward so the inner part
+            // (everything closer to center than the last uncertain exercise)
+            // is hidden. Edit mode keeps the original `pass.thetaStart`.
+            const tStart = Math.max(pass.thetaStart, viewOnlyThetaFloor());
             const tEnd = pass.thetaEnd;
             const range = tEnd - tStart;
             if (range <= 0) return '';
@@ -2504,6 +2515,9 @@
 
         function renderEndpoints() {
             const g = clearGroup('g-endpoints');
+            // View-only: handles are non-interactive and the inner spiral is
+            // hidden, so suppress all the white drag-dots entirely.
+            if (leftPanelCollapsed) return;
             for (let k = 0; k < state.spiral.passCount; k++) {
                 const pass = state.passes[k];
                 if (pass.visible === false) continue;
@@ -2532,10 +2546,13 @@
         function renderNodes() {
             const g = clearGroup('g-nodes');
             const hl = state.muscleHighlight;
+            const thetaFloor = viewOnlyThetaFloor();
             for (const node of state.nodes) {
                 const pass = state.passes[node.passIndex];
                 if (pass && pass.visible === false) continue;
                 if (!isNodeVisibleByFilter(node)) continue;
+                // View-only: hide nodes that fall inside the truncated inner part.
+                if (thetaFloor > 0 && node.theta < thetaFloor) continue;
                 const [x, y] = pointOnPass(node.passIndex, node.theta);
                 const grp = document.createElementNS(SVG_NS, 'g');
                 grp.setAttribute('transform', `translate(${x.toFixed(2)}, ${y.toFixed(2)})`);
@@ -2803,11 +2820,19 @@
 
         function renderRings() {
             const g = clearGroup('g-rings');
+            const rShift = viewOnlyRadiusShift();
+            const a = state.spiral.a;
             for (const ring of state.rings) {
                 const innerTurn = Math.max(0, Math.min(ring.startTurn, ring.endTurn));
                 const outerTurn = Math.max(ring.startTurn, ring.endTurn);
-                const rIn = ringRadius(innerTurn);
-                const rOut = ringRadius(outerTurn);
+                const rInRaw = ringRadius(innerTurn);
+                const rOutRaw = ringRadius(outerTurn);
+                // View-only: shift each ring inward by the same `rShift` as the
+                // spiral, drop rings that compress into nothing, and clamp the
+                // inner edge to the new inner-spiral radius `a`.
+                const rOut = rOutRaw - rShift;
+                if (rOut <= a) continue;
+                const rIn = Math.max(a, rInRaw - rShift);
                 if (rOut - rIn < 0.5) continue;
                 const midR = (rIn + rOut) / 2;
                 const sw = rOut - rIn;
@@ -3038,6 +3063,9 @@
             document.body.classList.toggle('view-only', collapsed);
             const nameInput = document.getElementById('info-name');
             if (nameInput) nameInput.readOnly = collapsed;
+            // Re-render the spiral, rings, endpoints, and nodes — the inner part
+            // of the spiral is truncated in view-only and restored in edit mode.
+            renderAll();
         }
 
         function setRightPanelCollapsed(collapsed) {
@@ -3407,6 +3435,29 @@
                 if (n && n.theta === theta) return n.id;
             }
             return null;
+        }
+
+        // View-only mode collapses the inner part of the spiral up to the
+        // outermost «uncertain» node. Returns the theta cutoff (>= 0) or 0
+        // when not in view-only or no exercise has been marked uncertain.
+        function viewOnlyThetaFloor() {
+            if (!leftPanelCollapsed) return 0;
+            const cutoff = maxUncertainTheta();
+            return cutoff !== null ? Math.max(0, cutoff) : 0;
+        }
+
+        // Radius matching the truncation, used to drop rings whose outer edge
+        // sits inside the cutoff and to clamp partial rings.
+        function viewOnlyRadiusFloor() {
+            return state.spiral.a + state.spiral.b * viewOnlyThetaFloor();
+        }
+
+        // How many pixels to pull every drawn radius (spiral, nodes, rings,
+        // sector outer edge) toward the center in view-only mode. Equals
+        // `b * thetaFloor`, so a node at theta=thetaFloor lands exactly at
+        // the innermost spiral radius `a` after shifting.
+        function viewOnlyRadiusShift() {
+            return state.spiral.b * viewOnlyThetaFloor();
         }
 
         // ============== LEVEL HELPERS ==============
@@ -4081,13 +4132,13 @@
             document.getElementById('info-level-clean').addEventListener('click', () => {
                 if (state.selectedNodeId == null) return;
                 toggleNodeLevel(state.selectedNodeId, 'clean');
-                renderNodes();
+                renderAll();
                 updateInfoPanel();
             });
             document.getElementById('info-level-uncertain').addEventListener('click', () => {
                 if (state.selectedNodeId == null) return;
                 toggleNodeLevel(state.selectedNodeId, 'uncertain');
-                renderNodes();
+                renderAll();
                 updateInfoPanel();
             });
 
