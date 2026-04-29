@@ -290,6 +290,457 @@
             margin-bottom: 6px;
         }
 
+        .muscles-input {
+            flex: 1;
+            font-size: 11px;
+            font-family: 'SF Mono', Menlo, Consolas, monospace;
+        }
+
+        .workout-count {
+            display: inline-block;
+            min-width: 22px;
+            padding: 1px 7px;
+            margin-left: 6px;
+            background: rgba(108, 92, 231, 0.5);
+            color: #fff;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .workout-list {
+            margin-top: 6px;
+            margin-bottom: 8px;
+            max-height: 240px;
+            overflow-y: auto;
+        }
+
+        .workout-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 12px;
+        }
+
+        .workout-item .w-name {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .workout-item .w-name:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .workout-item button {
+            padding: 2px 8px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+            line-height: 1;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .workout-item button:hover {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        .workout-empty {
+            padding: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 12px;
+            font-style: italic;
+            text-align: center;
+        }
+
+        #info-workout-toggle.in-workout {
+            background: rgba(107, 203, 119, 0.6);
+        }
+
+        #info-workout-toggle.in-workout:hover {
+            background: rgba(107, 203, 119, 0.85);
+        }
+
+        /* ============== LEVEL BUTTONS ============== */
+        .level-buttons {
+            margin-top: 6px;
+        }
+
+        .level-buttons button {
+            flex: 1;
+            padding: 7px 8px;
+            font-size: 11px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .level-buttons button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        #info-level-clean.active {
+            background: rgba(107, 203, 119, 0.6);
+            border-color: rgba(107, 203, 119, 0.9);
+            color: #fff;
+        }
+
+        #info-level-clean.active:hover {
+            background: rgba(107, 203, 119, 0.8);
+        }
+
+        #info-level-uncertain.active {
+            background: rgba(255, 140, 107, 0.6);
+            border-color: rgba(255, 140, 107, 0.9);
+            color: #fff;
+        }
+
+        #info-level-uncertain.active:hover {
+            background: rgba(255, 140, 107, 0.8);
+        }
+
+        /* ============== SECTOR MODAL ============== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay[hidden] {
+            display: none;
+        }
+
+        .modal-card {
+            background: rgb(28, 28, 35);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            width: min(440px, calc(100vw - 32px));
+            max-height: calc(100vh - 64px);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .modal-color {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .modal-header h3 {
+            flex: 1;
+            margin: 0;
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .modal-close {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 4px 10px;
+            font-size: 18px;
+            line-height: 1;
+            border-radius: 6px;
+        }
+
+        .modal-close:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-body {
+            overflow-y: auto;
+        }
+
+        .modal-summary {
+            padding: 10px 16px;
+            background: rgba(108, 92, 231, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .modal-muscle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .modal-muscle .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .modal-muscle.covered .dot {
+            background: #6BCB77;
+            box-shadow: 0 0 0 3px rgba(107, 203, 119, 0.25);
+        }
+
+        .modal-muscle .name-block {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .modal-muscle .ru-name {
+            font-size: 13px;
+            color: #fff;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .modal-muscle .raw-name {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: 'SF Mono', Menlo, monospace;
+        }
+
+        .modal-muscle .counts {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            font-variant-numeric: tabular-nums;
+            text-align: right;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .modal-muscle.covered .counts {
+            color: rgba(107, 203, 119, 0.95);
+        }
+
+        .modal-empty {
+            padding: 24px 16px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 13px;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* ============== LEVEL ASSESSMENT MODAL ============== */
+        .level-assess-card {
+            width: calc(100vw - 32px);
+            height: calc(100vh - 32px);
+            max-height: none;
+        }
+
+        .level-assess-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .level-hint {
+            padding: 10px 16px;
+            background: rgba(108, 92, 231, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.4;
+        }
+
+        .level-assess-table-wrap {
+            flex: 1;
+            overflow: auto;
+            padding: 12px;
+        }
+
+        #level-assess-table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        #level-assess-table th,
+        #level-assess-table td {
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: left;
+            vertical-align: top;
+            min-width: 170px;
+            max-width: 220px;
+        }
+
+        #level-assess-table thead th {
+            position: sticky;
+            top: 0;
+            background: rgb(28, 28, 35);
+            z-index: 2;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        #level-assess-table tbody th {
+            position: sticky;
+            left: 0;
+            background: rgb(28, 28, 35);
+            z-index: 1;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+            min-width: 130px;
+            max-width: 130px;
+        }
+
+        #level-assess-table thead th:first-child {
+            left: 0;
+            z-index: 3;
+            min-width: 130px;
+            max-width: 130px;
+        }
+
+        .lvl-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .lvl-empty {
+            color: rgba(255, 255, 255, 0.22);
+            font-size: 11px;
+            text-align: center;
+            padding: 14px 4px;
+            font-style: italic;
+        }
+
+        .lvl-ex-name {
+            font-size: 12px;
+            color: #fff;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        .lvl-ex-vid {
+            display: block;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 11px;
+            text-decoration: none;
+        }
+
+        .lvl-ex-vid img,
+        .lvl-ex-vid video {
+            display: block;
+            width: 100%;
+            max-height: 110px;
+            object-fit: cover;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .lvl-ex-vid:hover {
+            color: #fff;
+        }
+
+        .lvl-btns {
+            display: flex;
+            gap: 4px;
+        }
+
+        .lvl-btns button {
+            flex: 1;
+            padding: 6px 4px;
+            font-size: 11px;
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .lvl-btns button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .lvl-btns .lvl-btn-clean.active {
+            background: rgba(107, 203, 119, 0.6);
+            border-color: rgba(107, 203, 119, 0.9);
+            color: #fff;
+        }
+
+        .lvl-btns .lvl-btn-uncertain.active {
+            background: rgba(255, 140, 107, 0.6);
+            border-color: rgba(255, 140, 107, 0.9);
+            color: #fff;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            justify-content: flex-end;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-footer button.primary {
+            background: rgba(108, 92, 231, 0.85);
+            color: #fff;
+            padding: 8px 22px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .modal-footer button.primary:hover {
+            background: rgba(108, 92, 231, 1);
+        }
+
+        .modal-footer button.primary:disabled,
+        .modal-footer button.primary[disabled] {
+            background: rgba(108, 92, 231, 0.25);
+            color: rgba(255, 255, 255, 0.45);
+            cursor: not-allowed;
+        }
+
+        /* View-only mode: collapsing the left panel hides editing-oriented
+           fields in the right panel. Toggled via `body.view-only`. */
+        body.view-only .view-only-hidden {
+            display: none;
+        }
+
         .sector-form button {
             width: 100%;
             margin-top: 4px;
@@ -531,6 +982,35 @@
             flex: 1;
         }
 
+        .seg-group {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .seg-group button {
+            flex: 1;
+            padding: 6px 4px;
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .seg-group button:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .seg-group button.active {
+            background: rgba(108, 92, 231, 0.5);
+            color: #fff;
+            border-color: rgba(108, 92, 231, 0.7);
+        }
+
         #info-csv {
             font-family: 'SF Mono', Menlo, Consolas, monospace;
             font-size: 11px;
@@ -538,6 +1018,14 @@
 
         #info-exercise-display {
             margin-top: 12px;
+        }
+
+        .ex-name-en {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 6px;
+            word-wrap: break-word;
         }
 
         .ex-equipment {
@@ -823,6 +1311,7 @@
     <svg id="canvas" xmlns="http://www.w3.org/2000/svg">
         <g id="g-viewport">
             <g id="g-center"></g>
+            <g id="g-rings"></g>
             <g id="g-sectors"></g>
             <g id="g-spirals"></g>
             <g id="g-nodes"></g>
@@ -887,6 +1376,33 @@
         </div>
         <div id="equipment-list"></div>
 
+        <h4>Фильтр по виду</h4>
+        <div class="seg-group" id="filter-shape">
+            <button type="button" data-value="circle" title="Показывать круги">● Круг</button>
+            <button type="button" data-value="square" title="Показывать квадраты">■ Квадрат</button>
+            <button type="button" data-value="triangle" title="Показывать треугольники">▲ Треуг.</button>
+        </div>
+        <div class="seg-group" id="filter-outline">
+            <button type="button" data-value="solid" title="Показывать со сплошной обводкой">━ Сплошная</button>
+            <button type="button" data-value="dashed" title="Показывать с прерывистой обводкой">┄ Прерывистая</button>
+        </div>
+
+        <h4>Кольца</h4>
+        <form class="sector-form" id="ring-form">
+            <div class="row">
+                <input type="text" id="ring-name" placeholder="Название кольца" required>
+            </div>
+            <div class="row">
+                <input type="number" id="ring-from-turn" min="0" step="0.25" value="0" required>
+                <span style="color: rgba(255,255,255,0.5);font-size:12px;">→</span>
+                <input type="number" id="ring-to-turn" min="0" step="0.25" value="2" required>
+                <span style="color: rgba(255,255,255,0.5);font-size:12px;">витков</span>
+                <input type="color" id="ring-color" value="#6BCB77">
+            </div>
+            <button type="submit">+ Добавить кольцо</button>
+        </form>
+        <div id="rings-list"></div>
+
         <h4>Сектора</h4>
         <form class="sector-form" id="sector-form">
             <div class="row">
@@ -899,9 +1415,22 @@
                 <span style="color: rgba(255,255,255,0.5);font-size:12px;">°</span>
                 <input type="color" id="sector-color" value="#FF6B6B">
             </div>
+            <div class="row">
+                <input type="text" id="sector-muscles" placeholder="Мышцы: deltoid_anterior, triceps, …">
+            </div>
             <button type="submit">+ Добавить сектор</button>
         </form>
         <div id="sectors-list"></div>
+
+        <h4>Тренировка <span id="workout-count" class="workout-count">0</span></h4>
+        <div id="workout-list" class="workout-list"></div>
+        <div class="file-row">
+            <button class="ghost" id="workout-export-btn">⬇ Export</button>
+            <button class="ghost" id="workout-import-btn">⬆ Import</button>
+            <button class="ghost danger" id="workout-clear-btn" title="Очистить тренировку">✕</button>
+        </div>
+        <input type="file" id="workout-import-file" accept=".json,application/json" style="display:none">
+        <button class="ghost" id="level-assess-btn" style="width:100%; margin-top:6px;">🎯 Определить уровень</button>
 
         <h4>Файл</h4>
         <div class="file-row">
@@ -932,11 +1461,11 @@
             <span class="label">Заход</span>
             <span class="value"><span class="swatch" id="info-pass-color"></span><span id="info-pass">—</span></span>
         </div>
-        <div class="info-row">
+        <div class="info-row view-only-hidden">
             <span class="label">Угол</span>
             <span class="value" id="info-angle">—</span>
         </div>
-        <div class="info-row">
+        <div class="info-row view-only-hidden">
             <span class="label">Виток</span>
             <span class="value" id="info-turn">—</span>
         </div>
@@ -945,16 +1474,68 @@
             <span class="value" id="info-sector">—</span>
         </div>
 
+        <h4 class="view-only-hidden">Внешний вид</h4>
+        <div class="seg-group view-only-hidden" id="info-shape">
+            <button type="button" data-value="circle" title="Круг">● Круг</button>
+            <button type="button" data-value="square" title="Квадрат">■ Квадрат</button>
+            <button type="button" data-value="triangle" title="Треугольник">▲ Треуг.</button>
+        </div>
+        <div class="seg-group view-only-hidden" id="info-outline">
+            <button type="button" data-value="solid" title="Сплошная обводка">━ Сплошная</button>
+            <button type="button" data-value="dashed" title="Прерывистая обводка">┄ Прерывистая</button>
+        </div>
+
         <h4>Название упражнения</h4>
         <input type="text" id="info-name" placeholder="Введите название…">
 
-        <h4>CSV-строка упражнения</h4>
-        <input type="text" id="info-csv" placeholder='"Body weight","triceps","deltoids","https://….mp4","https://….png"'>
+        <h4 class="view-only-hidden">CSV-строка упражнения</h4>
+        <input type="text" id="info-csv" class="view-only-hidden" placeholder='"Bicep Curl","Barbell","Biceps","None","https://….mp4","https://….jpg"'>
 
         <div id="info-exercise-display"></div>
 
         <div class="button-group">
+            <button id="info-workout-toggle" style="width:100%;">+ В тренировку</button>
+        </div>
+
+        <div class="button-group level-buttons">
+            <button id="info-level-clean" type="button" title="Выполняю чисто">✓ Выполняю чисто</button>
+            <button id="info-level-uncertain" type="button" title="Неуверенно или никак">? Неуверенно/никак</button>
+        </div>
+
+        <div class="button-group view-only-hidden">
             <button class="danger" id="info-delete" style="width:100%;">🗑 Удалить узел</button>
+        </div>
+    </div>
+
+    <div id="sector-modal" class="modal-overlay" hidden>
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-color" id="sector-modal-color"></span>
+                <h3 id="sector-modal-title">Сектор</h3>
+                <button class="modal-close" id="sector-modal-close" type="button" aria-label="Закрыть">×</button>
+            </div>
+            <div class="modal-body" id="sector-modal-body"></div>
+        </div>
+    </div>
+
+    <div id="level-assess-modal" class="modal-overlay" hidden>
+        <div class="modal-card level-assess-card">
+            <div class="modal-header">
+                <h3>🎯 Определим твой уровень</h3>
+                <button class="modal-close" id="level-assess-close" type="button" aria-label="Закрыть">×</button>
+            </div>
+            <div class="modal-body level-assess-body">
+                <div class="level-hint">
+                    Отметь упражнения, которые можешь выполнить. Строки — секторы, столбцы — кольца. В каждой ячейке — случайное упражнение из этой группы.
+                </div>
+                <div class="level-assess-table-wrap">
+                    <table id="level-assess-table"></table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="ghost" id="level-assess-reroll" type="button" title="Перетасовать упражнения">🎲 Другой набор</button>
+                <button class="primary" id="level-assess-continue" type="button">Продолжить</button>
+            </div>
         </div>
     </div>
 
@@ -985,9 +1566,39 @@
             selectedNodeId: null,
             nextNodeId: 1,
             nextSectorId: 1,
+            rings: [],
+            nextRingId: 1,
             hiddenEquipment: new Set(),
+            hiddenShapes: new Set(),
+            hiddenOutlines: new Set(),
             muscleHighlight: null, // { nodeId, muscle } | null
+            // Workout list: snapshots of selected exercises. Stored as snapshots
+            // (not raw node refs) so an imported workout file is self-contained.
+            // Each item: { nodeId, name, exerciseRaw }
+            workout: [],
+            // Self-assessment per node. Plain object (string-keyed) so it round-trips
+            // through JSON.stringify cleanly with the workout file.
+            // { [nodeId: string]: 'clean' | 'uncertain' }
+            levels: {},
         };
+
+        // Locale of the name shown in `info-name`. Stored in JSON as `name:<locale>`
+        // so the same file can carry translations for any number of languages.
+        const ACTIVE_LOCALE = 'ru';
+
+        // Convert an in-memory node to its on-disk shape: `node.name` (active locale)
+        // is written as `name:<ACTIVE_LOCALE>`, plus any other locales preserved
+        // from a previous import via `node.localeNames`.
+        function serializeNode(n) {
+            const { name, localeNames, ...rest } = n;
+            const out = { ...rest };
+            const merged = { ...(localeNames || {}) };
+            if (name) merged[ACTIVE_LOCALE] = name;
+            for (const [loc, val] of Object.entries(merged)) {
+                if (val) out['name:' + loc] = val;
+            }
+            return out;
+        }
 
         // ============== EXERCISE CSV ==============
         const MUSCLE_LABELS_RU = {
@@ -1066,22 +1677,40 @@
             return out.map(s => s.trim());
         }
 
+        // Parses an exercise CSV row. Two layouts are accepted:
+        //   New (preferred, 6 cols): name, equipment, primary_muscle, secondary_muscle, video, thumbnail
+        //   Legacy        (5 cols):       equipment, primary_muscle, secondary_muscle, video, thumbnail
+        // The English `name` is kept separately from the user-edited `info-name` field,
+        // which holds the localized name. The string `"None"` (any case) means "absent".
         function parseExerciseCsv(raw) {
             if (!raw || typeof raw !== 'string') return null;
             const trimmed = raw.trim();
             if (!trimmed) return null;
             const fields = parseCsvRow(trimmed);
-            // Expecting [equipment, primary, secondary, video, thumbnail].
-            // Skip header if present.
-            if (fields[0] && /^equipment$/i.test(fields[0])) return null;
-            const [equipment = '', primary = '', secondary = '', video = '', thumbnail = ''] = fields;
-            const splitMuscles = s => s.split(',').map(x => x.trim()).filter(Boolean);
+            // Skip header rows like `name,equipment,...` or legacy `equipment,...`.
+            if (fields[0] && /^(name|equipment)$/i.test(fields[0])) return null;
+
+            let nameEn = '', equipment = '', primary = '', secondary = '', video = '', thumbnail = '';
+            if (fields.length >= 6) {
+                [nameEn, equipment, primary, secondary, video, thumbnail] = fields;
+            } else {
+                [equipment, primary, secondary, video, thumbnail] = fields;
+            }
+
+            const isNone = s => /^none$/i.test((s || '').trim());
+            const cleanScalar = s => isNone(s) ? '' : (s || '').trim();
+            const splitMuscles = s => (s || '')
+                .split(',')
+                .map(x => x.trim())
+                .filter(x => x && !isNone(x));
+
             return {
-                equipment,
+                nameEn: cleanScalar(nameEn),
+                equipment: cleanScalar(equipment),
                 primaryMuscles: splitMuscles(primary),
                 secondaryMuscles: splitMuscles(secondary),
-                videoUrl: video,
-                thumbnailUrl: thumbnail,
+                videoUrl: cleanScalar(video),
+                thumbnailUrl: cleanScalar(thumbnail),
             };
         }
 
@@ -1117,7 +1746,10 @@
         }
 
         function isNodeVisibleByFilter(node) {
-            return !state.hiddenEquipment.has(nodeEquipmentKey(node));
+            if (state.hiddenEquipment.has(nodeEquipmentKey(node))) return false;
+            if (state.hiddenShapes.has(node.shape || 'circle')) return false;
+            if (state.hiddenOutlines.has(node.outline || 'solid')) return false;
+            return true;
         }
 
         function renderEquipmentList() {
@@ -1313,6 +1945,16 @@
             return span;
         }
 
+        // Parse a comma-separated muscle list into a clean array of muscle keys.
+        function parseMusclesInput(str) {
+            if (!str || typeof str !== 'string') return [];
+            return str.split(',').map(s => s.trim()).filter(Boolean);
+        }
+
+        function formatMusclesList(arr) {
+            return Array.isArray(arr) ? arr.join(', ') : '';
+        }
+
         function isAngleInSector(deg, sector) {
             if (sectorAngularSpan(sector) >= 359.999) return true;
             const d = normDeg(deg);
@@ -1329,6 +1971,27 @@
                 if (isAngleInSector(deg, s)) return s;
             }
             return null;
+        }
+
+        // Annulus segment between rIn and rOut, sweeping from startDeg to endDeg.
+        // Used to draw one sub-sector tile per muscle on the outer rim.
+        function annulusSegmentPath(startDeg, endDeg, rIn, rOut) {
+            const span = endDeg - startDeg;
+            if (span >= 359.999) {
+                return `M ${(state.cx + rOut).toFixed(2)} ${state.cy.toFixed(2)} A ${rOut.toFixed(2)} ${rOut.toFixed(2)} 0 1 1 ${(state.cx - rOut).toFixed(2)} ${state.cy.toFixed(2)} A ${rOut.toFixed(2)} ${rOut.toFixed(2)} 0 1 1 ${(state.cx + rOut).toFixed(2)} ${state.cy.toFixed(2)} M ${(state.cx + rIn).toFixed(2)} ${state.cy.toFixed(2)} A ${rIn.toFixed(2)} ${rIn.toFixed(2)} 0 1 0 ${(state.cx - rIn).toFixed(2)} ${state.cy.toFixed(2)} A ${rIn.toFixed(2)} ${rIn.toFixed(2)} 0 1 0 ${(state.cx + rIn).toFixed(2)} ${state.cy.toFixed(2)} Z`;
+            }
+            const startRad = startDeg * PI / 180;
+            const endRad = endDeg * PI / 180;
+            const x1 = state.cx + rIn * Math.cos(startRad);
+            const y1 = state.cy + rIn * Math.sin(startRad);
+            const x2 = state.cx + rOut * Math.cos(startRad);
+            const y2 = state.cy + rOut * Math.sin(startRad);
+            const x3 = state.cx + rOut * Math.cos(endRad);
+            const y3 = state.cy + rOut * Math.sin(endRad);
+            const x4 = state.cx + rIn * Math.cos(endRad);
+            const y4 = state.cy + rIn * Math.sin(endRad);
+            const largeArc = span > 180 ? 1 : 0;
+            return `M ${x1.toFixed(2)} ${y1.toFixed(2)} L ${x2.toFixed(2)} ${y2.toFixed(2)} A ${rOut.toFixed(2)} ${rOut.toFixed(2)} 0 ${largeArc} 1 ${x3.toFixed(2)} ${y3.toFixed(2)} L ${x4.toFixed(2)} ${y4.toFixed(2)} A ${rIn.toFixed(2)} ${rIn.toFixed(2)} 0 ${largeArc} 0 ${x1.toFixed(2)} ${y1.toFixed(2)} Z`;
         }
 
         function sectorPath(sector, R) {
@@ -1381,11 +2044,19 @@
             // out (everything inside g-viewport scales by view.scale uniformly).
             const fontSize = Math.max(spiralOuter * 0.045, 18);
             const labelR = spiralOuter + fontSize / 2 + 14;       // label center, just outside spiral
-            const R = spiralOuter + fontSize + 36;                // sector ring outer radius
+            // The original sector pie ends here. The sub-rim (one tile per muscle)
+            // is drawn outside, between subRimInner and R, and the drag-handles sit at R.
+            const R_INNER = spiralOuter + fontSize + 36;
+            const SUB_RIM_THICK = Math.max(18, fontSize * 0.45);
+            const subRimInner = R_INNER + 2;
+            const R = subRimInner + SUB_RIM_THICK;
+
+            const coverage = getWorkoutMuscleCoverage();
 
             for (const sector of state.sectors) {
+                // Background pie (existing look).
                 const p = document.createElementNS(SVG_NS, 'path');
-                p.setAttribute('d', sectorPath(sector, R));
+                p.setAttribute('d', sectorPath(sector, R_INNER));
                 p.setAttribute('fill', sector.color);
                 p.setAttribute('fill-opacity', 0.15);
                 p.setAttribute('stroke', sector.color);
@@ -1393,6 +2064,59 @@
                 p.setAttribute('stroke-width', 1);
                 p.style.pointerEvents = 'none';
                 g.appendChild(p);
+
+                // Sub-rim: one tile per muscle. Coverage by workout exercises lights
+                // up the tile; clicking any tile (or the label) opens the modal.
+                const muscles = Array.isArray(sector.muscles) ? sector.muscles : [];
+                if (muscles.length > 0) {
+                    const totalSpan = sectorAngularSpan(sector);
+                    const subSpan = totalSpan / muscles.length;
+                    for (let i = 0; i < muscles.length; i++) {
+                        const startD = sector.startDeg + i * subSpan;
+                        const endD = sector.startDeg + (i + 1) * subSpan;
+                        const muscle = muscles[i];
+                        const cov = coverage.get(muscle);
+                        const isCovered = !!cov;
+
+                        const seg = document.createElementNS(SVG_NS, 'path');
+                        seg.setAttribute('d', annulusSegmentPath(startD, endD, subRimInner, R));
+                        seg.setAttribute('fill', sector.color);
+                        seg.setAttribute('fill-opacity', isCovered ? 0.95 : 0.25);
+                        seg.setAttribute('stroke', '#fff');
+                        seg.setAttribute('stroke-opacity', 0.35);
+                        seg.setAttribute('stroke-width', 1);
+                        seg.style.cursor = 'pointer';
+                        seg.dataset.sectorId = sector.id;
+                        seg.dataset.muscle = muscle;
+
+                        const tip = document.createElementNS(SVG_NS, 'title');
+                        tip.textContent = isCovered
+                            ? `${muscle} — в тренировке`
+                            : `${muscle} — не покрыто`;
+                        seg.appendChild(tip);
+                        seg.addEventListener('click', () => openSectorModal(sector));
+                        g.appendChild(seg);
+                    }
+                } else {
+                    // No muscles defined yet — render a faint rim that's still clickable
+                    // so the user can open the modal from the spiral edge.
+                    const seg = document.createElementNS(SVG_NS, 'path');
+                    seg.setAttribute('d', annulusSegmentPath(
+                        sector.startDeg, sector.startDeg + sectorAngularSpan(sector),
+                        subRimInner, R));
+                    seg.setAttribute('fill', sector.color);
+                    seg.setAttribute('fill-opacity', 0.1);
+                    seg.setAttribute('stroke', sector.color);
+                    seg.setAttribute('stroke-opacity', 0.4);
+                    seg.setAttribute('stroke-width', 1);
+                    seg.style.cursor = 'pointer';
+                    seg.dataset.sectorId = sector.id;
+                    const tip = document.createElementNS(SVG_NS, 'title');
+                    tip.textContent = `${sector.name} — нет мышц`;
+                    seg.appendChild(tip);
+                    seg.addEventListener('click', () => openSectorModal(sector));
+                    g.appendChild(seg);
+                }
 
                 // Label — placed beyond the spiral edge, rotated tangent to the arc.
                 const span = sectorAngularSpan(sector);
@@ -1417,11 +2141,305 @@
                 text.setAttribute('stroke-width', Math.max(2, fontSize * 0.18).toFixed(1));
                 text.setAttribute('transform',
                     `translate(${lx.toFixed(2)} ${ly.toFixed(2)}) rotate(${rot.toFixed(2)})`);
-                text.style.pointerEvents = 'none';
+                text.style.cursor = 'pointer';
                 text.textContent = sector.name;
+                text.addEventListener('click', () => openSectorModal(sector));
                 g.appendChild(text);
             }
             renderSectorHandles(R);
+        }
+
+        // ============== SECTOR MODAL ==============
+        // Shows the muscle composition of a sector and which muscles are already
+        // covered by exercises in the current workout list.
+        function openSectorModal(sector) {
+            const modal = document.getElementById('sector-modal');
+            if (!modal || !sector) return;
+            document.getElementById('sector-modal-title').textContent = sector.name || 'Сектор';
+            document.getElementById('sector-modal-color').style.background = sector.color || '#888';
+
+            const body = document.getElementById('sector-modal-body');
+            body.innerHTML = '';
+
+            const muscles = Array.isArray(sector.muscles) ? sector.muscles : [];
+            if (muscles.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'modal-empty';
+                empty.textContent = 'Нет мышц. Добавьте их в поле «Мышцы» карточки сектора (через запятую).';
+                body.appendChild(empty);
+                modal.hidden = false;
+                return;
+            }
+
+            const coverage = getWorkoutMuscleCoverage();
+            const coveredCount = muscles.filter(m => coverage.has(m)).length;
+
+            const summary = document.createElement('div');
+            summary.className = 'modal-summary';
+            summary.textContent = `Покрыто ${coveredCount} из ${muscles.length} мышц (в тренировке ${state.workout.length} упр.)`;
+            body.appendChild(summary);
+
+            for (const muscle of muscles) {
+                const cov = coverage.get(muscle);
+                const isCovered = !!cov;
+                const item = document.createElement('div');
+                item.className = 'modal-muscle' + (isCovered ? ' covered' : '');
+
+                const dot = document.createElement('span');
+                dot.className = 'dot';
+
+                const block = document.createElement('div');
+                block.className = 'name-block';
+                const ru = document.createElement('div');
+                ru.className = 'ru-name';
+                ru.textContent = muscleLabel(muscle);
+                const raw = document.createElement('div');
+                raw.className = 'raw-name';
+                raw.textContent = muscle;
+                block.appendChild(ru);
+                block.appendChild(raw);
+
+                const counts = document.createElement('div');
+                counts.className = 'counts';
+                if (isCovered) {
+                    const parts = [];
+                    if (cov.primary) parts.push(`${cov.primary} осн.`);
+                    if (cov.secondary) parts.push(`${cov.secondary} доп.`);
+                    counts.textContent = parts.join(' · ');
+                } else {
+                    counts.textContent = '—';
+                }
+
+                item.appendChild(dot);
+                item.appendChild(block);
+                item.appendChild(counts);
+                body.appendChild(item);
+            }
+
+            modal.hidden = false;
+        }
+
+        function closeSectorModal() {
+            const modal = document.getElementById('sector-modal');
+            if (modal) modal.hidden = true;
+        }
+
+        // ============== LEVEL ASSESSMENT MODAL ==============
+        // Cache the random pick per (sector, ring) cell so toggling a button (which
+        // re-renders the whole grid) doesn't reshuffle the visible exercises. The
+        // «dice» button or reopening the modal triggers a fresh roll.
+        let assessmentCells = []; // [{ sectorId, ringId, nodeId | null }]
+
+        // Whether a node falls inside a ring's annulus, by comparing the node's
+        // spiral radius to the ring's [rIn, rOut]. Mirrors `ringRadius` semantics.
+        function nodeInRing(node, ring) {
+            const startTurn = Math.min(ring.startTurn, ring.endTurn);
+            const endTurn = Math.max(ring.startTurn, ring.endTurn);
+            const r = state.spiral.a + state.spiral.b * node.theta;
+            const rIn = ringRadius(startTurn);
+            const rOut = ringRadius(endTurn);
+            return r >= rIn && r < rOut;
+        }
+
+        function rerollAssessmentCells() {
+            assessmentCells = [];
+            for (const sector of state.sectors) {
+                for (const ring of state.rings) {
+                    const candidates = state.nodes.filter(n => {
+                        if (!isAngleInSector(nodeWorldDeg(n), sector)) return false;
+                        return nodeInRing(n, ring);
+                    });
+                    const pick = candidates.length === 0
+                        ? null
+                        : candidates[Math.floor(Math.random() * candidates.length)];
+                    assessmentCells.push({
+                        sectorId: sector.id,
+                        ringId: ring.id,
+                        nodeId: pick ? pick.id : null,
+                    });
+                }
+            }
+        }
+
+        function openLevelAssessmentModal() {
+            const modal = document.getElementById('level-assess-modal');
+            if (!modal) return;
+            rerollAssessmentCells();
+            renderLevelAssessment();
+            modal.hidden = false;
+        }
+
+        // Continue is gated until every non-empty cell in the current roll has
+        // either «clean» or «uncertain» set. Cells with no candidate exercise
+        // (nodeId == null) don't count, so an empty row/column never blocks.
+        function allAssessmentCellsMarked() {
+            if (!Array.isArray(assessmentCells)) return true;
+            for (const cell of assessmentCells) {
+                if (cell.nodeId == null) continue;
+                if (!getNodeLevel(cell.nodeId)) return false;
+            }
+            return true;
+        }
+
+        function updateContinueButtonState() {
+            const btn = document.getElementById('level-assess-continue');
+            if (!btn) return;
+            const ok = allAssessmentCellsMarked();
+            btn.disabled = !ok;
+            btn.title = ok ? '' : 'Сначала отметь все упражнения в таблице';
+        }
+
+        function closeLevelAssessmentModal() {
+            const modal = document.getElementById('level-assess-modal');
+            if (modal) modal.hidden = true;
+        }
+
+        function renderLevelAssessment() {
+            const table = document.getElementById('level-assess-table');
+            if (!table) return;
+            table.innerHTML = '';
+
+            if (state.sectors.length === 0 || state.rings.length === 0) {
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.style.padding = '24px';
+                td.style.textAlign = 'center';
+                td.style.color = 'rgba(255,255,255,0.5)';
+                td.style.minWidth = '0';
+                td.textContent = state.sectors.length === 0
+                    ? 'Нет секторов. Сначала добавь хотя бы один сектор.'
+                    : 'Нет колец. Добавь кольца в спираль, чтобы построить таблицу.';
+                tr.appendChild(td);
+                table.appendChild(tr);
+                return;
+            }
+
+            const colorPill = (color) => {
+                const span = document.createElement('span');
+                span.style.cssText = `display:inline-block;width:10px;height:10px;border-radius:2px;background:${color};margin-right:6px;vertical-align:middle;`;
+                return span;
+            };
+
+            const thead = document.createElement('thead');
+            const trH = document.createElement('tr');
+            trH.appendChild(document.createElement('th'));
+            for (const ring of state.rings) {
+                const th = document.createElement('th');
+                th.appendChild(colorPill(ring.color));
+                th.appendChild(document.createTextNode(ring.name || `Кольцо ${ring.id}`));
+                trH.appendChild(th);
+            }
+            thead.appendChild(trH);
+            table.appendChild(thead);
+
+            const tbody = document.createElement('tbody');
+            for (const sector of state.sectors) {
+                const tr = document.createElement('tr');
+                const thS = document.createElement('th');
+                thS.appendChild(colorPill(sector.color));
+                thS.appendChild(document.createTextNode(sector.name));
+                tr.appendChild(thS);
+                for (const ring of state.rings) {
+                    const cell = assessmentCells.find(c =>
+                        c.sectorId === sector.id && c.ringId === ring.id);
+                    const td = document.createElement('td');
+                    const node = cell && cell.nodeId != null
+                        ? state.nodes.find(n => n.id === cell.nodeId)
+                        : null;
+                    if (!node) {
+                        const empty = document.createElement('div');
+                        empty.className = 'lvl-empty';
+                        empty.textContent = '—';
+                        td.appendChild(empty);
+                    } else {
+                        td.appendChild(buildLevelAssessmentCell(node));
+                    }
+                    tr.appendChild(td);
+                }
+                tbody.appendChild(tr);
+            }
+            table.appendChild(tbody);
+            updateContinueButtonState();
+        }
+
+        function buildLevelAssessmentCell(node) {
+            const wrap = document.createElement('div');
+            wrap.className = 'lvl-cell';
+            const data = parseExerciseCsv(node.exerciseRaw);
+
+            const name = document.createElement('div');
+            name.className = 'lvl-ex-name';
+            name.textContent = (data && data.nameEn) || node.name || '—';
+            wrap.appendChild(name);
+
+            // Inline-play the exercise video using the same approach as the right
+            // panel's `renderExerciseDisplay`: muted+looped autoplay with a thumb as
+            // poster, falling back to a thumbnail-only image on load error.
+            const mediaWrap = document.createElement('div');
+            mediaWrap.className = 'lvl-ex-vid';
+            if (data && data.videoUrl) {
+                const v = document.createElement('video');
+                v.src = data.videoUrl;
+                v.autoplay = true;
+                v.loop = true;
+                v.muted = true;
+                v.playsInline = true;
+                v.setAttribute('playsinline', '');
+                v.setAttribute('muted', '');
+                v.preload = 'metadata';
+                if (data.thumbnailUrl) v.poster = data.thumbnailUrl;
+                v.addEventListener('error', () => {
+                    v.remove();
+                    if (data.thumbnailUrl) {
+                        const img = document.createElement('img');
+                        img.src = data.thumbnailUrl;
+                        img.alt = 'Видео';
+                        img.loading = 'lazy';
+                        mediaWrap.appendChild(img);
+                    }
+                });
+                mediaWrap.appendChild(v);
+                wrap.appendChild(mediaWrap);
+            } else if (data && data.thumbnailUrl) {
+                const img = document.createElement('img');
+                img.src = data.thumbnailUrl;
+                img.alt = 'Видео';
+                img.loading = 'lazy';
+                mediaWrap.appendChild(img);
+                wrap.appendChild(mediaWrap);
+            }
+
+            const btns = document.createElement('div');
+            btns.className = 'lvl-btns';
+            const cur = getNodeLevel(node.id);
+
+            const cleanBtn = document.createElement('button');
+            cleanBtn.type = 'button';
+            cleanBtn.className = 'lvl-btn-clean' + (cur === 'clean' ? ' active' : '');
+            cleanBtn.textContent = '✓ Чисто';
+            cleanBtn.addEventListener('click', () => {
+                toggleNodeLevel(node.id, 'clean');
+                renderLevelAssessment();
+                renderNodes();
+                updateInfoPanel();
+            });
+
+            const uncertainBtn = document.createElement('button');
+            uncertainBtn.type = 'button';
+            uncertainBtn.className = 'lvl-btn-uncertain' + (cur === 'uncertain' ? ' active' : '');
+            uncertainBtn.textContent = '? Неуверенно';
+            uncertainBtn.addEventListener('click', () => {
+                toggleNodeLevel(node.id, 'uncertain');
+                renderLevelAssessment();
+                renderNodes();
+                updateInfoPanel();
+            });
+
+            btns.appendChild(cleanBtn);
+            btns.appendChild(uncertainBtn);
+            wrap.appendChild(btns);
+
+            return wrap;
         }
 
         function renderSectorHandles(R) {
@@ -1553,12 +2571,44 @@
                     grp.appendChild(halo);
                 }
 
-                const circle = document.createElementNS(SVG_NS, 'circle');
-                circle.setAttribute('r', 10);
-                circle.setAttribute('fill', passColor(node.passIndex));
-                circle.setAttribute('stroke', isSel ? '#fff' : 'rgba(255,255,255,0.5)');
-                circle.setAttribute('stroke-width', isSel ? 3 : 2);
-                grp.appendChild(circle);
+                const shape = node.shape || 'circle';
+                const outline = node.outline || 'solid';
+                let nodeShape;
+                if (shape === 'square') {
+                    nodeShape = document.createElementNS(SVG_NS, 'rect');
+                    nodeShape.setAttribute('x', -10);
+                    nodeShape.setAttribute('y', -10);
+                    nodeShape.setAttribute('width', 20);
+                    nodeShape.setAttribute('height', 20);
+                    nodeShape.setAttribute('rx', 2);
+                } else if (shape === 'triangle') {
+                    nodeShape = document.createElementNS(SVG_NS, 'polygon');
+                    // Equilateral triangle pointing up, circumradius 12.
+                    nodeShape.setAttribute('points', '0,-12 10.39,6 -10.39,6');
+                } else {
+                    nodeShape = document.createElementNS(SVG_NS, 'circle');
+                    nodeShape.setAttribute('r', 10);
+                }
+                nodeShape.setAttribute('fill', passColor(node.passIndex));
+                // Self-assessment recolors the node outline so the user can see at a
+                // glance which exercises they've evaluated, without changing the
+                // existing solid/dashed outline pattern.
+                const lvl = getNodeLevel(node.id);
+                let strokeColor = isSel ? '#fff' : 'rgba(255,255,255,0.5)';
+                let strokeWidth = isSel ? 3 : 2;
+                if (lvl === 'clean') {
+                    strokeColor = '#6BCB77';
+                    strokeWidth = Math.max(strokeWidth, 3);
+                } else if (lvl === 'uncertain') {
+                    strokeColor = '#ff8c6b';
+                    strokeWidth = Math.max(strokeWidth, 3);
+                }
+                nodeShape.setAttribute('stroke', strokeColor);
+                nodeShape.setAttribute('stroke-width', strokeWidth);
+                if (outline === 'dashed') {
+                    nodeShape.setAttribute('stroke-dasharray', '4 3');
+                }
+                grp.appendChild(nodeShape);
 
                 const display = node.name.length > 18 ? node.name.slice(0, 16) + '…' : node.name;
                 const text = document.createElementNS(SVG_NS, 'text');
@@ -1684,8 +2734,25 @@
             row2.appendChild(sep2);
             row2.appendChild(spanInfo);
 
+            // Row 3: comma-separated muscle list. Each muscle becomes a sub-sector
+            // on the outer rim and lights up when a workout exercise targets it.
+            const row3 = document.createElement('div');
+            row3.className = 'si-row';
+            const musclesInput = document.createElement('input');
+            musclesInput.type = 'text';
+            musclesInput.className = 'muscles-input';
+            musclesInput.placeholder = 'Мышцы: deltoid_anterior, triceps, …';
+            musclesInput.value = formatMusclesList(s.muscles);
+            musclesInput.title = 'Список мышц через запятую';
+            musclesInput.addEventListener('input', () => {
+                s.muscles = parseMusclesInput(musclesInput.value);
+                renderSectors();
+            });
+            row3.appendChild(musclesInput);
+
             item.appendChild(row1);
             item.appendChild(row2);
+            item.appendChild(row3);
             return item;
         }
 
@@ -1710,11 +2777,194 @@
 
         function renderAll() {
             renderCenter();
+            renderRings();
             renderSectors();
             renderSpirals();
             renderNodes();
             renderEndpoints();
             updateInfoPanel();
+        }
+
+        // ============== RINGS ==============
+        // A ring is a full-circle annulus drawn behind sectors. Bounds are in "turns"
+        // counted from the absolute center outward, matching how the user sees them:
+        //   turn 0 = canvas center (r = 0)
+        //   turn 1 = inner edge of the spiral (r = a)
+        //   turn 1 + N = after N full revolutions of the spiral (r = a + N * b * TAU)
+        // For 0 ≤ turn ≤ 1 we linearly interpolate the radius from 0 to a, so a band
+        // like `0 → 1.75` covers the empty center plus a bit of the first spiral loop.
+        function ringRadius(turn) {
+            const a = state.spiral.a;
+            const b = state.spiral.b;
+            if (turn <= 0) return 0;
+            if (turn <= 1) return a * turn;
+            return a + (turn - 1) * b * TAU;
+        }
+
+        function renderRings() {
+            const g = clearGroup('g-rings');
+            for (const ring of state.rings) {
+                const innerTurn = Math.max(0, Math.min(ring.startTurn, ring.endTurn));
+                const outerTurn = Math.max(ring.startTurn, ring.endTurn);
+                const rIn = ringRadius(innerTurn);
+                const rOut = ringRadius(outerTurn);
+                if (rOut - rIn < 0.5) continue;
+                const midR = (rIn + rOut) / 2;
+                const sw = rOut - rIn;
+
+                const c = document.createElementNS(SVG_NS, 'circle');
+                c.setAttribute('cx', state.cx);
+                c.setAttribute('cy', state.cy);
+                c.setAttribute('r', midR.toFixed(2));
+                c.setAttribute('fill', 'none');
+                c.setAttribute('stroke', ring.color);
+                c.setAttribute('stroke-opacity', 0.18);
+                c.setAttribute('stroke-width', sw.toFixed(2));
+                c.style.pointerEvents = 'none';
+                g.appendChild(c);
+
+                // Thin boundary lines for definition (skip degenerate center circle).
+                for (const r of [rIn, rOut]) {
+                    if (r < 1) continue;
+                    const edge = document.createElementNS(SVG_NS, 'circle');
+                    edge.setAttribute('cx', state.cx);
+                    edge.setAttribute('cy', state.cy);
+                    edge.setAttribute('r', r.toFixed(2));
+                    edge.setAttribute('fill', 'none');
+                    edge.setAttribute('stroke', ring.color);
+                    edge.setAttribute('stroke-opacity', 0.55);
+                    edge.setAttribute('stroke-width', 1.2);
+                    edge.style.pointerEvents = 'none';
+                    g.appendChild(edge);
+                }
+
+                // Label, placed at the top of the ring (12 o'clock).
+                if (ring.name) {
+                    const fontSize = Math.max(Math.min(sw * 0.32, 64), 14);
+                    const lx = state.cx;
+                    const ly = state.cy - midR;
+                    const text = document.createElementNS(SVG_NS, 'text');
+                    text.setAttribute('text-anchor', 'middle');
+                    text.setAttribute('dominant-baseline', 'middle');
+                    text.setAttribute('fill', '#fff');
+                    text.setAttribute('fill-opacity', 0.9);
+                    text.setAttribute('font-size', fontSize.toFixed(1));
+                    text.setAttribute('font-weight', 'bold');
+                    text.setAttribute('paint-order', 'stroke');
+                    text.setAttribute('stroke', 'rgba(0,0,0,0.75)');
+                    text.setAttribute('stroke-width', Math.max(2, fontSize * 0.18).toFixed(1));
+                    text.setAttribute('transform', `translate(${lx.toFixed(2)} ${ly.toFixed(2)})`);
+                    text.style.pointerEvents = 'none';
+                    text.textContent = ring.name;
+                    g.appendChild(text);
+                }
+            }
+        }
+
+        function renderRingsList() {
+            const list = document.getElementById('rings-list');
+            if (!list) return;
+            list.innerHTML = '';
+            for (const r of state.rings) {
+                list.appendChild(buildRingItem(r));
+            }
+        }
+
+        function buildRingItem(r) {
+            const item = document.createElement('div');
+            // Reuse all .sector-item visual styles by adding both classes.
+            item.className = 'sector-item ring-item';
+            item.dataset.ringId = r.id;
+
+            // Row 1: color picker, name input, delete
+            const row1 = document.createElement('div');
+            row1.className = 'si-row';
+
+            const colorInput = document.createElement('input');
+            colorInput.type = 'color';
+            colorInput.value = r.color;
+            colorInput.title = 'Цвет';
+            colorInput.addEventListener('input', () => {
+                r.color = colorInput.value;
+                renderRings();
+            });
+
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.className = 'name-input';
+            nameInput.value = r.name;
+            nameInput.addEventListener('input', () => {
+                r.name = nameInput.value;
+                renderRings();
+            });
+
+            const delBtn = document.createElement('button');
+            delBtn.type = 'button';
+            delBtn.textContent = '×';
+            delBtn.title = 'Удалить кольцо';
+            delBtn.addEventListener('click', () => {
+                state.rings = state.rings.filter(x => x.id !== r.id);
+                renderRings();
+                renderRingsList();
+            });
+
+            row1.appendChild(colorInput);
+            row1.appendChild(nameInput);
+            row1.appendChild(delBtn);
+
+            // Row 2: from-turn  →  to-turn   span turns
+            const row2 = document.createElement('div');
+            row2.className = 'si-row';
+
+            const fromInput = document.createElement('input');
+            fromInput.type = 'number';
+            fromInput.className = 'from-input';
+            fromInput.min = '0';
+            fromInput.step = '0.25';
+            fromInput.value = r.startTurn;
+
+            const toInput = document.createElement('input');
+            toInput.type = 'number';
+            toInput.className = 'to-input';
+            toInput.min = '0';
+            toInput.step = '0.25';
+            toInput.value = r.endTurn;
+
+            const spanInfo = document.createElement('span');
+            spanInfo.className = 'span-info';
+            const ringSpan = (rg) => Math.abs(rg.endTurn - rg.startTurn);
+            const formatSpan = (rg) => ringSpan(rg).toFixed(2).replace(/\.?0+$/, '') + ' вит.';
+            spanInfo.textContent = formatSpan(r);
+
+            const refreshSpan = () => { spanInfo.textContent = formatSpan(r); };
+
+            fromInput.addEventListener('input', () => {
+                const v = parseFloat(fromInput.value);
+                if (!Number.isFinite(v)) return;
+                r.startTurn = Math.max(0, v);
+                refreshSpan();
+                renderRings();
+            });
+            toInput.addEventListener('input', () => {
+                const v = parseFloat(toInput.value);
+                if (!Number.isFinite(v)) return;
+                r.endTurn = Math.max(0, v);
+                refreshSpan();
+                renderRings();
+            });
+
+            const sep1 = document.createElement('span');
+            sep1.className = 'deg-sep';
+            sep1.textContent = '→';
+
+            row2.appendChild(fromInput);
+            row2.appendChild(sep1);
+            row2.appendChild(toInput);
+            row2.appendChild(spanInfo);
+
+            item.appendChild(row1);
+            item.appendChild(row2);
+            return item;
         }
 
         function renderPassesList() {
@@ -1781,6 +3031,13 @@
             leftPanelCollapsed = collapsed;
             document.getElementById('left-panel').classList.toggle('collapsed', collapsed);
             document.getElementById('left-open').classList.toggle('shown', collapsed);
+            // Closing the left panel doubles as a «view-only» toggle: hide the
+            // technical/edit-only fields in the right panel via this body class.
+            // Pointer handlers also consult `leftPanelCollapsed` directly to block
+            // node creation, moving, and pass/sector-handle dragging.
+            document.body.classList.toggle('view-only', collapsed);
+            const nameInput = document.getElementById('info-name');
+            if (nameInput) nameInput.readOnly = collapsed;
         }
 
         function setRightPanelCollapsed(collapsed) {
@@ -1799,6 +3056,102 @@
             if (node) {
                 const name = node.name && node.name.length > 22 ? node.name.slice(0, 20) + '…' : (node.name || 'Узел');
                 btn.textContent = '📍 ' + name;
+            }
+        }
+
+        // ============== WORKOUT LIST ==============
+        // The workout is a flat list of exercise snapshots taken from spiral nodes.
+        // Snapshots make the exported workout JSON self-contained — it's still useful
+        // even if the underlying spiral changes or the file is shared without it.
+
+        function isInWorkout(nodeId) {
+            return state.workout.some(w => w.nodeId === nodeId);
+        }
+
+        function addNodeToWorkout(node) {
+            if (!node || isInWorkout(node.id)) return false;
+            state.workout.push({
+                nodeId: node.id,
+                name: node.name || '',
+                exerciseRaw: node.exerciseRaw || '',
+            });
+            return true;
+        }
+
+        function removeNodeFromWorkout(nodeId) {
+            const before = state.workout.length;
+            state.workout = state.workout.filter(w => w.nodeId !== nodeId);
+            return state.workout.length !== before;
+        }
+
+        // Build a Map<muscle, { primary, secondary }> tallying which workout exercises
+        // hit each muscle. Used by sector sub-rim rendering and the sector modal.
+        function getWorkoutMuscleCoverage() {
+            const cov = new Map();
+            for (const item of state.workout) {
+                const data = parseExerciseCsv(item.exerciseRaw);
+                if (!data) continue;
+                for (const m of data.primaryMuscles) {
+                    if (!cov.has(m)) cov.set(m, { primary: 0, secondary: 0 });
+                    cov.get(m).primary++;
+                }
+                for (const m of data.secondaryMuscles) {
+                    if (!cov.has(m)) cov.set(m, { primary: 0, secondary: 0 });
+                    cov.get(m).secondary++;
+                }
+            }
+            return cov;
+        }
+
+        function renderWorkoutList() {
+            const list = document.getElementById('workout-list');
+            if (!list) return;
+            list.innerHTML = '';
+            const counter = document.getElementById('workout-count');
+            if (counter) counter.textContent = String(state.workout.length);
+
+            if (state.workout.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'workout-empty';
+                empty.textContent = 'Нет упражнений';
+                list.appendChild(empty);
+                return;
+            }
+
+            for (const item of state.workout) {
+                const row = document.createElement('div');
+                row.className = 'workout-item';
+
+                const csv = parseExerciseCsv(item.exerciseRaw);
+                const displayName = item.name || (csv && csv.nameEn) || '—';
+
+                const nameEl = document.createElement('span');
+                nameEl.className = 'w-name';
+                nameEl.textContent = displayName;
+                nameEl.title = 'Кликните, чтобы выбрать узел на спирали';
+                nameEl.addEventListener('click', () => {
+                    const stillThere = state.nodes.some(n => n.id === item.nodeId);
+                    if (stillThere) {
+                        state.selectedNodeId = item.nodeId;
+                        if (rightPanelCollapsed) setRightPanelCollapsed(false);
+                        renderNodes();
+                        updateInfoPanel();
+                    }
+                });
+
+                const removeBtn = document.createElement('button');
+                removeBtn.textContent = '×';
+                removeBtn.title = 'Убрать из тренировки';
+                removeBtn.addEventListener('click', () => {
+                    removeNodeFromWorkout(item.nodeId);
+                    renderWorkoutList();
+                    renderSectors();
+                    updateInfoPanel();
+                });
+
+                row.appendChild(nameEl);
+                row.appendChild(removeBtn);
+                list.appendChild(row);
             }
         }
 
@@ -1856,6 +3209,32 @@
             if (document.activeElement !== csvInput) {
                 csvInput.value = node.exerciseRaw || '';
             }
+
+            // Reflect node's shape / outline in the segmented button groups.
+            const curShape = node.shape || 'circle';
+            const curOutline = node.outline || 'solid';
+            document.querySelectorAll('#info-shape button').forEach(b => {
+                b.classList.toggle('active', b.dataset.value === curShape);
+            });
+            document.querySelectorAll('#info-outline button').forEach(b => {
+                b.classList.toggle('active', b.dataset.value === curOutline);
+            });
+
+            // Reflect workout membership on the toggle button.
+            const wBtn = document.getElementById('info-workout-toggle');
+            if (wBtn) {
+                const inW = isInWorkout(node.id);
+                wBtn.classList.toggle('in-workout', inW);
+                wBtn.textContent = inW ? '✓ В тренировке' : '+ В тренировку';
+            }
+
+            // Reflect self-assessment level on the two level buttons.
+            const curLvl = getNodeLevel(node.id);
+            const cleanBtn = document.getElementById('info-level-clean');
+            const uncBtn = document.getElementById('info-level-uncertain');
+            if (cleanBtn) cleanBtn.classList.toggle('active', curLvl === 'clean');
+            if (uncBtn) uncBtn.classList.toggle('active', curLvl === 'uncertain');
+
             renderExerciseDisplay(node);
         }
 
@@ -1871,6 +3250,13 @@
                     display.appendChild(hint);
                 }
                 return;
+            }
+
+            if (data.nameEn) {
+                const name = document.createElement('div');
+                name.className = 'ex-name-en';
+                name.textContent = data.nameEn;
+                display.appendChild(name);
             }
 
             if (data.equipment) {
@@ -1970,18 +3356,76 @@
         }
 
         function nodeOpacity(node) {
+            let baseOp = 1;
+
             const hl = state.muscleHighlight;
-            if (!hl) return 1;
-            const focus = state.nodes.find(n => n.id === hl.nodeId);
-            if (!focus) return 1;
-            if (node.id === focus.id) return 1;
-            // "After" = closer to center = smaller theta on the spiral.
-            if (node.theta < focus.theta) return 0;
-            const data = parseExerciseCsv(node.exerciseRaw);
-            if (!data) return 0.2;
-            if (data.primaryMuscles.includes(hl.muscle)) return 1;
-            if (data.secondaryMuscles.includes(hl.muscle)) return 0.8;
-            return 0.2;
+            if (hl) {
+                const focus = state.nodes.find(n => n.id === hl.nodeId);
+                if (focus) {
+                    if (node.id === focus.id) {
+                        baseOp = 1;
+                    } else if (node.theta < focus.theta) {
+                        // "After" = closer to center = smaller theta on the spiral.
+                        baseOp = 0;
+                    } else {
+                        const data = parseExerciseCsv(node.exerciseRaw);
+                        if (!data) baseOp = 0.2;
+                        else if (data.primaryMuscles.includes(hl.muscle)) baseOp = 1;
+                        else if (data.secondaryMuscles.includes(hl.muscle)) baseOp = 0.8;
+                        else baseOp = 0.2;
+                    }
+                }
+            }
+
+            // Self-assessment dim: nodes located "before" any uncertain node on
+            // the spiral fade to 0.3. "Before" = smaller theta (inner = simpler).
+            // The user's intent: when an exercise is too hard («neuver/nikak»),
+            // the simpler progressions leading up to it become less interesting.
+            const cutoff = maxUncertainTheta();
+            if (cutoff !== null && node.id !== uncertainNodeIdAt(cutoff) && node.theta < cutoff) {
+                baseOp = Math.min(baseOp, 0.3);
+            }
+
+            return baseOp;
+        }
+
+        // Largest theta among nodes marked uncertain, or null if none.
+        function maxUncertainTheta() {
+            let max = -Infinity;
+            for (const id in state.levels) {
+                if (state.levels[id] !== 'uncertain') continue;
+                const n = state.nodes.find(x => x.id === +id);
+                if (n && n.theta > max) max = n.theta;
+            }
+            return max === -Infinity ? null : max;
+        }
+
+        function uncertainNodeIdAt(theta) {
+            for (const id in state.levels) {
+                if (state.levels[id] !== 'uncertain') continue;
+                const n = state.nodes.find(x => x.id === +id);
+                if (n && n.theta === theta) return n.id;
+            }
+            return null;
+        }
+
+        // ============== LEVEL HELPERS ==============
+        function getNodeLevel(nodeId) {
+            return state.levels[nodeId] || null;
+        }
+
+        function setNodeLevel(nodeId, level) {
+            if (level == null) delete state.levels[nodeId];
+            else state.levels[nodeId] = level;
+        }
+
+        function toggleNodeLevel(nodeId, level) {
+            if (state.levels[nodeId] === level) {
+                delete state.levels[nodeId];
+                return null;
+            }
+            state.levels[nodeId] = level;
+            return level;
         }
 
         // ============== INTERACTIONS ==============
@@ -2117,8 +3561,12 @@
 
             const target = e.target;
             const [mx, my] = svgPoint(e);
+            // In view-only mode (left panel collapsed) the spiral, pass endpoints,
+            // and sector boundaries are read-only — clicks on those handles fall
+            // through to start a pan instead of a drag.
+            const viewOnly = leftPanelCollapsed;
 
-            if (target.classList && target.classList.contains('handle')) {
+            if (!viewOnly && target.classList && target.classList.contains('handle')) {
                 e.preventDefault();
                 const passIndex = +target.dataset.passIndex;
                 const kind = target.dataset.kind;
@@ -2135,7 +3583,7 @@
                 return;
             }
 
-            if (target.classList && target.classList.contains('sector-handle')) {
+            if (!viewOnly && target.classList && target.classList.contains('sector-handle')) {
                 e.preventDefault();
                 const sectorId = +target.dataset.sectorId;
                 const kind = target.dataset.kind;
@@ -2262,6 +3710,9 @@
             }
 
             if (dragging.type === 'node') {
+                // View-only: keep the click-to-select bookkeeping but skip the
+                // actual node move so the spiral JSON stays untouched.
+                if (leftPanelCollapsed) return;
                 if (!dragging.moved) {
                     if (Math.hypot(mx - dragging.startX, my - dragging.startY) > 4) {
                         dragging.moved = true;
@@ -2294,7 +3745,17 @@
             if (dragging.type === 'pan') {
                 document.getElementById('canvas').classList.remove('panning');
                 if (!dragging.moved) {
-                    // Pure click on background: create node or deselect.
+                    // Pure click on background: create node or deselect. In view-only
+                    // mode we never create — a background click only deselects.
+                    if (leftPanelCollapsed) {
+                        if (state.selectedNodeId != null) {
+                            state.selectedNodeId = null;
+                            renderNodes();
+                            updateInfoPanel();
+                        }
+                        dragging = null;
+                        return;
+                    }
                     const mx = dragging.clickWx;
                     const my = dragging.clickWy;
                     const near = nearestPointOnSpirals(mx, my);
@@ -2308,6 +3769,8 @@
                             exerciseRaw: '',
                             passIndex: near.passIndex,
                             theta: near.theta,
+                            shape: 'circle',
+                            outline: 'solid',
                         });
                         state.selectedNodeId = newId;
                         // Auto-expand the right panel so the user immediately sees the new node.
@@ -2441,6 +3904,30 @@
                 renderAll();
             });
 
+            // Ring form
+            document.getElementById('ring-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('ring-name').value.trim();
+                let from = parseFloat(document.getElementById('ring-from-turn').value);
+                let to = parseFloat(document.getElementById('ring-to-turn').value);
+                const color = document.getElementById('ring-color').value;
+                if (!name) return;
+                if (!Number.isFinite(from)) from = 0;
+                if (!Number.isFinite(to)) to = 1;
+                from = Math.max(0, from);
+                to = Math.max(0, to);
+                state.rings.push({
+                    id: state.nextRingId++,
+                    name,
+                    startTurn: from,
+                    endTurn: to,
+                    color,
+                });
+                document.getElementById('ring-name').value = '';
+                renderRings();
+                renderRingsList();
+            });
+
             // Sector form
             document.getElementById('sector-form').addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -2453,11 +3940,13 @@
                 if (!Number.isFinite(to)) to = 90;
                 from = Math.max(0, Math.min(360, Math.round(from)));
                 to = Math.max(0, Math.min(360, Math.round(to)));
+                const musclesStr = document.getElementById('sector-muscles').value;
                 state.sectors.push({
                     id: state.nextSectorId++,
                     name,
                     startDeg: from,
                     endDeg: to,
+                    muscles: parseMusclesInput(musclesStr),
                     color,
                 });
                 document.getElementById('sector-name').value = '';
@@ -2503,7 +3992,8 @@
                     spiral: state.spiral,
                     passes: state.passes,
                     sectors: state.sectors,
-                    nodes: state.nodes,
+                    rings: state.rings,
+                    nodes: state.nodes.map(serializeNode),
                 };
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
@@ -2546,6 +4036,12 @@
                 const node = state.nodes.find(n => n.id === state.selectedNodeId);
                 if (node) {
                     node.name = e.target.value;
+                    // Keep workout snapshot in sync so the list shows the current name.
+                    const w = state.workout.find(it => it.nodeId === node.id);
+                    if (w) {
+                        w.name = node.name;
+                        renderWorkoutList();
+                    }
                     renderNodes();
                 }
             });
@@ -2554,16 +4050,201 @@
                 const node = state.nodes.find(n => n.id === state.selectedNodeId);
                 if (!node) return;
                 node.exerciseRaw = e.target.value;
+                // Sync workout snapshot — this also affects sector coverage.
+                const w = state.workout.find(it => it.nodeId === node.id);
+                if (w) {
+                    w.exerciseRaw = node.exerciseRaw;
+                    renderWorkoutList();
+                    renderSectors();
+                }
                 renderExerciseDisplay(node);
                 renderEquipmentList();
                 renderNodes();
             });
             document.getElementById('info-delete').addEventListener('click', () => {
-                state.nodes = state.nodes.filter(n => n.id !== state.selectedNodeId);
+                const deletedId = state.selectedNodeId;
+                state.nodes = state.nodes.filter(n => n.id !== deletedId);
+                // Keep workout in sync — a deleted node shouldn't linger as a snapshot.
+                if (deletedId != null) {
+                    removeNodeFromWorkout(deletedId);
+                    delete state.levels[deletedId];
+                }
                 state.selectedNodeId = null;
                 renderNodes();
                 updateInfoPanel();
                 renderEquipmentList();
+                renderWorkoutList();
+                renderSectors();
+            });
+
+            // Level: «clean» / «uncertain» toggles for the currently selected node.
+            document.getElementById('info-level-clean').addEventListener('click', () => {
+                if (state.selectedNodeId == null) return;
+                toggleNodeLevel(state.selectedNodeId, 'clean');
+                renderNodes();
+                updateInfoPanel();
+            });
+            document.getElementById('info-level-uncertain').addEventListener('click', () => {
+                if (state.selectedNodeId == null) return;
+                toggleNodeLevel(state.selectedNodeId, 'uncertain');
+                renderNodes();
+                updateInfoPanel();
+            });
+
+            // Workout: toggle current node's membership in the workout list.
+            document.getElementById('info-workout-toggle').addEventListener('click', () => {
+                if (state.selectedNodeId == null) return;
+                const node = state.nodes.find(n => n.id === state.selectedNodeId);
+                if (!node) return;
+                if (isInWorkout(node.id)) {
+                    removeNodeFromWorkout(node.id);
+                } else {
+                    addNodeToWorkout(node);
+                }
+                renderWorkoutList();
+                renderSectors();
+                updateInfoPanel();
+            });
+
+            // Workout: export, import, clear.
+            document.getElementById('workout-export-btn').addEventListener('click', () => {
+                const data = {
+                    version: 2,
+                    type: 'workout',
+                    items: state.workout,
+                    levels: state.levels,
+                };
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'workout.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+
+            const workoutImportFile = document.getElementById('workout-import-file');
+            document.getElementById('workout-import-btn').addEventListener('click',
+                () => workoutImportFile.click());
+            workoutImportFile.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                try {
+                    const text = await file.text();
+                    const data = JSON.parse(text);
+                    const items = Array.isArray(data) ? data : (data && data.items);
+                    if (!Array.isArray(items)) throw new Error('Invalid workout file');
+                    state.workout = items.map(it => ({
+                        nodeId: numOr(it && it.nodeId, -1),
+                        name: typeof (it && it.name) === 'string' ? it.name : '',
+                        exerciseRaw: typeof (it && it.exerciseRaw) === 'string' ? it.exerciseRaw : '',
+                    }));
+                    // Restore self-assessment levels (v2+); silently ignore unknown values.
+                    state.levels = {};
+                    if (data && typeof data.levels === 'object' && data.levels) {
+                        for (const k of Object.keys(data.levels)) {
+                            const v = data.levels[k];
+                            if (v === 'clean' || v === 'uncertain') state.levels[k] = v;
+                        }
+                    }
+                    renderWorkoutList();
+                    renderSectors();
+                    renderNodes();
+                    updateInfoPanel();
+                } catch (err) {
+                    console.error('Ошибка импорта тренировки:', err);
+                    const btn = document.getElementById('workout-import-btn');
+                    const orig = btn.textContent;
+                    btn.textContent = '❌ Ошибка';
+                    btn.style.background = 'rgba(255,107,107,0.7)';
+                    setTimeout(() => {
+                        btn.textContent = orig;
+                        btn.style.background = '';
+                    }, 2000);
+                } finally {
+                    workoutImportFile.value = '';
+                }
+            });
+
+            let workoutClearArmed = false;
+            let workoutClearTimer = null;
+            const workoutClearBtn = document.getElementById('workout-clear-btn');
+            const resetWorkoutClearBtn = () => {
+                workoutClearArmed = false;
+                workoutClearBtn.textContent = '✕';
+                if (workoutClearTimer) { clearTimeout(workoutClearTimer); workoutClearTimer = null; }
+            };
+            workoutClearBtn.addEventListener('click', () => {
+                if (state.workout.length === 0 && Object.keys(state.levels).length === 0) return;
+                if (!workoutClearArmed) {
+                    workoutClearArmed = true;
+                    workoutClearBtn.textContent = 'Точно?';
+                    workoutClearTimer = setTimeout(resetWorkoutClearBtn, 3000);
+                    return;
+                }
+                state.workout = [];
+                state.levels = {};
+                renderWorkoutList();
+                renderSectors();
+                renderNodes();
+                updateInfoPanel();
+                resetWorkoutClearBtn();
+            });
+
+            // Appearance filters: toggle visibility of nodes by shape / outline.
+            // A button is `.active` when its value is currently shown.
+            const refreshFilterButtons = () => {
+                document.querySelectorAll('#filter-shape button').forEach(b => {
+                    b.classList.toggle('active', !state.hiddenShapes.has(b.dataset.value));
+                });
+                document.querySelectorAll('#filter-outline button').forEach(b => {
+                    b.classList.toggle('active', !state.hiddenOutlines.has(b.dataset.value));
+                });
+            };
+            refreshFilterButtons();
+            const wireFilterGroup = (selector, hiddenSet) => {
+                document.querySelectorAll(selector).forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const v = btn.dataset.value;
+                        if (hiddenSet.has(v)) hiddenSet.delete(v);
+                        else hiddenSet.add(v);
+                        btn.classList.toggle('active', !hiddenSet.has(v));
+                        renderNodes();
+                        updateInfoPanel();
+                    });
+                });
+            };
+            wireFilterGroup('#filter-shape button', state.hiddenShapes);
+            wireFilterGroup('#filter-outline button', state.hiddenOutlines);
+
+            // Shape & outline segmented controls (right panel — per-node).
+            const SHAPE_VALUES = new Set(['circle', 'square', 'triangle']);
+            const OUTLINE_VALUES = new Set(['solid', 'dashed']);
+            document.querySelectorAll('#info-shape button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (state.selectedNodeId == null) return;
+                    const node = state.nodes.find(n => n.id === state.selectedNodeId);
+                    if (!node) return;
+                    const v = btn.dataset.value;
+                    if (!SHAPE_VALUES.has(v)) return;
+                    node.shape = v;
+                    renderNodes();
+                    updateInfoPanel();
+                });
+            });
+            document.querySelectorAll('#info-outline button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (state.selectedNodeId == null) return;
+                    const node = state.nodes.find(n => n.id === state.selectedNodeId);
+                    if (!node) return;
+                    const v = btn.dataset.value;
+                    if (!OUTLINE_VALUES.has(v)) return;
+                    node.outline = v;
+                    renderNodes();
+                    updateInfoPanel();
+                });
             });
 
             // Equipment filter: search + all/none
@@ -2587,6 +4268,42 @@
             document.getElementById('left-open').addEventListener('click', () => setLeftPanelCollapsed(false));
             document.getElementById('right-close').addEventListener('click', () => setRightPanelCollapsed(true));
             document.getElementById('right-open').addEventListener('click', () => setRightPanelCollapsed(false));
+
+            // Sector modal: close via × button, overlay backdrop click, or Escape.
+            document.getElementById('sector-modal-close').addEventListener('click', closeSectorModal);
+            document.getElementById('sector-modal').addEventListener('click', (e) => {
+                if (e.target.id === 'sector-modal') closeSectorModal();
+            });
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeSectorModal();
+                    closeLevelAssessmentModal();
+                }
+            });
+
+            // Level assessment modal: trigger, close (× / Continue / overlay), reroll.
+            document.getElementById('level-assess-btn').addEventListener('click',
+                openLevelAssessmentModal);
+            document.getElementById('level-assess-close').addEventListener('click',
+                closeLevelAssessmentModal);
+            document.getElementById('level-assess-continue').addEventListener('click',
+                closeLevelAssessmentModal);
+            document.getElementById('level-assess-reroll').addEventListener('click', () => {
+                rerollAssessmentCells();
+                renderLevelAssessment();
+            });
+            document.getElementById('level-assess-continue').addEventListener('click', (e) => {
+                // Defensive: even if the disabled attribute is somehow bypassed
+                // (e.g. via devtools), keep the gate honest.
+                if (!allAssessmentCellsMarked()) {
+                    e.stopImmediatePropagation();
+                    e.preventDefault();
+                    return;
+                }
+            }, true);
+            document.getElementById('level-assess-modal').addEventListener('click', (e) => {
+                if (e.target.id === 'level-assess-modal') closeLevelAssessmentModal();
+            });
         }
 
         // ============== IMPORT / AUTO-LOAD ==============
@@ -2631,22 +4348,60 @@
                     startDeg: numOr(s.startDeg, 0),
                     endDeg: numOr(s.endDeg, 0),
                     color: String(s.color || '#FF6B6B'),
+                    muscles: Array.isArray(s.muscles)
+                        ? s.muscles.map(x => String(x).trim()).filter(Boolean)
+                        : [],
                 }));
                 state.nextSectorId = Math.max(0, ...state.sectors.map(s => s.id)) + 1;
             }
-            if (Array.isArray(data.nodes)) {
-                state.nodes = data.nodes.map(n => ({
-                    id: numOr(n.id, ++state.nextNodeId),
-                    name: String(n.name || ''),
-                    exerciseRaw: typeof n.exerciseRaw === 'string' ? n.exerciseRaw : '',
-                    passIndex: Math.max(0, Math.min(state.spiral.passCount - 1, numOr(n.passIndex, 0))),
-                    theta: numOr(n.theta, 0),
+            if (Array.isArray(data.rings)) {
+                state.rings = data.rings.map(r => ({
+                    id: numOr(r.id, ++state.nextRingId),
+                    name: String(r.name || ''),
+                    startTurn: Math.max(0, numOr(r.startTurn, 0)),
+                    endTurn: Math.max(0, numOr(r.endTurn, 1)),
+                    color: String(r.color || '#6BCB77'),
                 }));
+                state.nextRingId = Math.max(0, ...state.rings.map(r => r.id)) + 1;
+            } else {
+                state.rings = [];
+            }
+            if (Array.isArray(data.nodes)) {
+                state.nodes = data.nodes.map(n => {
+                    // Collect every `name:<locale>` key into a localization map.
+                    // Other locales are kept around so a round-trip preserves them.
+                    const localeNames = {};
+                    for (const key of Object.keys(n)) {
+                        const m = /^name:(.+)$/.exec(key);
+                        if (m && typeof n[key] === 'string') {
+                            localeNames[m[1]] = n[key];
+                        }
+                    }
+                    // Pick the active locale; fall back to the legacy `name` field.
+                    const activeName = localeNames[ACTIVE_LOCALE]
+                        || (typeof n.name === 'string' ? n.name : '');
+                    // Don't double-store the active locale in `localeNames`.
+                    delete localeNames[ACTIVE_LOCALE];
+                    return {
+                        id: numOr(n.id, ++state.nextNodeId),
+                        name: String(activeName || ''),
+                        localeNames,
+                        exerciseRaw: typeof n.exerciseRaw === 'string' ? n.exerciseRaw : '',
+                        passIndex: Math.max(0, Math.min(state.spiral.passCount - 1, numOr(n.passIndex, 0))),
+                        theta: numOr(n.theta, 0),
+                        shape: ['circle', 'square', 'triangle'].includes(n.shape) ? n.shape : 'circle',
+                        outline: ['solid', 'dashed'].includes(n.outline) ? n.outline : 'solid',
+                    };
+                });
                 state.nextNodeId = Math.max(0, ...state.nodes.map(n => n.id)) + 1;
             }
             state.selectedNodeId = null;
             state.hiddenEquipment.clear();
+            state.hiddenShapes.clear();
+            state.hiddenOutlines.clear();
             state.muscleHighlight = null;
+            document.querySelectorAll('#filter-shape button, #filter-outline button')
+                .forEach(b => b.classList.add('active'));
             document.getElementById('passCount').value = state.spiral.passCount;
             document.getElementById('rangeA').value = state.spiral.a;
             document.getElementById('rangeB').value = state.spiral.b;
@@ -2657,8 +4412,10 @@
             document.getElementById('cwToggle').checked = state.spiral.dir >= 0;
             renderAll();
             renderSectorsList();
+            renderRingsList();
             renderPassesList();
             renderEquipmentList();
+            renderWorkoutList();
         }
 
         // Best-effort auto-load on page open. Any failure is non-fatal: just warn
@@ -2699,24 +4456,30 @@
 
             // Default sample sectors (4 quadrants)
             state.sectors = [
-                { id: state.nextSectorId++, name: 'Сектор 1', startDeg: 0, endDeg: 90, color: '#FF6B6B' },
-                { id: state.nextSectorId++, name: 'Сектор 2', startDeg: 90, endDeg: 180, color: '#FFD93D' },
-                { id: state.nextSectorId++, name: 'Сектор 3', startDeg: 180, endDeg: 270, color: '#6BCB77' },
-                { id: state.nextSectorId++, name: 'Сектор 4', startDeg: 270, endDeg: 360, color: '#4D96FF' },
+                { id: state.nextSectorId++, name: 'Сектор 1', startDeg: 0, endDeg: 90, color: '#FF6B6B', muscles: [] },
+                { id: state.nextSectorId++, name: 'Сектор 2', startDeg: 90, endDeg: 180, color: '#FFD93D', muscles: [] },
+                { id: state.nextSectorId++, name: 'Сектор 3', startDeg: 180, endDeg: 270, color: '#6BCB77', muscles: [] },
+                { id: state.nextSectorId++, name: 'Сектор 4', startDeg: 270, endDeg: 360, color: '#4D96FF', muscles: [] },
             ];
 
             renderAll();
             renderSectorsList();
+            renderRingsList();
             renderPassesList();
             renderEquipmentList();
+            renderWorkoutList();
             bindUI();
             // On narrow screens both panels would otherwise hide the canvas —
             // start with the left panel collapsed so the spiral is visible first.
             if (window.matchMedia && window.matchMedia('(max-width: 600px)').matches) {
                 setLeftPanelCollapsed(true);
             }
-            // Fire-and-forget; on success it replaces the default scene seamlessly.
-            autoLoadDefaultSpiral();
+            // Auto-load the example scene, then prompt the user to self-assess.
+            // `autoLoadDefaultSpiral` swallows its own errors, so the .then chain
+            // always fires — we open the modal regardless of network outcome.
+            autoLoadDefaultSpiral().then(() => {
+                openLevelAssessmentModal();
+            });
 
             svg.addEventListener('pointerdown', onPointerDown);
             svg.addEventListener('wheel', onWheel, { passive: false });

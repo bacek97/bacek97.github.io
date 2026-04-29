@@ -43,541 +43,712 @@
       "name": "Кор",
       "startDeg": 15,
       "endDeg": 45,
-      "color": "#FF6B6B"
+      "color": "#FF6B6B",
+      "muscles": [
+        "serratus_anterior",
+        "iliopsoas"
+      ]
     },
     {
       "id": 2,
       "name": "Плечи",
       "startDeg": 255,
       "endDeg": 285,
-      "color": "#FFD93D"
+      "color": "#FFD93D",
+      "muscles": [
+        "deltoid_anterior",
+        "deltoid_lateral",
+        "deltoid_posterior",
+        "deltoids",
+        "supraspinatus",
+        "infraspinatus",
+        "teres_minor"
+      ]
     },
     {
       "id": 3,
       "name": "Трицепс",
       "startDeg": 285,
       "endDeg": 315,
-      "color": "#6BCB77"
+      "color": "#6BCB77",
+      "muscles": [
+        "triceps"
+      ]
     },
     {
       "id": 4,
       "name": "Грудь",
       "startDeg": 315,
       "endDeg": 15,
-      "color": "#4D96FF"
+      "color": "#4D96FF",
+      "muscles": [
+        "chest_clavicular_head",
+        "chest_sternal_head",
+        "pectoralis_major",
+        "pectorals"
+      ]
     },
     {
       "id": 5,
       "name": "Пресс",
       "startDeg": 45,
       "endDeg": 75,
-      "color": "#ff6b6b"
+      "color": "#ff6b6b",
+      "muscles": [
+        "rectus_abdominis",
+        "obliques"
+      ]
     },
     {
       "id": 6,
       "name": "Предплечья",
       "startDeg": 75,
       "endDeg": 90,
-      "color": "#000000"
+      "color": "#000000",
+      "muscles": [
+        "forearms",
+        "brachioradialis"
+      ]
     },
     {
       "id": 7,
       "name": "Ступни",
       "startDeg": 90,
       "endDeg": 105,
-      "color": "#00ffff"
+      "color": "#00ffff",
+      "muscles": []
     },
     {
       "id": 8,
       "name": "Ноги",
       "startDeg": 105,
       "endDeg": 135,
-      "color": "#ffff00"
+      "color": "#ffff00",
+      "muscles": [
+        "quadriceps",
+        "hamstrings",
+        "hip_adductors",
+        "tensor_fasciae_femoris",
+        "tensor_fasciae_latae",
+        "gastrocnemius",
+        "soleus",
+        "calves"
+      ]
     },
     {
       "id": 9,
       "name": "Ягодицы",
       "startDeg": 135,
       "endDeg": 165,
-      "color": "#ff0000"
+      "color": "#ff0000",
+      "muscles": [
+        "gluteus_maximus",
+        "gluteus_medius",
+        "gluteus_minimus",
+        "hip_abductors"
+      ]
     },
     {
       "id": 10,
       "name": "Спина",
       "startDeg": 165,
       "endDeg": 225,
-      "color": "#00ff00"
+      "color": "#00ff00",
+      "muscles": [
+        "latissimus_dorsi",
+        "trapezius",
+        "trapezius_upper",
+        "trapezius_middle",
+        "trapezius_lower",
+        "traps",
+        "rhomboids",
+        "erector_spinae",
+        "lower_back",
+        "teres_major"
+      ]
     },
     {
       "id": 11,
       "name": "Бицепс",
       "startDeg": 225,
       "endDeg": 255,
-      "color": "#ffffff"
+      "color": "#ffffff",
+      "muscles": [
+        "biceps",
+        "brachialis"
+      ]
+    }
+  ],
+  "rings": [
+    {
+      "id": 1,
+      "name": "ЛФК",
+      "startTurn": 8,
+      "endTurn": 9,
+      "color": "#0055ff"
+    },
+    {
+      "id": 2,
+      "name": "ГТО",
+      "startTurn": 5,
+      "endTurn": 8,
+      "color": "#6bcb77"
+    },
+    {
+      "id": 3,
+      "name": "КМС",
+      "startTurn": 3,
+      "endTurn": 5,
+      "color": "#fbff00"
+    },
+    {
+      "id": 4,
+      "name": "МСМК",
+      "startTurn": 1,
+      "endTurn": 3,
+      "color": "#ff0000"
     }
   ],
   "nodes": [
     {
-      "id": 1,
-      "name": "Приседания с утяжелителями",
-      "exerciseRaw": "\"Weighted\",\"gluteus_maximus, quadriceps\",\"hamstrings\",\"https://apilyfta.com/static/GymvisualMP4/60441201-Bottle-Weighted-Front-Squat-(female)_Hips_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/60441101-Bottle-Weighted-Front-Squat-(female)_Hips_small.png\"",
-      "passIndex": 0,
-      "theta": 41.81864792856016
-    },
-    {
-      "id": 3,
-      "name": "Болгарские выпады",
-      "exerciseRaw": "",
-      "passIndex": 2,
-      "theta": 38.65152983465996
-    },
-    {
-      "id": 4,
-      "name": "Ягодичный мостик",
-      "exerciseRaw": "",
-      "passIndex": 0,
-      "theta": 47.83930776370101
-    },
-    {
-      "id": 5,
-      "name": "Ягодичный мост с опорой",
-      "exerciseRaw": "",
-      "passIndex": 0,
-      "theta": 41.461353123445846
-    },
-    {
       "id": 6,
-      "name": "Отжимания от опоры",
       "exerciseRaw": "\"Body weight\",\"deltoid_anterior, chest_clavicular_head, triceps\",\"rectus_abdominis, serratus_anterior\",\"https://apilyfta.com/static/GymvisualMP4/71341201-Incline-Push-up-with-Chair_Chest_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/71341201-Incline-Push-up-with-Chair_Chest_GREEN.png\"",
       "passIndex": 0,
-      "theta": 44.20914222916963
+      "theta": 38.042508782253606,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Отжимания от опоры"
     },
     {
       "id": 7,
-      "name": "Отжимания ",
       "exerciseRaw": "\"Body weight\",,\"deltoid_anterior, chest_clavicular_head, triceps\",\"https://apilyfta.com/static/GymvisualMP4/06621201-Push-up-m_Chest.mp4\",\"https://apilyfta.com/static/GymvisualPNG/06621101-Push-up-m_Chest-FIX_small.png\"",
       "passIndex": 0,
-      "theta": 37.94534643914891
+      "theta": 37.94534643914891,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Отжимания "
     },
     {
       "id": 8,
-      "name": "Отжимания с опорой ног",
       "exerciseRaw": "\"Body weight\",\"deltoid_anterior, triceps\",\"obliques, chest_clavicular_head, rectus_abdominis, serratus_anterior\",\"https://apilyfta.com/static/GymvisualMP4/71831201-Decline-Push-up-with-Chair-(male)_Chest_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/71831201-Decline-Push-up-with-Chair-(male)_Chest_GREEN.png\"",
       "passIndex": 0,
-      "theta": 31.64191258556924
+      "theta": 31.641912585569237,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Отжимания с опорой ног"
     },
     {
       "id": 9,
-      "name": "Подтягивания урощённые",
       "exerciseRaw": "\"Body weight\",\"infraspinatus, latissimus_dorsi, teres_major, teres_minor, trapezius, trapezius\",\"biceps, brachialis, brachioradialis, deltoids\",\"https://apilyfta.com/static/GymvisualMP4/33881201-Inverted-Row-between-Chairs_Back.mp4\",\"https://apilyfta.com/static/GymvisualPNG/33881101-Inverted-Row-between-Chairs_Back_small.png\"",
       "passIndex": 0,
-      "theta": 47.04992125025505
+      "theta": 40.7129545766522,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Подтягивания урощённые"
     },
     {
       "id": 10,
-      "name": "Отжимания узким хватом (от опоры)",
       "exerciseRaw": "\"Body weight\",\"chest_clavicular_head, triceps\",\"deltoid_anterior, serratus_anterior\",\"https://apilyfta.com/static/GymvisualMP4/71361201-Incline-Close-Grip-Push-Up-with-Chair_Upper-Arms_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/71361201-Incline-Close-Grip-Push-Up-with-Chair_Upper-Arms_GREEN.png\"",
       "passIndex": 0,
-      "theta": 44.25703310936741
+      "theta": 38.008883923383145,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Отжимания узким хватом (от опоры)"
     },
     {
       "id": 12,
-      "name": "Отжимания обратные",
       "exerciseRaw": "\"Body weight\",\"triceps\",\"deltoid_anterior, latissimus_dorsi\",\"https://apilyfta.com/static/GymvisualMP4/34431201-Dip-on-Floor-with-Chair_Chest_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/34431101-Dip-on-Floor-with-Chair_Chest_small.png\"",
       "passIndex": 0,
-      "theta": 38.52810574046668
+      "theta": 38.538567489440055,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Отжимания обратные"
     },
     {
       "id": 13,
-      "name": "Отжимания обратные (колени согнуты)",
       "exerciseRaw": "\"Body weight\",\"triceps\",\"deltoid_anterior, latissimus_dorsi, chest_clavicular_head, serratus_anterior\",\"https://apilyfta.com/static/GymvisualMP4/71321201-Dip-Bent-Knees-with-Chair_Upper-Arms_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/71321201-Dip-Bent-Knees-with-Chair_Upper-Arms_GREEN.png\"",
       "passIndex": 0,
-      "theta": 38.57071972675413
+      "theta": 38.577530601452345,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Отжимания обратные (колени согнуты)"
     },
     {
       "id": 14,
-      "name": "Лягушка",
       "exerciseRaw": "\"Body weight\",\"rectus_abdominis\",,\"https://apilyfta.com/static/GymvisualMP4/33011201-Frog-planche_Waist_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/33011101-Frog-planche_Waist_small.png\"",
-      "passIndex": 1,
-      "theta": 26.93750030528156
+      "passIndex": 2,
+      "theta": 28.51492342908012,
+      "shape": "square",
+      "outline": "solid",
+      "name:ru": "Лягушка"
     },
     {
       "id": 15,
-      "name": "Горизонт",
       "exerciseRaw": "\"Body weight\",\"rectus_abdominis, serratus_anterior\",,\"https://apilyfta.com/static/GymvisualMP4/32991201-Full-planche_Waist_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/32991101-Full-planche_Waist_small.png\"",
       "passIndex": 0,
-      "theta": 25.392290778028592
+      "theta": 19.14322120357158,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Горизонт"
     },
     {
       "id": 16,
-      "name": "Отжимания в горизонте",
       "exerciseRaw": "\"Body weight\",\"triceps\",\"deltoid_anterior, deltoid_lateral, deltoids, latissimus_dorsi\",\"https://apilyfta.com/static/GymvisualMP4/33271201-Full-Planche-Push-Up_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/33271101-Full-Planche-Push-Up_small.png\"",
       "passIndex": 0,
-      "theta": 25.34185348972292
+      "theta": 19.078517893938564,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Отжимания в горизонте"
     },
     {
       "id": 17,
-      "name": "Отжимания с хлопком",
       "exerciseRaw": "\"None\",\"Chest\",\"Triceps, Shoulders\",\"https://d2l9nsnmtah87f.cloudfront.net/exercise-assets/12731201-Clap-Push-Up_Plyometrics_Chest.mp4\",\"https://d2l9nsnmtah87f.cloudfront.net/exercise-thumbnails/12731101-Clap-Push-Up_Plyometrics_Chest_small_thumbnail@3x.jpg\"",
       "passIndex": 0,
-      "theta": 31.60067918199088
+      "theta": 31.600679181990877,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Отжимания с хлопком"
     },
     {
       "id": 18,
-      "name": "Отжимания бриллиантовые",
       "exerciseRaw": "\"None\",\"Triceps\",\"Chest, Shoulders\",\"https://d2l9nsnmtah87f.cloudfront.net/exercise-assets/02831201-Diamond-Push-up_Upper-Arms.mp4\",\"https://d2l9nsnmtah87f.cloudfront.net/exercise-thumbnails/02831101-Diamond-Push-up_Upper-Arms_small_thumbnail@3x.jpg\"",
       "passIndex": 0,
-      "theta": 37.89613633547356
+      "theta": 37.89613633547356,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Отжимания бриллиантовые"
     },
     {
       "id": 19,
-      "name": "Упражнение 19",
       "exerciseRaw": "\"Body weight\",\"iliopsoas, rectus_abdominis\",\"obliques, quadriceps, tensor_fasciae_femoris\",\"https://apilyfta.com/static/GymvisualMP4/66331201-Leg-Raises-Hold-on-Chair-(male)_Waist_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/66331201-Leg-Raises-Hold-on-Chair-(male)_Waist__GREEN.png\"",
       "passIndex": 0,
-      "theta": 37.384829859255504
+      "theta": 31.080015422966735,
+      "shape": "square",
+      "outline": "solid",
+      "name:ru": "Уголок на стуле"
     },
     {
       "id": 20,
-      "name": "Упражнение 20",
       "exerciseRaw": "\"Body weight\",\"iliopsoas, rectus_abdominis\",\"obliques, quadriceps\",\"https://apilyfta.com/static/GymvisualMP4/72611201-L-Sit-on-Chair-(male)_Waist_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/67261201-Puppy-Pose-(male)_Stretching__GREEN.png\"",
       "passIndex": 0,
-      "theta": 36.855146293198594
-    },
-    {
-      "id": 21,
-      "name": "Пистолетик",
-      "exerciseRaw": "\"Body weight\",\"gluteus_maximus, quadriceps\",\"hip_adductors, gastrocnemius, hamstrings, soleus\",\"https://apilyfta.com/static/GymvisualMP4/71331201-Pistol-Squat-with-Chair_Thighs_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/71331201-Pistol-Squat-with-Chair_Thighs_GREEN.png\"",
-      "passIndex": 2,
-      "theta": 38.56461448321836
+      "theta": 30.56665341249293,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Уголок назад"
     },
     {
       "id": 22,
-      "name": "Широчайшие",
       "exerciseRaw": "\"Body weight\",\"latissimus_dorsi\",\"deltoids, infraspinatus, teres_major, teres_minor, trapezius\",\"https://apilyfta.com/static/GymvisualMP4/73071201-Lat-Stretch-with-Chair-(female)_Back_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/73071201-Lat-Stretch-with-Chair-(female)_Back_GREEN.png\"",
       "passIndex": 1,
-      "theta": 48.444923378758254
+      "theta": 48.444923378758254,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Широчайшие"
     },
     {
       "id": 23,
-      "name": "Отжимания на брусьях",
       "exerciseRaw": "\"Body weight\",\"triceps\",\"deltoid_anterior, latissimus_dorsi, chest_clavicular_head\",\"https://apilyfta.com/static/GymvisualMP4/33871201-Dips-between-Chairs_Chest_1.mp4\",\"https://apilyfta.com/static/GymvisualPNG/33871101-Dips-between-Chairs_Chest_small.png\"",
       "passIndex": 0,
-      "theta": 38.68162653771827
+      "theta": 38.68162653771827,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Отжимания на брусьях"
     },
     {
       "id": 24,
-      "name": "Подтягивания обратным хватом упрощённые",
       "exerciseRaw": "\"Body weight\",\"biceps\",\"brachialis, brachioradialis\",\"https://apilyfta.com/static/GymvisualMP4/34861201-Inverted-Chin-Curl-with-Bent-Knee-between-Chairs_Upper-Arms.mp4\",\"https://apilyfta.com/static/GymvisualPNG/34861101-Inverted-Chin-Curl-with-Bent-Knee-between-Chairs_Upper-Arms_small.png\"",
       "passIndex": 0,
-      "theta": 46.272162311181276
+      "theta": 39.989406518622296,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Подтягивания обратным хватом упрощённые"
     },
     {
       "id": 25,
-      "name": "Ступенька",
       "exerciseRaw": "\"Body weight\",\"gluteus_maximus, quadriceps\",\"gastrocnemius, soleus\",\"https://apilyfta.com/static/GymvisualMP4/34441201-Step-up-on-Chair_Thighs.mp4\",\"https://apilyfta.com/static/GymvisualPNG/34441101-Step-up-on-Chair_Thighs_small.png\"",
       "passIndex": 0,
-      "theta": 48.075970319656
+      "theta": 35.59347777477842,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Ступенька"
     },
     {
       "id": 26,
-      "name": "Пистолетик с опорой",
       "exerciseRaw": "\"Body weight\",\"quadriceps\",\"infraspinatus, tensor_fasciae_femoris\",\"https://apilyfta.com/static/GymvisualMP4/17621201-Single-Leg-Squat-with-Support-(pistol)_Thighs_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/17621101-Single-Leg-Squat-with-Support-(pistol)_Thighs_small.png\"",
       "passIndex": 2,
-      "theta": 38.611124780707044
+      "theta": 32.26317480466293,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Пистолетик с опорой"
     },
     {
       "id": 27,
-      "name": "Сумо приседания",
       "exerciseRaw": "\"Weighted\",\"gluteus_maximus, quadriceps\",\"gastrocnemius, hamstrings\",\"https://apilyfta.com/static/GymvisualMP4/60451201-Bottle-Weighted-Sumo-Squat-(female)_Hips_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/60451101-Bottle-Weighted-Sumo-Squat-(female)_Hips_small.png\"",
       "passIndex": 0,
-      "theta": 41.679577230330445
-    },
-    {
-      "id": 28,
-      "name": "Deadlift",
-      "exerciseRaw": "\"Weighted\",\"gluteus_maximus, hamstrings\",\"biceps, latissimus_dorsi, quadriceps, trapezius, trapezius, trapezius\",\"https://apilyfta.com/static/GymvisualMP4/59881201-Bottle-Weighted-Deadlift-(female)_Hips_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/59881101-Bottle-Weighted-Deadlift-(female)_Hips_small.png\"",
-      "passIndex": 0,
-      "theta": 41.50654419745695
-    },
-    {
-      "id": 29,
-      "name": "Сумо приседания с подъёмом гири",
-      "exerciseRaw": "\"Kettlebell\",\"Full Body\",\"Traps\",\"https://d2l9nsnmtah87f.cloudfront.net/exercise-assets/05481201-Kettlebell-Sumo-High-Pull_Back_.mp4\",\"https://d2l9nsnmtah87f.cloudfront.net/exercise-thumbnails/05481101-Kettlebell-Sumo-High-Pull_back_small_thumbnail@3x.jpg\"",
-      "passIndex": 0,
-      "theta": 35.378106872159265
+      "theta": 35.40927736176911,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Сумо приседания"
     },
     {
       "id": 31,
-      "name": "Упражнение 31",
       "exerciseRaw": "\"Kettlebell\",\"hip_adductors, gluteus_maximus, hamstrings\",\"quadriceps\",\"https://apilyfta.com/static/GymvisualMP4/05481201-Kettlebell-Sumo-High-Pull_Back_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/05481101-Kettlebell-Sumo-High-Pull_back_small.png\"",
       "passIndex": 0,
-      "theta": 35.403785710548476
+      "theta": 29.13164506504166,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Упражнение 31"
     },
     {
       "id": 32,
-      "name": "Сумо приседания с подъёмом двух гирь",
       "exerciseRaw": "\"Kettlebell\",\"quadriceps, gluteus_maximus, hamstrings\",\"soleus, tensor_fasciae_femoris\",\"https://apilyfta.com/static/GymvisualMP4/41321201-Kettlebell-Sumo-Deadlift-with-High-Pull-(male)_Hip.mp4\",\"https://apilyfta.com/static/GymvisualPNG/41321101-Kettlebell-Sumo-Deadlift-with-High-Pull-(male)_Hips_small.png\"",
       "passIndex": 0,
-      "theta": 29.111826033262183
+      "theta": 22.84367373780388,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Сумо приседания с подъёмом двух гирь"
     },
     {
       "id": 33,
-      "name": "Сумо приседания в сторону",
       "exerciseRaw": "\"Body weight\",\"gluteus_maximus, quadriceps\",\"hip_adductors, gastrocnemius, soleus, tensor_fasciae_femoris\",\"https://apilyfta.com/static/GymvisualMP4/52111201-Sumo-Squat-Side-Lunge_Hips_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/52111201-Sumo-Squat-Side-Lunge_Hips_.png\"",
       "passIndex": 0,
-      "theta": 41.58925644153974
+      "theta": 41.58925644153974,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Сумо приседания в сторону"
     },
     {
       "id": 34,
-      "name": "Болгарские выпады с гантелями",
       "exerciseRaw": "\"Dumbbell\",\"gluteus_maximus, quadriceps\",\"soleus\",\"https://apilyfta.com/static/GymvisualMP4/22901201-Dumbbell-Bulgarian-Split-Squat-(female)_Thighs.mp4\",\"https://apilyfta.com/static/GymvisualPNG/22901101-Dumbbell-Bulgarian-Split-Squat-(female)_Thighs_small.png\"",
       "passIndex": 0,
-      "theta": 41.77308869915996
+      "theta": 35.48987271236462,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Болгарские выпады с гантелями"
     },
     {
       "id": 36,
-      "name": "Выпады назад",
       "exerciseRaw": "\"Weighted\",\"gluteus_maximus, quadriceps\",\"hamstrings, soleus\",\"https://apilyfta.com/static/GymvisualMP4/60481201-Bottle-Weighted-Rear-Lunge-(female)_Thighs_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/60481101-Bottle-Weighted-Rear-Lunge-(female)_Thighs_small.png\"",
       "passIndex": 0,
-      "theta": 41.38201563709639
+      "theta": 35.15902373603344,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Выпады назад"
     },
     {
       "id": 37,
-      "name": "Сплит-присед с утяжелителями",
       "exerciseRaw": "\"Weighted\",\"gluteus_maximus, quadriceps\",\"hamstrings\",\"https://apilyfta.com/static/GymvisualMP4/60461201-Bottle-Weighted-Split-Squat-(female)_Thighs_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/60461101-Bottle-Weighted-Split-Squat-(female)_Thighs_small.png\"",
       "passIndex": 0,
-      "theta": 41.337683592326506
+      "theta": 35.05247343050691,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Сплит-присед с утяжелителями"
     },
     {
       "id": 38,
-      "name": "Выпады вперёд",
       "exerciseRaw": "\"Weighted\",\"gluteus_maximus, hamstrings, quadriceps\",\"hip_adductors, gastrocnemius, iliopsoas, soleus\",\"https://apilyfta.com/static/GymvisualMP4/60471201-Bottle-Weighted-Forward-Lunge-(female)_Thighs_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/60471101-Bottle-Weighted-Forward-Lunge-(female)_Thighs_small.png\"",
       "passIndex": 0,
-      "theta": 41.29473213026571
+      "theta": 35.008202744968536,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Выпады вперёд"
     },
     {
       "id": 39,
-      "name": "Lateral Raise",
       "exerciseRaw": "\"Weighted\",\"deltoid_lateral\",\"deltoid_anterior, deltoids, trapezius, trapezius\",\"https://apilyfta.com/static/GymvisualMP4/60741201-Bottle-Weighted-Lateral-Raise-(female)_Shoulders_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/60741101-Bottle-Weighted-Lateral-Raise-(female)_Shoulders_small.png\"",
       "passIndex": 0,
-      "theta": 45.56183716754295
+      "theta": 39.26021341129297,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Lateral Raise"
     },
     {
       "id": 40,
-      "name": "Upright Row",
       "exerciseRaw": "\"Weighted\",\"deltoid_anterior, deltoid_lateral, trapezius\",\"biceps, brachialis, brachioradialis, infraspinatus\",\"https://apilyfta.com/static/GymvisualMP4/60711201-Bottle-Weighted-Upright-Row-(female)_Shoulders_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/60711101-Bottle-Weighted-Upright-Row-(female)_Shoulders_small.png\"",
       "passIndex": 0,
-      "theta": 45.614698145493485
+      "theta": 39.09141416539404,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Upright Row"
     },
     {
       "id": 41,
-      "name": "Gorilla Row",
       "exerciseRaw": "\"Weighted\",\"biceps, latissimus_dorsi\",\"deltoids\",\"https://apilyfta.com/static/GymvisualMP4/60621201-Bottle-Weighted-Gorilla-Row-(female)_Back_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/60621101-Bottle-Weighted-Gorilla-Row-(female)_Back_small.png\"",
       "passIndex": 0,
-      "theta": 45.88992497845592
+      "theta": 39.611832487492116,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Gorilla Row"
     },
     {
       "id": 42,
-      "name": "Overhead Triceps Extension",
       "exerciseRaw": "\"Weighted\",\"triceps\",\"deltoid_anterior, deltoid_lateral, chest_clavicular_head, serratus_anterior\",\"https://apilyfta.com/static/GymvisualMP4/60671201-Bottle-Weighted-Overhead-Triceps-Extension-(female.mp4\",\"https://apilyfta.com/static/GymvisualPNG/60671101-Bottle-Weighted-Overhead-Triceps-Extension-(female)_Upper-Arms_small.png\"",
       "passIndex": 0,
-      "theta": 45.20435828473408
+      "theta": 38.92684870646966,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Overhead Triceps Extension"
     },
     {
       "id": 43,
-      "name": "Svend Press",
       "exerciseRaw": "\"Weighted\",\"chest_clavicular_head\",\"deltoid_anterior, serratus_anterior, triceps\",\"https://apilyfta.com/static/GymvisualMP4/60581201-Bottle-Weighted-Svend-Press-(female)_Chest_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/60581101-Bottle-Weighted-Svend-Press-(female)_Chest_small.png\"",
       "passIndex": 0,
-      "theta": 45.346681022234115
+      "theta": 37.97740663761573,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Svend Press"
     },
     {
       "id": 44,
-      "name": "Calf Raise",
       "exerciseRaw": "\"Barbell\",\"gastrocnemius\",\"soleus\",\"https://apilyfta.com/static/GymvisualMP4/01081201-Barbell-Standing-Leg-Calf-Raise_Calves.mp4\",\"https://apilyfta.com/static/GymvisualPNG/01081101-Barbell-Standing-Leg-Calf-Raise_Calf_small.png\"",
       "passIndex": 0,
-      "theta": 29.667617952328904
+      "theta": 29.667617952328904,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Calf Raise"
     },
     {
       "id": 45,
-      "name": "Calf Raise на одно ноге",
       "exerciseRaw": "\"Dumbbell\",\"gastrocnemius\",\"soleus\",\"https://apilyfta.com/static/GymvisualMP4/37131201-Dumbbell-Standing-Single-Leg-Calf-Raise_Calves_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/37131101-Dumbbell-Standing-Single-Leg-Calf-Raise_Calves_small.png\"",
       "passIndex": 2,
-      "theta": 26.511299083175413
+      "theta": 26.511299083175413,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Calf Raise на одно ноге"
     },
     {
       "id": 46,
-      "name": "Ягодичный мост с прямйо ногой",
       "exerciseRaw": "\"Body weight\",\"gluteus_maximus\",\"hamstrings\",\"https://apilyfta.com/static/GymvisualMP4/36451201-Single-Leg-Bridge-with-Outstretched-Leg_Hips.mp4\",\"https://apilyfta.com/static/GymvisualPNG/36451101-Single-Leg-Bridge-with-Outstretched-Leg_Hips_small.png\"",
       "passIndex": 0,
-      "theta": 34.94224157108943
+      "theta": 34.849405053806606,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Ягодичный мост с прямйо ногой"
     },
     {
       "id": 47,
-      "name": "Ягодичный мост Roll",
       "exerciseRaw": "\"Body weight\",\"gluteus_maximus, hamstrings\",,\"https://apilyfta.com/static/GymvisualMP4/72971201-Glute-Bridge-Roll-(female)_Hips_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/72971201-Glute-Bridge-Roll-(female)_Hips_GREEN.png\"",
       "passIndex": 0,
-      "theta": 34.86256660896665
+      "theta": 34.89192700124679,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Ягодичный мост Roll"
     },
     {
       "id": 48,
-      "name": "Ягодичный мост c выпрямлением ноги",
       "exerciseRaw": "\"Body weight\",\"gluteus_maximus\",\"hip_adductors\",\"https://apilyfta.com/static/GymvisualMP4/28631201-Shoulder-Bridge-(female)_Pilates_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/28631101-Shoulder-Bridge_Pilates_small.png\"",
       "passIndex": 0,
-      "theta": 34.83967961561141
+      "theta": 34.86683107555699,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Ягодичный мост c выпрямлением ноги"
     },
     {
       "id": 49,
-      "name": "Планка с отведением ноги назад",
       "exerciseRaw": "\"Body weight\",\"gluteus_maximus, rectus_abdominis\",\"deltoid_anterior, hamstrings, obliques, serratus_anterior, tensor_fasciae_femoris\",\"https://apilyfta.com/static/GymvisualMP4/07261201-Single-Leg-Bridge-(female)_Hips-FIX_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/07261101-Single-Leg-Bridge_Hips_small.png\"",
       "passIndex": 0,
-      "theta": 35.00590177378671
+      "theta": 34.94564700843855,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Планка с отведением ноги назад"
     },
     {
       "id": 50,
-      "name": "Thoracic Bridge",
       "exerciseRaw": "\"Body weight\",\"soleus\",\"iliopsoas, quadriceps, trapezius, trapezius\",\"https://apilyfta.com/static/GymvisualMP4/45531201-Thoracic-Bridge_Stretching.mp4\",\"https://apilyfta.com/static/GymvisualPNG/45531101-Thoracic-Bridge_Stretching_small.png\"",
       "passIndex": 3,
-      "theta": 27.161338781849835
+      "theta": 20.92420357792257,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Thoracic Bridge"
     },
     {
       "id": 51,
-      "name": "Мостик",
       "exerciseRaw": "\"Body weight\",,,,\"https://apilyfta.com/static/GymvisualPNG/35651101-Bridge-Pose-Yoga-Stretch_small.png\"",
       "passIndex": 1,
-      "theta": 23.97351194731316
+      "theta": 17.668789549871665,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Мостик"
     },
     {
       "id": 52,
-      "name": "Table Row",
       "exerciseRaw": "\"Body weight\",\"deltoids, gluteus_maximus, hamstrings, infraspinatus, quadriceps, rectus_abdominis, teres_major, teres_minor, trapezius, trapezius\",,\"https://apilyfta.com/static/GymvisualMP4/48001201-Table-Top-Bridge_Hips_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/48001101-Table-Top-Bridge_Hips_small.png\"",
       "passIndex": 1,
-      "theta": 30.225281327956846
+      "theta": 23.997748843761755,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Table Row"
     },
     {
       "id": 53,
-      "name": "Elevated Single Leg Hip Thrust",
       "exerciseRaw": "\"Body weight\",\"gluteus_maximus, hamstrings\",\"quadriceps\",\"https://apilyfta.com/static/GymvisualMP4/73721201-Elevated-Single-Leg-Hip-Thrust-(male)_Hips_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/73721201-Elevated-Single-Leg-Hip-Thrust-(male)_Hips_GREEN.png\"",
       "passIndex": 0,
-      "theta": 28.63448189168793
+      "theta": 22.38832688072791,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Elevated Single Leg Hip Thrust"
     },
     {
       "id": 54,
-      "name": "Hip Thrust",
       "exerciseRaw": "\"None\",\"Glutes\",\"Hamstrings, Quadriceps\",\"https://d2l9nsnmtah87f.cloudfront.net/exercise-assets/80151201-Glute-Bridge-from-Bench-(male)_Hips_.mp4\",\"https://d2l9nsnmtah87f.cloudfront.net/exercise-thumbnails/80151201-Glute-Bridge-from-Bench-(male)_Hips_thumbnail_@3x.jpg\"",
       "passIndex": 0,
-      "theta": 28.565084600843978
+      "theta": 22.292974634952923,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Hip Thrust"
     },
     {
       "id": 55,
-      "name": "Колесо",
       "exerciseRaw": "\"Body weight\",\"iliopsoas, latissimus_dorsi, rectus_abdominis\",\"hip_adductors, biceps, brachialis, brachioradialis, gluteus_maximus, hamstrings, serratus_anterior, teres_major, teres_minor\",\"https://apilyfta.com/static/GymvisualMP4/14931201-Wheel-Pose-Urdhva-Dhanurasana-(male)_Stretching_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/14931101-Wheel-Pose-Yoga-Pose__small.png\"",
       "passIndex": 1,
-      "theta": 24.02361175984551
+      "theta": 17.739904899198045,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Колесо"
     },
     {
       "id": 56,
-      "name": "Планка - отжимания",
       "exerciseRaw": "\"None\",\"Chest\",\"Shoulders, Triceps, Abdominals\",\"https://d2l9nsnmtah87f.cloudfront.net/exercise-assets/29781201-Elbow-Up-and-Down-Dynamic-Plank.mp4\",\"https://d2l9nsnmtah87f.cloudfront.net/exercise-thumbnails/29781201-Elbow-Up-and-Down-Dynamic-Plank_thumbnail_@3x.jpg\"",
       "passIndex": 0,
-      "theta": 37.51463531352639
+      "theta": 31.208041459523667,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Планка - отжимания"
     },
     {
       "id": 57,
-      "name": "Pike отжимания",
       "exerciseRaw": "\"Body weight\",\"chest_clavicular_head\",\"deltoid_anterior, deltoid_lateral, serratus_anterior, triceps\",\"https://apilyfta.com/static/GymvisualMP4/33831201-Pike-Push-up-(on-Bench)-(VERSION-2)_Chest.mp4\",\"https://apilyfta.com/static/GymvisualPNG/33831101-Pike-Push-up-(on-Bench)-(VERSION-2)_Chest_small.png\"",
       "passIndex": 0,
-      "theta": 31.55097820446338
+      "theta": 31.550978204463384,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Pike отжимания"
     },
     {
       "id": 58,
-      "name": "Выпады назад",
       "exerciseRaw": "\"Dumbbell\",\"gluteus_maximus, quadriceps\",\"hip_adductors, tensor_fasciae_femoris\",\"https://apilyfta.com/static/GymvisualMP4/36831201-Dumbbell-Gobelt-Curtsey-Lunge_Thighs_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/36831101-Dumbbell-Gobelt-Curtsey-Lunge_Thighs_small.png\"",
       "passIndex": 0,
-      "theta": 35.19378374068694
+      "theta": 35.19378374068694,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Выпады назад"
     },
     {
       "id": 59,
-      "name": "Выпады аперёд при ходьбе",
       "exerciseRaw": "\"Dumbbell\",\"gluteus_maximus, quadriceps\",\"soleus\",\"https://apilyfta.com/static/GymvisualMP4/42951201-Dumbbell-Walking-Lunge-(female)_Thighs.mp4\",\"https://apilyfta.com/static/GymvisualPNG/42951301-Dumbbell-Walking-Lunge-(female)_Thighs_720_small.png\"",
       "passIndex": 0,
-      "theta": 35.25456005950296
+      "theta": 35.10447537921623,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Выпады аперёд при ходьбе"
     },
     {
       "id": 60,
-      "name": "Выпады вперёд",
       "exerciseRaw": "\"Dumbbell\",\"gluteus_maximus, quadriceps\",\"soleus\",\"https://apilyfta.com/static/GymvisualMP4/33981201-Dumbbell-Front-Rack-Lunge_Thighs.mp4\",\"https://apilyfta.com/static/GymvisualPNG/33981301-Dumbbell-Front-Rack-Lunge_Thighs_720_small.png\"",
       "passIndex": 0,
-      "theta": 28.912163093910983
+      "theta": 28.831966578320326,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Выпады вперёд"
     },
     {
       "id": 61,
-      "name": "Выпады вперёд с передачей гири",
       "exerciseRaw": "\"Kettlebell\",\"gluteus_maximus, quadriceps\",\"obliques, soleus\",\"https://apilyfta.com/static/GymvisualMP4/05361201-Kettlebell-Lunge-Pass-Through_Thighs_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/05361101-Kettlebell-Lunge-Pass-Through_thighs_small.png\"",
       "passIndex": 0,
-      "theta": 28.980824073976752
+      "theta": 28.786806183924973,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Выпады вперёд с передачей гири"
     },
     {
       "id": 62,
-      "name": "Прыжки",
       "exerciseRaw": "\"Body weight\",\"quadriceps, deltoids\",\"infraspinatus, biceps\",\"https://apilyfta.com/static/GymvisualMP4/05101201-Jump-Lunge-To-Feet-Jack-(female)_Cardio_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/05101101-Jump-Lunge-To-Feet-Jack_Cardio_small.png\"",
-      "passIndex": 3,
-      "theta": 27.648929915087166
+      "passIndex": 0,
+      "theta": 16.7422958336045,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Прыжки"
     },
     {
       "id": 63,
-      "name": "Anjaneyasana",
       "exerciseRaw": "\"Body weight\",\"gluteus_maximus, iliopsoas, quadriceps\",\"gastrocnemius, hamstrings, soleus\",\"https://apilyfta.com/static/GymvisualMP4/66181201-Low-Lunge-Yoga-Pose-Anjaneyasana-I-(female)_Hips_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/66181101-Low-Lunge-Yoga-Pose-Anjaneyasana-I-(female)_Hips_small.png\"",
-      "passIndex": 2,
-      "theta": 32.24866334640953
-    },
-    {
-      "id": 64,
-      "name": "Split Sprinter Low Lunge",
-      "exerciseRaw": "\"Body weight\",\"gluteus_maximus, quadriceps\",\"gastrocnemius, hamstrings, soleus\",\"https://apilyfta.com/static/GymvisualMP4/34811201-Split-Sprinter-Low-Lunge_Thighs.mp4\",\"https://apilyfta.com/static/GymvisualPNG/34811101-Split-Sprinter-Low-Lunge_Thighs_small.png\"",
-      "passIndex": 3,
-      "theta": 27.54931320272187
-    },
-    {
-      "id": 65,
-      "name": "Упражнение 65",
-      "exerciseRaw": "",
       "passIndex": 1,
-      "theta": 30.786104704007847
+      "theta": 18.16739466516601,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Anjaneyasana"
     },
     {
       "id": 66,
-      "name": "Выпады вперёд со штангой",
       "exerciseRaw": "\"Barbell\",\"gluteus_maximus, quadriceps\",\"soleus\",\"https://apilyfta.com/static/GymvisualMP4/37251201-Barbell-Overhead-Lunge_Thighs_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/37251101-Barbell-Overhead-Lunge_Thighs_small.png\"",
       "passIndex": 0,
-      "theta": 29.029543303799993
+      "theta": 28.72624462241925,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Выпады вперёд со штангой"
     },
     {
       "id": 67,
-      "name": "Split Sprinter High Lunge",
       "exerciseRaw": "\"Body weight\",\"gluteus_maximus, quadriceps\",\"gastrocnemius, hamstrings, soleus\",\"https://apilyfta.com/static/GymvisualMP4/34821201-Split-Sprinter-High-Lunge.mp4\",\"https://apilyfta.com/static/GymvisualPNG/34821101-Split-Sprinter-High-Lunge_Thighs_small.png\"",
-      "passIndex": 3,
-      "theta": 27.598799422939056
+      "passIndex": 0,
+      "theta": 16.647833296686496,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Split Sprinter High Lunge"
     },
     {
       "id": 69,
-      "name": "Static Lunge Kick",
       "exerciseRaw": "\"Body weight\",\"gluteus_maximus, quadriceps\",\"gastrocnemius, soleus\",\"https://apilyfta.com/static/GymvisualMP4/39661201-Static-Lunge-Kick_Thighs_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/39661101-Static-Lunge-Kick_Thighs_small.png\"",
-      "passIndex": 1,
-      "theta": 30.657894589756364
+      "passIndex": 2,
+      "theta": 19.734417399222714,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Static Lunge Kick"
     },
     {
       "id": 70,
-      "name": "Выпады вперёд с грифом",
       "exerciseRaw": "\"Body weight\",\"gluteus_maximus, quadriceps\",\"soleus\",\"https://apilyfta.com/static/GymvisualMP4/37021201-Forward-Pulse-Lunge-with-Hands-Overhead_Thighs.mp4\",\"https://apilyfta.com/static/GymvisualPNG/37021101-Forward-Pulse-Lunge-with-Hands-Overhead_Thighs_small.png\"",
       "passIndex": 1,
-      "theta": 30.56386156745898
+      "theta": 30.29863628923355,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Выпады вперёд с грифом"
     },
     {
       "id": 71,
-      "name": "Выпады назад и вперёд",
       "exerciseRaw": "\"Body weight\",\"gluteus_maximus, quadriceps\",\"hip_adductors, gastrocnemius, hamstrings, soleus\",\"https://apilyfta.com/static/GymvisualMP4/74581201-Reverse-Lunge-Forward-Lunge-(male)_Thighs_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/74581201-Reverse-Lunge-Forward-Lunge-(male)_Thighs_GREEN.png\"",
       "passIndex": 3,
-      "theta": 46.22525317868773
+      "theta": 39.91031446919891,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Выпады назад и вперёд"
+    },
+    {
+      "id": 77,
+      "exerciseRaw": "\"Single Arm Push-up Supported Wall\",\"Body weight\",\"rectus_abdominis\",\"serratus_anterior\",\"https://apilyfta.com/static/GymvisualMP4/46171201-Single-Arm-Push-Up-Supported-Wall_Chest.mp4\",\"https://apilyfta.com/static/GymvisualPNG/46171301-Single-Arm-Push-Up-Supported-Wall_Chest_720_small.png\"",
+      "passIndex": 2,
+      "theta": 47.19675389127147,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Отжимания от стены"
+    },
+    {
+      "id": 78,
+      "exerciseRaw": "\"Close grip Push-up against the wall\",\"Body weight\",\"triceps\",\"deltoid_anterior, serratus_anterior\",\"https://apilyfta.com/static/GymvisualMP4/64211201-Close-grip-Push-Up-against-the-wall_Upper-Arms_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/56421201-Bodyweight-Rear-Lunge-Front-Raise-(male)_Thighs_.png\"",
+      "passIndex": 3,
+      "theta": 48.80218750425682,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Отжимания от стены"
+    },
+    {
+      "id": 79,
+      "exerciseRaw": "\"Cat Cow Stretch\",\"Body weight\",\"rectus_abdominis\",,\"https://apilyfta.com/static/GymvisualMP4/45801201-Cat-Cow-Stretch_Stretching_.mp4\",\"https://apilyfta.com/static/GymvisualPNG/45801301-Cat-Cow-Stretch_Stretching_720_small.png\"",
+      "passIndex": 1,
+      "theta": 48.501864745604564,
+      "shape": "circle",
+      "outline": "solid",
+      "name:ru": "Кошка-корова"
     }
   ]
 }
