@@ -415,6 +415,25 @@
             background: rgba(255, 140, 107, 0.8);
         }
 
+        #info-select-btn {
+            background: rgba(107, 203, 119, 0.85);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.15s;
+            font-family: inherit;
+        }
+
+        #info-select-btn:hover {
+            background: rgba(107, 203, 119, 1);
+        }
+
         /* ============== SECTOR MODAL ============== */
         .modal-overlay {
             position: fixed;
@@ -1304,6 +1323,36 @@
         .drag-info .sep {
             color: rgba(255, 255, 255, 0.25);
         }
+
+        /* ============== POPULARITY ============== */
+        .ex-popularity {
+            display: inline-block;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            background: rgba(107, 203, 119, 0.18);
+            border: 1px solid rgba(107, 203, 119, 0.4);
+            color: rgba(200, 255, 200, 0.95);
+            margin-bottom: 8px;
+        }
+
+        .ex-feed-link {
+            display: inline-block;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 10px;
+            background: rgba(75, 150, 255, 0.18);
+            border: 1px solid rgba(75, 150, 255, 0.4);
+            color: rgba(175, 210, 255, 0.95);
+            margin-bottom: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .ex-feed-link:hover {
+            background: rgba(75, 150, 255, 0.35);
+        }
     </style>
 </head>
 
@@ -1339,6 +1388,16 @@
             <h3>🌀 Спираль</h3>
             <button class="panel-close" id="left-close" type="button" title="Скрыть панель" aria-label="Скрыть панель">✕</button>
         </div>
+
+        <h4>Тренировка <span id="workout-count" class="workout-count">0</span></h4>
+        <div id="workout-list" class="workout-list"></div>
+        <div class="file-row">
+            <button class="ghost" id="workout-export-btn">⬇ Export</button>
+            <button class="ghost" id="workout-import-btn">⬆ Import</button>
+            <button class="ghost danger" id="workout-clear-btn" title="Очистить тренировку">✕</button>
+        </div>
+        <input type="file" id="workout-import-file" accept=".json,application/json" style="display:none">
+        <button class="ghost" id="level-assess-btn" style="width:100%; margin-top:6px;">🎯 Определить уровень</button>
 
         <h4>Параметры</h4>
         <div class="row">
@@ -1422,16 +1481,6 @@
         </form>
         <div id="sectors-list"></div>
 
-        <h4>Тренировка <span id="workout-count" class="workout-count">0</span></h4>
-        <div id="workout-list" class="workout-list"></div>
-        <div class="file-row">
-            <button class="ghost" id="workout-export-btn">⬇ Export</button>
-            <button class="ghost" id="workout-import-btn">⬆ Import</button>
-            <button class="ghost danger" id="workout-clear-btn" title="Очистить тренировку">✕</button>
-        </div>
-        <input type="file" id="workout-import-file" accept=".json,application/json" style="display:none">
-        <button class="ghost" id="level-assess-btn" style="width:100%; margin-top:6px;">🎯 Определить уровень</button>
-
         <h4>Файл</h4>
         <div class="file-row">
             <button class="ghost" id="export-btn">⬇ Export</button>
@@ -1485,17 +1534,49 @@
             <button type="button" data-value="dashed" title="Прерывистая обводка">┄ Прерывистая</button>
         </div>
 
-        <h4>Название упражнения</h4>
-        <input type="text" id="info-name" placeholder="Введите название…">
+        <h4>Название (локали)</h4>
+        <div id="info-name-locales" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;">
+            <div style="display:flex;gap:6px;align-items:center;">
+                <input type="text" id="info-name-ru" placeholder="ru" style="flex:1;" value="">
+                <span style="color:rgba(255,255,255,0.4);font-size:12px;">RU</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;">
+                <input type="text" id="info-name-en" placeholder="en" style="flex:1;" value="">
+                <span style="color:rgba(255,255,255,0.4);font-size:12px;">EN</span>
+            </div>
+        </div>
 
         <h4 class="view-only-hidden">CSV-строка упражнения</h4>
         <input type="text" id="info-csv" class="view-only-hidden" placeholder='"Bicep Curl","Barbell","Biceps","None","https://….mp4","https://….jpg"'>
+
+        <h4 class="view-only-hidden">Зарабатываемые минуты</h4>
+        <input type="number" id="info-earn-minutes" class="view-only-hidden" placeholder="1" min="0" step="0.1" value="1">
+
+        <h4 class="view-only-hidden">Тип счётчика</h4>
+        <div class="seg-group view-only-hidden" id="info-counter-type">
+            <button type="button" data-value="reps">Повторы</button>
+            <button type="button" data-value="seconds">Секунды</button>
+            <button type="button" data-value="distance">Дистанция</button>
+        </div>
+
+        <div id="info-counter-reps-config" class="view-only-hidden" style="display:none;">
+            <h4 class="view-only-hidden">Прогрессия углов (JSON)</h4>
+            <textarea id="info-progression-angles" class="view-only-hidden" placeholder='{"elbowLeft":[160,90],"elbowRight":[160,90]}' rows="2" style="width:100%;font-family:monospace;font-size:11px;"></textarea>
+
+            <h4 class="view-only-hidden">Пороги углов (JSON)</h4>
+            <input type="text" id="info-threshold-angles" class="view-only-hidden" placeholder="[-0,-10,-15]" value="[-0,-10,-15]" style="width:100%;font-family:monospace;font-size:11px;">
+
+            <h4 class="view-only-hidden">Чекпоинты (JSON)</h4>
+            <textarea id="info-checkpoints" class="view-only-hidden" placeholder='[{"elbowLeft":{"target":160}}]' rows="4" style="width:100%;font-family:monospace;font-size:11px;"></textarea>
+        </div>
 
         <div id="info-exercise-display"></div>
 
         <div class="button-group">
             <button id="info-workout-toggle" style="width:100%;">+ В тренировку</button>
         </div>
+
+        <button id="info-select-btn" style="display:none;">Прикрепить выбранные упражнения</button>
 
         <div class="button-group level-buttons">
             <button id="info-level-clean" type="button" title="Выполняю чисто">✓ Выполняю чисто</button>
@@ -1544,6 +1625,12 @@
         const PI = Math.PI;
         const TAU = 2 * PI;
 
+        // Determine base URL based on current domain
+        const currentDomain = window.location.hostname;
+        const APP_BASE_URL = currentDomain.includes('github.io')
+            ? 'https://bacek97.github.io'
+            : 'http://localhost:8080';
+
         // ============== STATE ==============
         const DEFAULT_PASS_COLORS = [
             '#FF6B6B', '#FFD93D', '#6BCB77', '#4D96FF',
@@ -1580,22 +1667,86 @@
             // through JSON.stringify cleanly with the workout file.
             // { [nodeId: string]: 'clean' | 'uncertain' }
             levels: {},
+            selectMode: false,
         };
 
         // Locale of the name shown in `info-name`. Stored in JSON as `name:<locale>`
         // so the same file can carry translations for any number of languages.
         const ACTIVE_LOCALE = 'ru';
 
-        // Convert an in-memory node to its on-disk shape: `node.name` (active locale)
-        // is written as `name:<ACTIVE_LOCALE>`, plus any other locales preserved
-        // from a previous import via `node.localeNames`.
+        // Helper: get display name string from a node (handles both old string names and new {ru,en} objects)
+        function nodeDisplayName(node) {
+            if (!node || !node.name) return '';
+            if (typeof node.name === 'string') return node.name;
+            if (typeof node.name === 'object') {
+                return node.name[ACTIVE_LOCALE] || node.name.en || node.name.ru || Object.values(node.name)[0] || '';
+            }
+            return String(node.name);
+        }
+
+        // ============== EXERCISE POPULARTY ==============
+        const HASURA_URL = 'https://select-bull-98.hasura.app/v1/graphql';
+        const popularityCache = new Map(); // Map<nameEn, publicationCount>
+
+        async function fetchExercisePopularity() {
+            const names = new Set();
+            for (const node of state.nodes) {
+                const data = parseExerciseCsv(node.exerciseRaw);
+                if (data && data.nameEn) names.add(data.nameEn);
+            }
+            if (names.size === 0) return;
+
+            const namesArr = Array.from(names);
+            const aliases = namesArr.map((name, i) => {
+                const escaped = name.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+                return `e${i}: workout_publications_aggregate(where: {` +
+                    `workout_session: { exercise_sets: { exercise_type: { _eq: "${escaped}" } } }` +
+                    `}) { aggregate { count } }`;
+            });
+
+            try {
+                const resp = await fetch(HASURA_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: `{ ${aliases.join(' ')} }` }),
+                });
+                const json = await resp.json();
+                if (json.data) {
+                    popularityCache.clear();
+                    for (let i = 0; i < namesArr.length; i++) {
+                        const count = json.data[`e${i}`]?.aggregate?.count ?? 0;
+                        popularityCache.set(namesArr[i], count);
+                    }
+                    renderAll();
+                }
+            } catch (err) {
+                console.warn('[Popularity] fetch failed:', err);
+            }
+        }
+
+        // Convert an in-memory node to its on-disk shape using the new schema.
+        // `node.name` is a Record<string,string> with at least `en`.
+        // Old `name:<locale>` fields are upgraded on import; here we emit the canonical shape.
         function serializeNode(n) {
-            const { name, localeNames, ...rest } = n;
+            const { name, localeNames, earnMinutes, counterConfig, ...rest } = n;
             const out = { ...rest };
+
+            // Build name Record from localeNames + active locale
             const merged = { ...(localeNames || {}) };
-            if (name) merged[ACTIVE_LOCALE] = name;
-            for (const [loc, val] of Object.entries(merged)) {
-                if (val) out['name:' + loc] = val;
+            if (name && typeof name === 'string') {
+                merged[ACTIVE_LOCALE] = name;
+            } else if (name && typeof name === 'object') {
+                Object.assign(merged, name);
+            }
+            if (Object.keys(merged).length > 0) {
+                out.name = merged;
+            }
+
+            if (earnMinutes !== undefined && earnMinutes !== null) {
+                out.earnMinutes = earnMinutes;
+            }
+            if (counterConfig) {
+                out.counterConfig = counterConfig;
             }
             return out;
         }
@@ -1838,6 +1989,16 @@
             view.scale = 1;
             view.tx = 0;
             view.ty = 0;
+            applyViewTransform();
+        }
+
+        function focusNode(node) {
+            if (!node) return;
+            const [wx, wy] = pointOnPass(node.passIndex, node.theta);
+            // Center the world point (wx, wy) at the screen center (state.cx, state.cy)
+            // taking into account the current scale.
+            view.tx = state.cx - wx * view.scale;
+            view.ty = state.cy - wy * view.scale;
             applyViewTransform();
         }
 
@@ -2375,7 +2536,7 @@
 
             const name = document.createElement('div');
             name.className = 'lvl-ex-name';
-            name.textContent = (data && data.nameEn) || node.name || '—';
+            name.textContent = (data && data.nameEn) || nodeDisplayName(node) || '—';
             wrap.appendChild(name);
 
             // Inline-play the exercise video using the same approach as the right
@@ -2543,6 +2704,36 @@
             return c;
         }
 
+        function nodeDisplayRadius(node) {
+            const data = parseExerciseCsv(node.exerciseRaw);
+            const nameEn = data && data.nameEn;
+            const count = nameEn ? (popularityCache.get(nameEn) || 0) : 0;
+            
+            const maxCount = Math.max(1, ...Array.from(popularityCache.values()));
+            const normalizedPop = Math.log1p(count) / Math.log1p(maxCount); // 0..1
+            
+            const BASE_MIN_R = 5;
+            const BASE_MAX_R = 22;
+            return BASE_MIN_R + (BASE_MAX_R - BASE_MIN_R) * normalizedPop;
+        }
+
+        function isNodeVisibleByZoom(node) {
+            if (popularityCache.size === 0) return true;
+            
+            const data = parseExerciseCsv(node.exerciseRaw);
+            const nameEn = data && data.nameEn;
+            const count = nameEn ? (popularityCache.get(nameEn) || 0) : 0;
+            
+            const maxCount = Math.max(1, ...Array.from(popularityCache.values()));
+            const normalizedPop = Math.log1p(count) / Math.log1p(maxCount);
+            
+            const SHOW_ALL_SCALE = 0.5;
+            if (view.scale >= SHOW_ALL_SCALE) return true;
+            
+            const threshold = 1 - Math.pow(view.scale / SHOW_ALL_SCALE, 0.5);
+            return normalizedPop >= threshold;
+        }
+
         function renderNodes() {
             const g = clearGroup('g-nodes');
             const hl = state.muscleHighlight;
@@ -2553,6 +2744,7 @@
                 if (!isNodeVisibleByFilter(node)) continue;
                 // View-only: hide nodes that fall inside the truncated inner part.
                 if (thetaFloor > 0 && node.theta < thetaFloor) continue;
+                if (!isNodeVisibleByZoom(node)) continue;
                 const [x, y] = pointOnPass(node.passIndex, node.theta);
                 const grp = document.createElementNS(SVG_NS, 'g');
                 grp.setAttribute('transform', `translate(${x.toFixed(2)}, ${y.toFixed(2)})`);
@@ -2565,11 +2757,12 @@
 
                 const isSel = node.id === state.selectedNodeId;
                 const isFocus = !!(hl && node.id === hl.nodeId);
+                const nodeR = nodeDisplayRadius(node);
 
                 if (isFocus) {
                     // Extra outer glow ring for the muscle-highlight focus node.
                     const ring = document.createElementNS(SVG_NS, 'circle');
-                    ring.setAttribute('r', 22);
+                    ring.setAttribute('r', nodeR + 12);
                     ring.setAttribute('fill', 'none');
                     ring.setAttribute('stroke', '#fff');
                     ring.setAttribute('stroke-width', 2);
@@ -2581,7 +2774,7 @@
 
                 if (isSel) {
                     const halo = document.createElementNS(SVG_NS, 'circle');
-                    halo.setAttribute('r', 16);
+                    halo.setAttribute('r', nodeR + 6);
                     halo.setAttribute('fill', passColor(node.passIndex));
                     halo.setAttribute('opacity', 0.25);
                     halo.style.pointerEvents = 'none';
@@ -2593,18 +2786,20 @@
                 let nodeShape;
                 if (shape === 'square') {
                     nodeShape = document.createElementNS(SVG_NS, 'rect');
-                    nodeShape.setAttribute('x', -10);
-                    nodeShape.setAttribute('y', -10);
-                    nodeShape.setAttribute('width', 20);
-                    nodeShape.setAttribute('height', 20);
+                    nodeShape.setAttribute('x', -nodeR);
+                    nodeShape.setAttribute('y', -nodeR);
+                    nodeShape.setAttribute('width', nodeR * 2);
+                    nodeShape.setAttribute('height', nodeR * 2);
                     nodeShape.setAttribute('rx', 2);
                 } else if (shape === 'triangle') {
                     nodeShape = document.createElementNS(SVG_NS, 'polygon');
-                    // Equilateral triangle pointing up, circumradius 12.
-                    nodeShape.setAttribute('points', '0,-12 10.39,6 -10.39,6');
+                    // Equilateral triangle pointing up, circumradius = nodeR * 1.2
+                    const rTri = nodeR * 1.2;
+                    const rt3_2 = 0.866025 * rTri;
+                    nodeShape.setAttribute('points', `0,${-rTri} ${rt3_2},${rTri/2} ${-rt3_2},${rTri/2}`);
                 } else {
                     nodeShape = document.createElementNS(SVG_NS, 'circle');
-                    nodeShape.setAttribute('r', 10);
+                    nodeShape.setAttribute('r', nodeR);
                 }
                 nodeShape.setAttribute('fill', passColor(node.passIndex));
                 // Self-assessment recolors the node outline so the user can see at a
@@ -2627,10 +2822,11 @@
                 }
                 grp.appendChild(nodeShape);
 
-                const display = node.name.length > 18 ? node.name.slice(0, 16) + '…' : node.name;
+                const displayName = nodeDisplayName(node);
+                const display = displayName.length > 18 ? displayName.slice(0, 16) + '…' : displayName;
                 const text = document.createElementNS(SVG_NS, 'text');
                 text.setAttribute('x', 0);
-                text.setAttribute('y', 24);
+                text.setAttribute('y', nodeR + 14);
                 text.setAttribute('text-anchor', 'middle');
                 text.setAttribute('dominant-baseline', 'middle');
                 text.setAttribute('fill', '#fff');
@@ -3061,8 +3257,8 @@
             // Pointer handlers also consult `leftPanelCollapsed` directly to block
             // node creation, moving, and pass/sector-handle dragging.
             document.body.classList.toggle('view-only', collapsed);
-            const nameInput = document.getElementById('info-name');
-            if (nameInput) nameInput.readOnly = collapsed;
+            const nameRuInput = document.getElementById('info-name-ru');
+            if (nameRuInput) nameRuInput.readOnly = collapsed;
             // Re-render the spiral, rings, endpoints, and nodes — the inner part
             // of the spiral is truncated in view-only and restored in edit mode.
             renderAll();
@@ -3082,7 +3278,8 @@
             const visible = rightPanelCollapsed && !!node;
             btn.classList.toggle('shown', visible);
             if (node) {
-                const name = node.name && node.name.length > 22 ? node.name.slice(0, 20) + '…' : (node.name || 'Узел');
+                const displayName = nodeDisplayName(node);
+                const name = displayName.length > 22 ? displayName.slice(0, 20) + '…' : (displayName || 'Узел');
                 btn.textContent = '📍 ' + name;
             }
         }
@@ -3100,7 +3297,7 @@
             if (!node || isInWorkout(node.id)) return false;
             state.workout.push({
                 nodeId: node.id,
-                name: node.name || '',
+                name: nodeDisplayName(node) || '',
                 exerciseRaw: node.exerciseRaw || '',
             });
             return true;
@@ -3229,13 +3426,40 @@
                 document.getElementById('info-sector').style.color = '';
             }
 
-            const nameInput = document.getElementById('info-name');
-            if (document.activeElement !== nameInput) {
-                nameInput.value = node.name;
-            }
+            const nameRu = document.getElementById('info-name-ru');
+            const nameEn = document.getElementById('info-name-en');
+            const names = (typeof node.name === 'object' && node.name) ? node.name : (node.localeNames || {});
+            if (document.activeElement !== nameRu) nameRu.value = names.ru || (typeof node.name === 'string' ? node.name : '');
+            if (document.activeElement !== nameEn) nameEn.value = names.en || '';
+
             const csvInput = document.getElementById('info-csv');
             if (document.activeElement !== csvInput) {
                 csvInput.value = node.exerciseRaw || '';
+            }
+
+            const emInput = document.getElementById('info-earn-minutes');
+            if (document.activeElement !== emInput) {
+                emInput.value = node.earnMinutes != null ? String(node.earnMinutes) : '1';
+            }
+
+            const ccType = node.counterConfig?.type || 'reps';
+            document.querySelectorAll('#info-counter-type button').forEach(b => {
+                b.classList.toggle('active', b.dataset.value === ccType);
+            });
+            const repsConfig = document.getElementById('info-counter-reps-config');
+            repsConfig.style.display = ccType === 'reps' ? 'block' : 'none';
+
+            const paInput = document.getElementById('info-progression-angles');
+            if (document.activeElement !== paInput) {
+                paInput.value = node.counterConfig?.progressionAngles ? JSON.stringify(node.counterConfig.progressionAngles) : '';
+            }
+            const taInput = document.getElementById('info-threshold-angles');
+            if (document.activeElement !== taInput) {
+                taInput.value = node.counterConfig?.thresholdAngles ? JSON.stringify(node.counterConfig.thresholdAngles) : '[-0,-10,-15]';
+            }
+            const cpInput = document.getElementById('info-checkpoints');
+            if (document.activeElement !== cpInput) {
+                cpInput.value = node.counterConfig?.checkpoints ? JSON.stringify(node.counterConfig.checkpoints) : '';
             }
 
             // Reflect node's shape / outline in the segmented button groups.
@@ -3254,6 +3478,12 @@
                 const inW = isInWorkout(node.id);
                 wBtn.classList.toggle('in-workout', inW);
                 wBtn.textContent = inW ? '✓ В тренировке' : '+ В тренировку';
+            }
+
+            // Select button visibility
+            const sBtn = document.getElementById('info-select-btn');
+            if (sBtn) {
+                sBtn.style.display = state.selectMode ? 'block' : 'none';
             }
 
             // Reflect self-assessment level on the two level buttons.
@@ -3292,6 +3522,23 @@
                 eq.className = 'ex-equipment';
                 eq.textContent = data.equipment;
                 display.appendChild(eq);
+            }
+
+            if (data.nameEn && popularityCache.has(data.nameEn)) {
+                const count = popularityCache.get(data.nameEn);
+                const badge = document.createElement('div');
+                badge.className = 'ex-popularity';
+                badge.textContent = `📊 ${count} публикаций`;
+                display.appendChild(badge);
+            }
+
+            if (data.nameEn) {
+                const link = document.createElement('a');
+                link.className = 'ex-feed-link';
+                link.href = `${APP_BASE_URL}/#social/feed?with_exercises=${encodeURIComponent(data.nameEn)}`;
+                link.target = '_blank';
+                link.textContent = '🔗 Найти посты с этим упражнением';
+                display.appendChild(link);
             }
 
             if (data.videoUrl) {
@@ -3483,6 +3730,15 @@
         let dragging = null; // { type, ... }
         const activePointers = new Map(); // pointerId -> { clientX, clientY }
         let pinch = null; // { initDist, initScale, anchorWx, anchorWy }
+        
+        let renderNodesRaf = null;
+        function queueRenderNodes() {
+            if (renderNodesRaf) return;
+            renderNodesRaf = requestAnimationFrame(() => {
+                renderNodesRaf = null;
+                renderNodes();
+            });
+        }
 
         function startPinch() {
             const pts = Array.from(activePointers.values());
@@ -3513,6 +3769,7 @@
             view.tx = curMidSx - pinch.anchorWx * newScale;
             view.ty = curMidSy - pinch.anchorWy * newScale;
             applyViewTransform();
+            queueRenderNodes();
         }
 
         function onPointerCancel(e) {
@@ -3582,6 +3839,7 @@
                 view.ty -= e.deltaY;
             }
             applyViewTransform();
+            queueRenderNodes();
         }
 
         function clampNodesOnPass(k) {
@@ -3816,8 +4074,11 @@
                         const newId = state.nextNodeId++;
                         state.nodes.push({
                             id: newId,
-                            name: 'Упражнение ' + newId,
+                            name: { ru: 'Упражнение ' + newId, en: '' },
                             exerciseRaw: '',
+                            localeNames: {},
+                            earnMinutes: 1,
+                            counterConfig: null,
                             passIndex: near.passIndex,
                             theta: near.theta,
                             shape: 'circle',
@@ -3829,8 +4090,8 @@
                         renderNodes();
                         updateInfoPanel();
                         renderEquipmentList();
-                        const nameInput = document.getElementById('info-name');
-                        setTimeout(() => { nameInput.focus(); nameInput.select(); }, 0);
+                        const nameInput = document.getElementById('info-name-ru');
+                        if (nameInput) setTimeout(() => { nameInput.focus(); nameInput.select(); }, 0);
                     } else if (state.selectedNodeId != null) {
                         state.selectedNodeId = null;
                         renderNodes();
@@ -4082,25 +4343,33 @@
             });
 
             // Info panel
-            document.getElementById('info-name').addEventListener('input', (e) => {
-                if (state.selectedNodeId == null) return;
-                const node = state.nodes.find(n => n.id === state.selectedNodeId);
-                if (node) {
-                    node.name = e.target.value;
-                    // Keep workout snapshot in sync so the list shows the current name.
-                    const w = state.workout.find(it => it.nodeId === node.id);
-                    if (w) {
-                        w.name = node.name;
-                        renderWorkoutList();
-                    }
-                    renderNodes();
-                }
+            function syncNodeNames(node) {
+                if (!node.name || typeof node.name === 'string') node.name = {};
+                node.name.ru = document.getElementById('info-name-ru').value;
+                node.name.en = document.getElementById('info-name-en').value;
+                node.localeNames = { ...(node.name) };
+                const displayName = node.name.ru || node.name.en || '';
+                const w = state.workout.find(it => it.nodeId === node.id);
+                if (w) { w.name = displayName; renderWorkoutList(); }
+                renderNodes();
+            }
+            ['info-name-ru','info-name-en'].forEach(id => {
+                document.getElementById(id).addEventListener('input', () => {
+                    if (state.selectedNodeId == null) return;
+                    const node = state.nodes.find(n => n.id === state.selectedNodeId);
+                    if (node) syncNodeNames(node);
+                });
             });
             document.getElementById('info-csv').addEventListener('input', (e) => {
                 if (state.selectedNodeId == null) return;
                 const node = state.nodes.find(n => n.id === state.selectedNodeId);
                 if (!node) return;
                 node.exerciseRaw = e.target.value;
+                const csvData = parseExerciseCsv(node.exerciseRaw);
+                if (csvData && csvData.nameEn) {
+                    if (!node.localeNames) node.localeNames = {};
+                    node.localeNames.en = csvData.nameEn;
+                }
                 // Sync workout snapshot — this also affects sector coverage.
                 const w = state.workout.find(it => it.nodeId === node.id);
                 if (w) {
@@ -4111,6 +4380,44 @@
                 renderExerciseDisplay(node);
                 renderEquipmentList();
                 renderNodes();
+            });
+            document.getElementById('info-earn-minutes').addEventListener('input', (e) => {
+                if (state.selectedNodeId == null) return;
+                const node = state.nodes.find(n => n.id === state.selectedNodeId);
+                if (!node) return;
+                const v = parseFloat(e.target.value);
+                node.earnMinutes = isNaN(v) ? 1 : v;
+            });
+            document.querySelectorAll('#info-counter-type button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (state.selectedNodeId == null) return;
+                    const node = state.nodes.find(n => n.id === state.selectedNodeId);
+                    if (!node) return;
+                    if (!node.counterConfig) node.counterConfig = { type: 'reps' };
+                    node.counterConfig.type = btn.dataset.value;
+                    updateInfoPanel();
+                });
+            });
+            document.getElementById('info-progression-angles').addEventListener('input', (e) => {
+                if (state.selectedNodeId == null) return;
+                const node = state.nodes.find(n => n.id === state.selectedNodeId);
+                if (!node) return;
+                if (!node.counterConfig) node.counterConfig = { type: 'reps' };
+                try { node.counterConfig.progressionAngles = JSON.parse(e.target.value); } catch { }
+            });
+            document.getElementById('info-threshold-angles').addEventListener('input', (e) => {
+                if (state.selectedNodeId == null) return;
+                const node = state.nodes.find(n => n.id === state.selectedNodeId);
+                if (!node) return;
+                if (!node.counterConfig) node.counterConfig = { type: 'reps' };
+                try { node.counterConfig.thresholdAngles = JSON.parse(e.target.value); } catch { }
+            });
+            document.getElementById('info-checkpoints').addEventListener('input', (e) => {
+                if (state.selectedNodeId == null) return;
+                const node = state.nodes.find(n => n.id === state.selectedNodeId);
+                if (!node) return;
+                if (!node.counterConfig) node.counterConfig = { type: 'reps' };
+                try { node.counterConfig.checkpoints = JSON.parse(e.target.value); } catch { }
             });
             document.getElementById('info-delete').addEventListener('click', () => {
                 const deletedId = state.selectedNodeId;
@@ -4141,6 +4448,9 @@
                 renderAll();
                 updateInfoPanel();
             });
+
+            // Select button
+            document.getElementById('info-select-btn').addEventListener('click', onSelectExercise);
 
             // Workout: toggle current node's membership in the workout list.
             document.getElementById('info-workout-toggle').addEventListener('click', () => {
@@ -4433,11 +4743,35 @@
                         || (typeof n.name === 'string' ? n.name : '');
                     // Don't double-store the active locale in `localeNames`.
                     delete localeNames[ACTIVE_LOCALE];
+                    const exerciseRaw = typeof n.exerciseRaw === 'string' ? n.exerciseRaw : '';
+                    if (exerciseRaw && !localeNames.en) {
+                        const csvData = parseExerciseCsv(exerciseRaw);
+                        if (csvData && csvData.nameEn) localeNames.en = csvData.nameEn;
+                    }
+                    // New schema: name is a Record<string,string>; legacy fields upgraded.
+                    let nameObj = localeNames;
+                    if (n.name && typeof n.name === 'object' && !Array.isArray(n.name)) {
+                        nameObj = { ...n.name, ...localeNames };
+                    } else if (typeof n.name === 'string' && n.name) {
+                        nameObj = { ...localeNames, [ACTIVE_LOCALE]: n.name };
+                    }
+                    const earnMinutes = Number.isFinite(+n.earnMinutes) ? +n.earnMinutes : 1;
+                    let counterConfig = null;
+                    if (n.counterConfig && typeof n.counterConfig === 'object') {
+                        counterConfig = {
+                            type: ['reps','seconds','distance'].includes(n.counterConfig.type) ? n.counterConfig.type : 'reps',
+                            progressionAngles: n.counterConfig.progressionAngles || null,
+                            thresholdAngles: Array.isArray(n.counterConfig.thresholdAngles) ? n.counterConfig.thresholdAngles : [-0,-10,-15],
+                            checkpoints: Array.isArray(n.counterConfig.checkpoints) ? n.counterConfig.checkpoints : [],
+                        };
+                    }
                     return {
                         id: numOr(n.id, ++state.nextNodeId),
-                        name: String(activeName || ''),
+                        name: nameObj,
                         localeNames,
-                        exerciseRaw: typeof n.exerciseRaw === 'string' ? n.exerciseRaw : '',
+                        exerciseRaw,
+                        earnMinutes,
+                        counterConfig,
                         passIndex: Math.max(0, Math.min(state.spiral.passCount - 1, numOr(n.passIndex, 0))),
                         theta: numOr(n.theta, 0),
                         shape: ['circle', 'square', 'triangle'].includes(n.shape) ? n.shape : 'circle',
@@ -4466,6 +4800,7 @@
             renderRingsList();
             renderPassesList();
             renderEquipmentList();
+            fetchExercisePopularity();
             renderWorkoutList();
         }
 
@@ -4485,6 +4820,87 @@
             } catch (err) {
                 console.warn(`Auto-load пропущен: ${url} —`, err && err.message ? err.message : err);
             }
+        }
+
+        // ============== MESSAGING ==============
+        window.__spiralEnableSelect = function () {
+            state.selectMode = true;
+            const btn = document.getElementById('info-select-btn');
+            if (btn) {
+                btn.style.display = 'block';
+            }
+            updateInfoPanel();
+            return true;
+        };
+
+        window.addEventListener('message', function (event) {
+            if (event.data && event.data.type === 'enable_select') {
+                window.__spiralEnableSelect();
+            }
+        });
+
+        function onSelectExercise() {
+            if (state.workout.length === 0) {
+                alert('Сначала добавьте упражнения в тренировку (+ В тренировку)');
+                return;
+            }
+
+            const exercises = state.workout.map(w => {
+                const node = state.nodes.find(n => n.id === w.nodeId);
+                return node ? serializeNode(node) : null;
+            }).filter(Boolean);
+
+            if (exercises.length === 0) return;
+
+            const payload = {
+                type: 'exercises_selected',
+                exercises: exercises
+            };
+
+            if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
+                window.ReactNativeWebView.postMessage(JSON.stringify(payload));
+            } else if (window.parent !== window) {
+                // Fallback for web iframe
+                window.parent.postMessage(payload, '*');
+            } else {
+                console.log('Exercises selected (no bridge):', payload);
+            }
+        }
+
+        function handleUrlHash() {
+            const hash = window.location.hash.slice(1);
+            if (!hash) return false;
+
+            // Reset scroll position to counter browser's native hash-scrolling, 
+            // which can displace fixed elements when body is overflow:hidden.
+            window.scrollTo(0, 0);
+
+            const targetName = decodeURIComponent(hash.replace(/\+/g, ' ')).toLowerCase();
+            const node = state.nodes.find(n => {
+                const name = (n.name || '').toLowerCase();
+                if (name === targetName) return true;
+                if (n.localeNames) {
+                    for (const loc of Object.keys(n.localeNames)) {
+                        if ((n.localeNames[loc] || '').toLowerCase() === targetName) return true;
+                    }
+                }
+                const csvData = parseExerciseCsv(n.exerciseRaw);
+                if (csvData && csvData.nameEn && csvData.nameEn.toLowerCase() === targetName) return true;
+                return false;
+            });
+
+            if (node) {
+                state.selectedNodeId = node.id;
+                // Collapse left panel (view-only mode) and show right panel with node info.
+                setLeftPanelCollapsed(true);
+                if (rightPanelCollapsed) setRightPanelCollapsed(false);
+                
+                renderAll();
+                // Center the view on the selected exercise.
+                focusNode(node);
+                return true;
+            }
+            return false;
         }
 
         // ============== INIT ==============
@@ -4529,7 +4945,11 @@
             // `autoLoadDefaultSpiral` swallows its own errors, so the .then chain
             // always fires — we open the modal regardless of network outcome.
             autoLoadDefaultSpiral().then(() => {
-                openLevelAssessmentModal();
+                const nodeFound = handleUrlHash();
+                // Only show onboarding modal if we didn't deep-link to a specific exercise.
+                if (!nodeFound) {
+                    openLevelAssessmentModal();
+                }
             });
 
             svg.addEventListener('pointerdown', onPointerDown);
@@ -4538,6 +4958,7 @@
             window.addEventListener('pointerup', onPointerUp);
             window.addEventListener('pointercancel', onPointerCancel);
             window.addEventListener('resize', onResize);
+            window.addEventListener('hashchange', handleUrlHash);
             window.addEventListener('keydown', (e) => {
                 if (e.key === '0' && !e.ctrlKey && !e.metaKey && !e.altKey) {
                     const tag = (e.target && e.target.tagName) || '';
